@@ -1,18 +1,3 @@
-// Mobile Navigation Toggle
-const hamburger = document.querySelector('.hamburger');
-const navMenu = document.querySelector('.nav-menu');
-
-hamburger.addEventListener('click', () => {
-    hamburger.classList.toggle('active');
-    navMenu.classList.toggle('active');
-});
-
-// Close mobile menu when clicking on a link
-document.querySelectorAll('.nav-link').forEach(n => n.addEventListener('click', () => {
-    hamburger.classList.remove('active');
-    navMenu.classList.remove('active');
-}));
-
 // Smooth scrolling for navigation links
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
@@ -27,270 +12,276 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     });
 });
 
-// Animated counters for hero stats
-function animateCounters() {
-    const counters = document.querySelectorAll('.stat-number');
-    
-    counters.forEach(counter => {
-        const target = parseInt(counter.getAttribute('data-target'));
-        const increment = target / 100;
-        let current = 0;
-        
-        const updateCounter = () => {
-            if (current < target) {
-                current += increment;
-                counter.textContent = Math.ceil(current);
-                setTimeout(updateCounter, 20);
-            } else {
-                counter.textContent = target;
-            }
-        };
-        
-        updateCounter();
+// Mobile menu toggle
+const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
+const navMenu = document.querySelector('.nav-menu');
+
+if (mobileMenuToggle && navMenu) {
+    mobileMenuToggle.addEventListener('click', function() {
+        navMenu.classList.toggle('active');
+        this.classList.toggle('active');
     });
 }
 
-// Hero Chart Visualization
-function createHeroChart() {
-    const ctx = document.getElementById('heroChart');
-    if (!ctx) return;
-    
-    new Chart(ctx, {
-        type: 'doughnut',
-        data: {
-            labels: ['Machine Learning', 'Data Analysis', 'Cloud Computing', 'Visualization'],
-            datasets: [{
-                data: [30, 25, 25, 20],
-                backgroundColor: [
-                    'rgba(240, 147, 251, 0.8)',
-                    'rgba(245, 87, 108, 0.8)',
-                    'rgba(102, 126, 234, 0.8)',
-                    'rgba(118, 75, 162, 0.8)'
-                ],
-                borderWidth: 0
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: true,
-            plugins: {
-                legend: {
-                    position: 'bottom',
-                    labels: {
-                        color: 'white',
-                        font: {
-                            size: 12
-                        }
-                    }
-                }
-            }
+// Close mobile menu when clicking on a link
+document.querySelectorAll('.nav-menu a').forEach(link => {
+    link.addEventListener('click', function() {
+        if (navMenu) {
+            navMenu.classList.remove('active');
+        }
+        if (mobileMenuToggle) {
+            mobileMenuToggle.classList.remove('active');
         }
     });
-}
-
-// Skills Chart
-function createSkillsChart() {
-    const ctx = document.getElementById('skillsChart');
-    if (!ctx) return;
-    
-    new Chart(ctx, {
-        type: 'radar',
-        data: {
-            labels: ['Python', 'Machine Learning', 'SQL', 'Cloud Computing', 'Data Visualization', 'Statistics'],
-            datasets: [{
-                label: 'Skill Level',
-                data: [95, 90, 95, 87, 92, 88],
-                backgroundColor: 'rgba(37, 99, 235, 0.2)',
-                borderColor: 'rgba(37, 99, 235, 1)',
-                borderWidth: 2,
-                pointBackgroundColor: 'rgba(37, 99, 235, 1)',
-                pointBorderColor: '#fff',
-                pointHoverBackgroundColor: '#fff',
-                pointHoverBorderColor: 'rgba(37, 99, 235, 1)'
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: true,
-            scales: {
-                r: {
-                    beginAtZero: true,
-                    max: 100,
-                    ticks: {
-                        display: false
-                    },
-                    grid: {
-                        color: 'rgba(0, 0, 0, 0.1)'
-                    },
-                    angleLines: {
-                        color: 'rgba(0, 0, 0, 0.1)'
-                    }
-                }
-            },
-            plugins: {
-                legend: {
-                    display: false
-                }
-            }
-        }
-    });
-}
-
-// Animate skill bars
-function animateSkillBars() {
-    const skillBars = document.querySelectorAll('.skill-progress');
-    
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                const width = entry.target.getAttribute('data-width');
-                entry.target.style.width = width;
-            }
-        });
-    });
-    
-    skillBars.forEach(bar => {
-        observer.observe(bar);
-    });
-}
-
-// Navbar scroll effect
-function handleNavbarScroll() {
-    const navbar = document.querySelector('.navbar');
-    
-    window.addEventListener('scroll', () => {
-        if (window.scrollY > 100) {
-            navbar.style.background = 'rgba(255, 255, 255, 0.98)';
-            navbar.style.boxShadow = '0 2px 20px rgba(0, 0, 0, 0.1)';
-        } else {
-            navbar.style.background = 'rgba(255, 255, 255, 0.95)';
-            navbar.style.boxShadow = 'none';
-        }
-    });
-}
-
-// Contact form handling
-function handleContactForm() {
-    const form = document.getElementById('contactForm');
-    
-    form.addEventListener('submit', (e) => {
-        e.preventDefault();
-        
-        // Get form data
-        const formData = new FormData(form);
-        const name = formData.get('name');
-        const email = formData.get('email');
-        const message = formData.get('message');
-        
-        // Simple validation
-        if (!name || !email || !message) {
-            alert('Please fill in all fields');
-            return;
-        }
-        
-        // Show success message
-        alert('Thank you for your message! I will get back to you soon.');
-        form.reset();
-    });
-}
-
-// Intersection Observer for animations
-function setupScrollAnimations() {
-    const observerOptions = {
-        threshold: 0.1,
-        rootMargin: '0px 0px -50px 0px'
-    };
-    
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.style.opacity = '1';
-                entry.target.style.transform = 'translateY(0)';
-            }
-        });
-    }, observerOptions);
-    
-    // Observe elements for animation
-    document.querySelectorAll('.timeline-item, .project-card, .skill-category').forEach(el => {
-        el.style.opacity = '0';
-        el.style.transform = 'translateY(30px)';
-        el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-        observer.observe(el);
-    });
-}
-
-// Initialize everything when DOM is loaded
-document.addEventListener('DOMContentLoaded', () => {
-    // Start counter animation after a delay
-    setTimeout(animateCounters, 1000);
-    
-    // Initialize charts
-    createHeroChart();
-    createSkillsChart();
-    
-    // Setup animations and interactions
-    animateSkillBars();
-    handleNavbarScroll();
-    handleContactForm();
-    setupScrollAnimations();
 });
 
-// Particle background effect (optional enhancement)
-function createParticleBackground() {
-    const canvas = document.createElement('canvas');
-    const ctx = canvas.getContext('2d');
-    
-    canvas.style.position = 'fixed';
-    canvas.style.top = '0';
-    canvas.style.left = '0';
-    canvas.style.width = '100%';
-    canvas.style.height = '100%';
-    canvas.style.pointerEvents = 'none';
-    canvas.style.zIndex = '-1';
-    
-    document.body.appendChild(canvas);
-    
-    function resize() {
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
+// Navbar scroll effect
+window.addEventListener('scroll', function() {
+    const navbar = document.querySelector('.navbar');
+    if (navbar) {
+        if (window.scrollY > 50) {
+            navbar.classList.add('scrolled');
+        } else {
+            navbar.classList.remove('scrolled');
+        }
     }
+});
+
+// Typing animation for hero section
+function typeWriter(element, text, speed = 100) {
+    let i = 0;
+    element.innerHTML = '';
     
-    resize();
-    window.addEventListener('resize', resize);
-    
-    const particles = [];
-    
-    for (let i = 0; i < 50; i++) {
-        particles.push({
-            x: Math.random() * canvas.width,
-            y: Math.random() * canvas.height,
-            vx: (Math.random() - 0.5) * 0.5,
-            vy: (Math.random() - 0.5) * 0.5,
-            size: Math.random() * 2 + 1
-        });
+    function type() {
+        if (i < text.length) {
+            element.innerHTML += text.charAt(i);
+            i++;
+            setTimeout(type, speed);
+        }
     }
-    
-    function animate() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        
-        particles.forEach(particle => {
-            particle.x += particle.vx;
-            particle.y += particle.vy;
-            
-            if (particle.x < 0 || particle.x > canvas.width) particle.vx *= -1;
-            if (particle.y < 0 || particle.y > canvas.height) particle.vy *= -1;
-            
-            ctx.beginPath();
-            ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
-            ctx.fillStyle = 'rgba(37, 99, 235, 0.1)';
-            ctx.fill();
-        });
-        
-        requestAnimationFrame(animate);
-    }
-    
-    animate();
+    type();
 }
 
-// Uncomment the line below to enable particle background
-// createParticleBackground();
+// Initialize typing animation when page loads
+document.addEventListener('DOMContentLoaded', function() {
+    const heroTitle = document.querySelector('.hero-title');
+    const heroSubtitle = document.querySelector('.hero-subtitle');
+    
+    if (heroTitle) {
+        setTimeout(() => {
+            typeWriter(heroTitle, 'Sai Manoj J', 150);
+        }, 500);
+    }
+    
+    if (heroSubtitle) {
+        setTimeout(() => {
+            typeWriter(heroSubtitle, 'Data Scientist & Analytics Professional', 80);
+        }, 2500);
+    }
+});
+
+// Scroll animations for sections
+const observerOptions = {
+    threshold: 0.1,
+    rootMargin: '0px 0px -50px 0px'
+};
+
+const observer = new IntersectionObserver(function(entries) {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.classList.add('animate-in');
+        }
+    });
+}, observerOptions);
+
+// Observe all sections for animation
+document.addEventListener('DOMContentLoaded', function() {
+    const sections = document.querySelectorAll('section, .project-card, .skill-category');
+    sections.forEach(section => {
+        observer.observe(section);
+    });
+});
+
+// Skills progress bars animation
+function animateProgressBars() {
+    const progressBars = document.querySelectorAll('.progress-fill');
+    progressBars.forEach(bar => {
+        const percentage = bar.getAttribute('data-percentage') || bar.style.width;
+        bar.style.width = '0%';
+        setTimeout(() => {
+            bar.style.width = percentage;
+        }, 500);
+    });
+}
+
+// Trigger progress bars animation when skills section is visible
+const skillsSection = document.querySelector('#skills');
+if (skillsSection) {
+    const skillsObserver = new IntersectionObserver(function(entries) {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                animateProgressBars();
+                skillsObserver.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.5 });
+    
+    skillsObserver.observe(skillsSection);
+}
+
+// Project filter functionality
+const filterButtons = document.querySelectorAll('.filter-btn');
+const projectCards = document.querySelectorAll('.project-card');
+
+filterButtons.forEach(button => {
+    button.addEventListener('click', function() {
+        const filter = this.getAttribute('data-filter');
+        
+        // Update active button
+        filterButtons.forEach(btn => btn.classList.remove('active'));
+        this.classList.add('active');
+        
+        // Filter projects
+        projectCards.forEach(card => {
+            if (filter === 'all' || card.classList.contains(filter)) {
+                card.style.display = 'block';
+                setTimeout(() => {
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, 100);
+            } else {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                setTimeout(() => {
+                    card.style.display = 'none';
+                }, 300);
+            }
+        });
+    });
+});
+
+// Contact form handling with proper validation
+document.addEventListener('DOMContentLoaded', function() {
+    const contactForm = document.getElementById('contactForm');
+    
+    if (contactForm) {
+        contactForm.addEventListener('submit', function(e) {
+            // Get form field values
+            const nameField = document.querySelector('input[name="name"]');
+            const emailField = document.querySelector('input[name="email"]');
+            const messageField = document.querySelector('textarea[name="message"]');
+            
+            // Check if fields exist and get their values
+            const name = nameField ? nameField.value.trim() : '';
+            const email = emailField ? emailField.value.trim() : '';
+            const message = messageField ? messageField.value.trim() : '';
+            
+            // Validation
+            if (!name || !email || !message) {
+                e.preventDefault();
+                alert('Please fill in all fields');
+                return false;
+            }
+            
+            // Email format validation
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                e.preventDefault();
+                alert('Please enter a valid email address');
+                return false;
+            }
+            
+            // If validation passes, show loading state
+            const submitButton = contactForm.querySelector('button[type="submit"]');
+            if (submitButton) {
+                submitButton.textContent = 'Sending...';
+                submitButton.disabled = true;
+            }
+            
+            // Form will submit to Formspree
+            // After submission, Formspree will redirect or show confirmation
+        });
+        
+        // Handle form submission success/error (if staying on same page)
+        contactForm.addEventListener('formdata', function() {
+            setTimeout(() => {
+                const submitButton = contactForm.querySelector('button[type="submit"]');
+                if (submitButton) {
+                    submitButton.textContent = 'Message Sent!';
+                    submitButton.style.backgroundColor = '#28a745';
+                    
+                    // Reset form
+                    contactForm.reset();
+                    
+                    // Reset button after 3 seconds
+                    setTimeout(() => {
+                        submitButton.textContent = 'Send Message';
+                        submitButton.style.backgroundColor = '';
+                        submitButton.disabled = false;
+                    }, 3000);
+                }
+            }, 1000);
+        });
+    }
+});
+
+// Back to top button
+const backToTopButton = document.createElement('button');
+backToTopButton.innerHTML = '↑';
+backToTopButton.className = 'back-to-top';
+backToTopButton.style.cssText = `
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: #007bff;
+    color: white;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: 1000;
+`;
+
+document.body.appendChild(backToTopButton);
+
+// Show/hide back to top button
+window.addEventListener('scroll', function() {
+    if (window.scrollY > 300) {
+        backToTopButton.style.opacity = '1';
+    } else {
+        backToTopButton.style.opacity = '0';
+    }
+});
+
+// Back to top functionality
+backToTopButton.addEventListener('click', function() {
+    window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+    });
+});
+
+// Preloader (if you have one)
+window.addEventListener('load', function() {
+    const preloader = document.querySelector('.preloader');
+    if (preloader) {
+        preloader.style.opacity = '0';
+        setTimeout(() => {
+            preloader.style.display = 'none';
+        }, 500);
+    }
+});
+
+// Console welcome message
+console.log(`
+🚀 Welcome to Sai Manoj J's Portfolio!
+📧 Contact: jsaimanoj@gmail.com
+💼 LinkedIn: Connect with me
+📱 Phone: (270) 421-3344
+
+Thanks for checking out the code! 
+`);
