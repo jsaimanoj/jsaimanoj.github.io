@@ -1,488 +1,193 @@
-// Smooth scrolling for navigation links
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
-        if (target) {
-            target.scrollIntoView({
-                behavior: 'smooth',
-                block: 'start'
-            });
-        }
-    });
+// ================================
+// COMPLETE PORTFOLIO JAVASCRIPT
+// ================================
+
+// Global Variables
+let performanceChart, algorithmChart, systemChart, volumeChart;
+let currentMetric = 'accuracy';
+let animationFrameId;
+
+// ================================
+// INITIALIZATION
+// ================================
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('🚀 Portfolio Loading...');
+    
+    // Initialize all components
+    initializeAnimations();
+    initializeCharts();
+    initializeRealTimeData();
+    initializeEventListeners();
+    initializeScrollEffects();
+    
+    console.log('✅ Portfolio Loaded Successfully!');
 });
 
-// Mobile menu toggle
-const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
-const navMenu = document.querySelector('.nav-menu');
-
-if (mobileMenuToggle && navMenu) {
-    mobileMenuToggle.addEventListener('click', function() {
-        navMenu.classList.toggle('active');
-        this.classList.toggle('active');
-    });
-}
-
-// Navbar scroll effect
-window.addEventListener('scroll', function() {
-    const navbar = document.querySelector('.navbar');
-    if (navbar) {
+// ================================
+// SCROLL ANIMATIONS & EFFECTS
+// ================================
+function initializeScrollEffects() {
+    // Navbar scroll effect
+    window.addEventListener('scroll', function() {
+        const navbar = document.querySelector('.navbar');
         if (window.scrollY > 50) {
             navbar.classList.add('scrolled');
         } else {
             navbar.classList.remove('scrolled');
         }
-    }
-});
+    });
 
-// Animated counter for hero stats
-function animateCounter(element, target, duration = 2000) {
-    let start = 0;
-    const increment = target / (duration / 16);
-    
-    function updateCounter() {
-        start += increment;
-        if (start < target) {
-            element.textContent = Math.floor(start).toLocaleString();
-            requestAnimationFrame(updateCounter);
-        } else {
-            element.textContent = target.toLocaleString();
-        }
-    }
-    updateCounter();
+    // Smooth scrolling for navigation links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            const target = document.querySelector(this.getAttribute('href'));
+            if (target) {
+                target.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
+        });
+    });
 }
 
-// Initialize counters when hero section is visible
-const heroSection = document.querySelector('.hero');
-if (heroSection) {
-    const observer = new IntersectionObserver(function(entries) {
+// ================================
+// COUNTER ANIMATIONS
+// ================================
+function initializeAnimations() {
+    // Hero stats animation
+    const animateCounters = () => {
+        const counters = document.querySelectorAll('.stat-number');
+        
+        counters.forEach(counter => {
+            const target = parseFloat(counter.getAttribute('data-target'));
+            const increment = target / 100;
+            let current = 0;
+            
+            const updateCounter = () => {
+                if (current < target) {
+                    current += increment;
+                    if (target === 2.4) {
+                        counter.textContent = current.toFixed(1);
+                    } else if (target === 94.7) {
+                        counter.textContent = current.toFixed(1) + '%';
+                    } else {
+                        counter.textContent = Math.floor(current);
+                    }
+                    requestAnimationFrame(updateCounter);
+                } else {
+                    if (target === 2.4) {
+                        counter.textContent = target.toFixed(1);
+                    } else if (target === 94.7) {
+                        counter.textContent = target + '%';
+                    } else {
+                        counter.textContent = target;
+                    }
+                }
+            };
+            
+            updateCounter();
+        });
+    };
+
+    // Dashboard metrics animation
+    const animateDashboardMetrics = () => {
+        const metrics = [
+            { id: 'modelsCount', target: 127, suffix: '' },
+            { id: 'dataPoints', target: 2.4, suffix: 'M', decimals: 1 },
+            { id: 'accuracy', target: 94.7, suffix: '%', decimals: 1 },
+            { id: 'responseTime', target: 45, suffix: 'ms' }
+        ];
+
+        metrics.forEach(metric => {
+            const element = document.getElementById(metric.id);
+            if (element) {
+                animateValue(element, 0, metric.target, 2000, metric.suffix, metric.decimals);
+            }
+        });
+    };
+
+    // Trigger animations when sections come into view
+    const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
-                document.querySelectorAll('.stat-number').forEach(counter => {
-                    const target = parseInt(counter.getAttribute('data-target'));
-                    animateCounter(counter, target);
-                });
-                observer.unobserve(entry.target);
+                if (entry.target.id === 'home') {
+                    setTimeout(animateCounters, 500);
+                } else if (entry.target.id === 'analytics') {
+                    setTimeout(animateDashboardMetrics, 300);
+                }
             }
         });
-    }, { threshold: 0.5 });
-    
-    observer.observe(heroSection);
+    }, { threshold: 0.3 });
+
+    document.querySelectorAll('#home, #analytics').forEach(section => {
+        observer.observe(section);
+    });
 }
 
-// Hero Chart - Real-time Data Visualization
-function createHeroChart() {
-    const ctx = document.getElementById('heroChart');
+function animateValue(element, start, end, duration, suffix = '', decimals = 0) {
+    const startTime = Date.now();
+    const range = end - start;
+    
+    function update() {
+        const now = Date.now();
+        const elapsed = now - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        
+        // Easing function for smooth animation
+        const easeOutQuart = 1 - Math.pow(1 - progress, 4);
+        const current = start + (range * easeOutQuart);
+        
+        if (decimals > 0) {
+            element.textContent = current.toFixed(decimals) + suffix;
+        } else {
+            element.textContent = Math.floor(current) + suffix;
+        }
+        
+        if (progress < 1) {
+            requestAnimationFrame(update);
+        }
+    }
+    
+    update();
+}
+
+// ================================
+// INTERACTIVE CHARTS
+// ================================
+function initializeCharts() {
+    initializePerformanceChart();
+    initializeAlgorithmChart();
+    initializeSystemChart();
+    initializeVolumeChart();
+}
+
+function initializePerformanceChart() {
+    const ctx = document.getElementById('performanceChart');
     if (!ctx) return;
 
-    // Generate sample real-time data
-    const generateData = () => {
-        return Array.from({length: 20}, (_, i) => ({
-            x: i,
-            y: Math.sin(i * 0.5) * 50 + Math.random() * 20 + 100
-        }));
-    };
+    const gradient = ctx.getContext('2d').createLinearGradient(0, 0, 0, 400);
+    gradient.addColorStop(0, 'rgba(37, 99, 235, 0.3)');
+    gradient.addColorStop(1, 'rgba(37, 99, 235, 0.05)');
 
-    new Chart(ctx, {
+    performanceChart = new Chart(ctx, {
         type: 'line',
         data: {
+            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
             datasets: [{
-                label: 'Model Performance',
-                data: generateData(),
-                borderColor: '#fff',
-                backgroundColor: 'rgba(255, 255, 255, 0.1)',
+                label: 'Model Accuracy (%)',
+                data: [85.2, 87.1, 89.3, 91.2, 92.8, 93.5, 94.1, 94.7, 95.2, 95.8, 96.1, 96.4],
+                borderColor: '#2563eb',
+                backgroundColor: gradient,
+                borderWidth: 3,
                 fill: true,
                 tension: 0.4,
-                pointBackgroundColor: '#fff',
-                pointBorderColor: '#667eea',
-                pointRadius: 4
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-                legend: {
-                    labels: {
-                        color: '#fff'
-                    }
-                }
-            },
-            scales: {
-                x: {
-                    type: 'linear',
-                    ticks: { color: '#fff' },
-                    grid: { color: 'rgba(255, 255, 255, 0.2)' }
-                },
-                y: {
-                    ticks: { color: '#fff' },
-                    grid: { color: 'rgba(255, 255, 255, 0.2)' }
-                }
-            },
-            animation: {
-                duration: 2000,
-                easing: 'easeInOutQuart'
-            }
-        }
-    });
-}
-
-// Box Plot Visualization
-function createBoxPlot() {
-    const ctx = document.getElementById('boxPlot');
-    if (!ctx) return;
-
-    // Simulated box plot data
-    const data = {
-        labels: ['Feature A', 'Feature B', 'Feature C', 'Feature D'],
-        datasets: [{
-            label: 'Q1',
-            data: [20, 25, 30, 22],
-            backgroundColor: 'rgba(102, 126, 234, 0.3)',
-            borderColor: '#667eea',
-            borderWidth: 2
-        }, {
-            label: 'Median',
-            data: [35, 40, 45, 38],
-            backgroundColor: 'rgba(118, 75, 162, 0.5)',
-            borderColor: '#764ba2',
-            borderWidth: 2
-        }, {
-            label: 'Q3',
-            data: [50, 55, 60, 52],
-            backgroundColor: 'rgba(102, 126, 234, 0.7)',
-            borderColor: '#667eea',
-            borderWidth: 2
-        }]
-    };
-
-    new Chart(ctx, {
-        type: 'bar',
-        data: data,
-        options: {
-            responsive: true,
-            plugins: {
-                title: {
-                    display: true,
-                    text: 'Feature Distribution Analysis'
-                }
-            },
-            scales: {
-                y: {
-                    beginAtZero: true,
-                    title: {
-                        display: true,
-                        text: 'Values'
-                    }
-                }
-            }
-        }
-    });
-}
-
-// Scatter Plot for Correlation Analysis
-function createScatterPlot() {
-    const ctx = document.getElementById('scatterPlot');
-    if (!ctx) return;
-
-    // Generate correlated data
-    const generateScatterData = (n = 50) => {
-        return Array.from({length: n}, () => {
-            const x = Math.random() * 100;
-            const y = x * 0.8 + Math.random() * 20; // Positive correlation with noise
-            return {x, y};
-        });
-    };
-
-    new Chart(ctx, {
-        type: 'scatter',
-        data: {
-            datasets: [{
-                label: 'Feature Correlation',
-                data: generateScatterData(),
-                backgroundColor: 'rgba(102, 126, 234, 0.6)',
-                borderColor: '#667eea',
+                pointBackgroundColor: '#2563eb',
+                pointBorderColor: '#ffffff',
+                pointBorderWidth: 2,
                 pointRadius: 6,
                 pointHoverRadius: 8
-            }]
-        },
-        options: {
-            responsive: true,
-            plugins: {
-                title: {
-                    display: true,
-                    text: 'Feature X vs Feature Y Correlation'
-                }
-            },
-            scales: {
-                x: {
-                    title: {
-                        display: true,
-                        text: 'Feature X'
-                    }
-                },
-                y: {
-                    title: {
-                        display: true,
-                        text: 'Feature Y'
-                    }
-                }
-            }
-        }
-    });
-}
-
-// Time Series Chart
-function createTimeSeriesChart() {
-    const ctx = document.getElementById('timeSeriesChart');
-    if (!ctx) return;
-
-    // Generate time series data
-    const generateTimeSeriesData = () => {
-        const data = [];
-        const startDate = new Date('2023-01-01');
-        
-        for (let i = 0; i < 365; i++) {
-            const date = new Date(startDate);
-            date.setDate(date.getDate() + i);
-            
-            const trend = i * 0.1;
-            const seasonal = Math.sin(i * 2 * Math.PI / 30) * 10;
-            const noise = (Math.random() - 0.5) * 5;
-            const value = 100 + trend + seasonal + noise;
-            
-            data.push({
-                x: date,
-                y: value
-            });
-        }
-        return data;
-    };
-
-    new Chart(ctx, {
-        type: 'line',
-        data: {
-            datasets: [{
-                label: 'Actual',
-                data: generateTimeSeriesData(),
-                borderColor: '#667eea',
-                backgroundColor: 'rgba(102, 126, 234, 0.1)',
-                fill: true,
-                tension: 0.1
-            }, {
-                label: 'Forecast',
-                data: generateTimeSeriesData().slice(-30).map(point => ({
-                    x: point.x,
-                    y: point.y + Math.random() * 10 - 5
-                })),
-                borderColor: '#764ba2',
-                backgroundColor: 'rgba(118, 75, 162, 0.1)',
-                borderDash: [5, 5]
-            }]
-        },
-        options: {
-            responsive: true,
-            plugins: {
-                title: {
-                    display: true,
-                    text: 'Sales Forecasting Model'
-                }
-            },
-            scales: {
-                x: {
-                    type: 'time',
-                    time: {
-                        unit: 'month'
-                    },
-                    title: {
-                        display: true,
-                        text: 'Time'
-                    }
-                },
-                y: {
-                    title: {
-                        display: true,
-                        text: 'Sales ($)'
-                    }
-                }
-            }
-        }
-    });
-}
-
-// Heatmap using D3.js
-function createHeatmap() {
-    const container = document.getElementById('heatmap');
-    if (!container) return;
-
-    // Sample correlation matrix data
-    const data = [
-        {x: 0, y: 0, value: 1.0, feature1: 'Age', feature2: 'Age'},
-        {x: 1, y: 0, value: 0.3, feature1: 'Income', feature2: 'Age'},
-        {x: 2, y: 0, value: -0.1, feature1: 'Education', feature2: 'Age'},
-        {x: 3, y: 0, value: 0.7, feature1: 'Experience', feature2: 'Age'},
-        {x: 0, y: 1, value: 0.3, feature1: 'Age', feature2: 'Income'},
-        {x: 1, y: 1, value: 1.0, feature1: 'Income', feature2: 'Income'},
-        {x: 2, y: 1, value: 0.5, feature1: 'Education', feature2: 'Income'},
-        {x: 3, y: 1, value: 0.4, feature1: 'Experience', feature2: 'Income'},
-        {x: 0, y: 2, value: -0.1, feature1: 'Age', feature2: 'Education'},
-        {x: 1, y: 2, value: 0.5, feature1: 'Income', feature2: 'Education'},
-        {x: 2, y: 2, value: 1.0, feature1: 'Education', feature2: 'Education'},
-        {x: 3, y: 2, value: 0.2, feature1: 'Experience', feature2: 'Education'},
-        {x: 0, y: 3, value: 0.7, feature1: 'Age', feature2: 'Experience'},
-        {x: 1, y: 3, value: 0.4, feature1: 'Income', feature2: 'Experience'},
-        {x: 2, y: 3, value: 0.2, feature1: 'Education', feature2: 'Experience'},
-        {x: 3, y: 3, value: 1.0, feature1: 'Experience', feature2: 'Experience'}
-    ];
-
-    const margin = {top: 50, right: 50, bottom: 50, left: 50};
-    const width = 300 - margin.left - margin.right;
-    const height = 300 - margin.top - margin.bottom;
-
-    const svg = d3.select(container)
-        .append('svg')
-        .attr('width', width + margin.left + margin.right)
-        .attr('height', height + margin.top + margin.bottom)
-        .append('g')
-        .attr('transform', `translate(${margin.left},${margin.top})`);
-
-    const colorScale = d3.scaleSequential()
-        .interpolator(d3.interpolateRdYlBu)
-        .domain([-1, 1]);
-
-    const cellSize = width / 4;
-
-    svg.selectAll('rect')
-        .data(data)
-        .enter()
-        .append('rect')
-        .attr('x', d => d.x * cellSize)
-        .attr('y', d => d.y * cellSize)
-        .attr('width', cellSize)
-        .attr('height', cellSize)
-        .style('fill', d => colorScale(d.value))
-        .style('stroke', '#fff')
-        .style('stroke-width', 2);
-
-    svg.selectAll('text')
-        .data(data)
-        .enter()
-        .append('text')
-        .attr('x', d => d.x * cellSize + cellSize/2)
-        .attr('y', d => d.y * cellSize + cellSize/2)
-        .attr('text-anchor', 'middle')
-        .attr('dominant-baseline', 'middle')
-        .style('fill', d => Math.abs(d.value) > 0.5 ? '#fff' : '#000')
-        .style('font-size', '12px')
-        .style('font-weight', 'bold')
-        .text(d => d.value.toFixed(1));
-
-    // Add labels
-    const features = ['Age', 'Income', 'Education', 'Experience'];
-    
-    svg.selectAll('.x-label')
-        .data(features)
-        .enter()
-        .append('text')
-        .attr('class', 'x-label')
-        .attr('x', (d, i) => i * cellSize + cellSize/2)
-        .attr('y', -10)
-        .attr('text-anchor', 'middle')
-        .style('font-size', '12px')
-        .text(d => d);
-
-    svg.selectAll('.y-label')
-        .data(features)
-        .enter()
-        .append('text')
-        .attr('class', 'y-label')
-        .attr('x', -10)
-        .attr('y', (d, i) => i * cellSize + cellSize/2)
-        .attr('text-anchor', 'end')
-        .attr('dominant-baseline', 'middle')
-        .style('font-size', '12px')
-        .text(d => d);
-}
-
-// ML Model Visualizations
-function createNeuralNetworkViz() {
-    const ctx = document.getElementById('neuralNetworkViz');
-    if (!ctx) return;
-
-    // Training progress visualization
-    const epochs = Array.from({length: 50}, (_, i) => i + 1);
-    const accuracy = epochs.map(e => 0.6 + (1 - Math.exp(-e/10)) * 0.35 + Math.random() * 0.05);
-    const loss = epochs.map(e => 1.2 * Math.exp(-e/8) + Math.random() * 0.1);
-
-    new Chart(ctx, {
-        type: 'line',
-        data: {
-            labels: epochs,
-            datasets: [{
-                label: 'Accuracy',
-                data: accuracy,
-                borderColor: '#28a745',
-                backgroundColor: 'rgba(40, 167, 69, 0.1)',
-                yAxisID: 'y'
-            }, {
-                label: 'Loss',
-                data: loss,
-                borderColor: '#dc3545',
-                backgroundColor: 'rgba(220, 53, 69, 0.1)',
-                yAxisID: 'y1'
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            scales: {
-                y: {
-                    type: 'linear',
-                    display: true,
-                    position: 'left',
-                    title: {
-                        display: true,
-                        text: 'Accuracy'
-                    }
-                },
-                y1: {
-                    type: 'linear',
-                    display: true,
-                    position: 'right',
-                    title: {
-                        display: true,
-                        text: 'Loss'
-                    },
-                    grid: {
-                        drawOnChartArea: false,
-                    },
-                }
-            }
-        }
-    });
-}
-
-function createRandomForestViz() {
-    const ctx = document.getElementById('randomForestViz');
-    if (!ctx) return;
-
-    // Feature importance visualization
-    new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels: ['Feature A', 'Feature B', 'Feature C', 'Feature D', 'Feature E'],
-            datasets: [{
-                label: 'Feature Importance',
-                data: [0.35, 0.25, 0.20, 0.15, 0.05],
-                backgroundColor: [
-                    'rgba(102, 126, 234, 0.8)',
-                    'rgba(118, 75, 162, 0.8)',
-                    'rgba(102, 126, 234, 0.6)',
-                    'rgba(118, 75, 162, 0.6)',
-                    'rgba(102, 126, 234, 0.4)'
-                ],
-                borderColor: '#667eea',
-                borderWidth: 1
             }]
         },
         options: {
@@ -491,152 +196,68 @@ function createRandomForestViz() {
             plugins: {
                 legend: {
                     display: false
+                },
+                tooltip: {
+                    backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                    titleColor: '#ffffff',
+                    bodyColor: '#ffffff',
+                    borderColor: '#2563eb',
+                    borderWidth: 1,
+                    cornerRadius: 8,
+                    displayColors: false
                 }
             },
             scales: {
-                y: {
-                    beginAtZero: true,
-                    title: {
-                        display: true,
-                        text: 'Importance Score'
-                    }
-                }
-            }
-        }
-    });
-}
-
-function createSVMViz() {
-    const ctx = document.getElementById('svmViz');
-    if (!ctx) return;
-
-    // Decision boundary visualization
-    const class1 = Array.from({length: 25}, () => ({
-        x: Math.random() * 40 + 10,
-        y: Math.random() * 40 + 10
-    }));
-    
-    const class2 = Array.from({length: 25}, () => ({
-        x: Math.random() * 40 + 50,
-        y: Math.random() * 40 + 50
-    }));
-
-    new Chart(ctx, {
-        type: 'scatter',
-        data: {
-            datasets: [{
-                label: 'Class 1',
-                data: class1,
-                backgroundColor: 'rgba(102, 126, 234, 0.8)',
-                borderColor: '#667eea',
-                pointRadius: 5
-            }, {
-                label: 'Class 2',
-                data: class2,
-                backgroundColor: 'rgba(220, 53, 69, 0.8)',
-                borderColor: '#dc3545',
-                pointRadius: 5
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            scales: {
                 x: {
-                    min: 0,
-                    max: 100,
-                    title: {
-                        display: true,
-                        text: 'Feature 1'
+                    grid: {
+                        display: false
+                    },
+                    ticks: {
+                        color: '#6b7280'
                     }
                 },
                 y: {
-                    min: 0,
+                    beginAtZero: false,
+                    min: 80,
                     max: 100,
-                    title: {
-                        display: true,
-                        text: 'Feature 2'
+                    grid: {
+                        color: 'rgba(0, 0, 0, 0.1)'
+                    },
+                    ticks: {
+                        color: '#6b7280',
+                        callback: function(value) {
+                            return value + '%';
+                        }
                     }
                 }
+            },
+            interaction: {
+                intersect: false,
+                mode: 'index'
             }
         }
     });
 }
 
-function createRegressionViz() {
-    const ctx = document.getElementById('regressionViz');
+function initializeAlgorithmChart() {
+    const ctx = document.getElementById('algorithmChart');
     if (!ctx) return;
 
-    // Regression line with data points
-    const actualData = Array.from({length: 30}, (_, i) => ({
-        x: i * 3,
-        y: i * 2 + Math.random() * 10 + 5
-    }));
-
-    const regressionLine = Array.from({length: 30}, (_, i) => ({
-        x: i * 3,
-        y: i * 2 + 10
-    }));
-
-    new Chart(ctx, {
-        type: 'scatter',
-        data: {
-            datasets: [{
-                label: 'Actual Data',
-                data: actualData,
-                backgroundColor: 'rgba(102, 126, 234, 0.6)',
-                borderColor: '#667eea',
-                pointRadius: 4
-            }, {
-                label: 'Regression Line',
-                data: regressionLine,
-                type: 'line',
-                borderColor: '#dc3545',
-                backgroundColor: 'transparent',
-                pointRadius: 0,
-                tension: 0
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            scales: {
-                x: {
-                    title: {
-                        display: true,
-                        text: 'Independent Variable'
-                    }
-                },
-                y: {
-                    title: {
-                        display: true,
-                        text: 'Dependent Variable'
-                    }
-                }
-            }
-        }
-    });
-}
-
-// Project Visualizations
-function createCustomerSegmentation() {
-    const ctx = document.getElementById('customerSegmentation');
-    if (!ctx) return;
-
-    new Chart(ctx, {
+    algorithmChart = new Chart(ctx, {
         type: 'doughnut',
         data: {
-            labels: ['High Value', 'Medium Value', 'Low Value', 'At Risk'],
+            labels: ['Random Forest', 'Neural Networks', 'SVM', 'XGBoost', 'Linear Models'],
             datasets: [{
-                data: [25, 35, 30, 10],
+                data: [28, 24, 18, 20, 10],
                 backgroundColor: [
-                    '#28a745',
-                    '#17a2b8',
-                    '#ffc107',
-                    '#dc3545'
+                    '#2563eb',
+                    '#3b82f6',
+                    '#60a5fa',
+                    '#93c5fd',
+                    '#dbeafe'
                 ],
-                borderWidth: 2,
-                borderColor: '#fff'
+                borderWidth: 0,
+                hoverOffset: 10
             }]
         },
         options: {
@@ -644,46 +265,97 @@ function createCustomerSegmentation() {
             maintainAspectRatio: false,
             plugins: {
                 legend: {
-                    position: 'bottom'
+                    position: 'bottom',
+                    labels: {
+                        padding: 20,
+                        usePointStyle: true,
+                        color: '#6b7280'
+                    }
+                },
+                tooltip: {
+                    backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                    titleColor: '#ffffff',
+                    bodyColor: '#ffffff',
+                    borderColor: '#2563eb',
+                    borderWidth: 1,
+                    cornerRadius: 8,
+                    callbacks: {
+                        label: function(context) {
+                            return context.label + ': ' + context.parsed + '%';
+                        }
+                    }
                 }
             }
         }
     });
 }
 
-function createSentimentAnalysis() {
-    const ctx = document.getElementById('sentimentAnalysis');
+function initializeSystemChart() {
+    const ctx = document.getElementById('systemChart');
     if (!ctx) return;
 
-    new Chart(ctx, {
+    systemChart = new Chart(ctx, {
         type: 'bar',
         data: {
-            labels: ['Positive', 'Neutral', 'Negative'],
+            labels: ['CPU Usage', 'Memory', 'GPU Util', 'Network I/O', 'Disk I/O'],
             datasets: [{
-                label: 'Sentiment Distribution',
-                data: [65, 25, 10],
+                label: 'Usage %',
+                data: [65, 78, 45, 32, 28],
                 backgroundColor: [
-                    'rgba(40, 167, 69, 0.8)',
-                    'rgba(255, 193, 7, 0.8)',
-                    'rgba(220, 53, 69, 0.8)'
+                    'rgba(34, 197, 94, 0.8)',
+                    'rgba(251, 191, 36, 0.8)',
+                    'rgba(239, 68, 68, 0.8)',
+                    'rgba(59, 130, 246, 0.8)',
+                    'rgba(139, 92, 246, 0.8)'
                 ],
                 borderColor: [
-                    '#28a745',
-                    '#ffc107',
-                    '#dc3545'
+                    '#22c55e',
+                    '#fbbf24',
+                    '#ef4444',
+                    '#3b82f6',
+                    '#8b5cf6'
                 ],
-                borderWidth: 2
+                borderWidth: 2,
+                borderRadius: 8,
+                borderSkipped: false
             }]
         },
         options: {
             responsive: true,
             maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    display: false
+                },
+                tooltip: {
+                    backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                    titleColor: '#ffffff',
+                    bodyColor: '#ffffff',
+                    borderColor: '#2563eb',
+                    borderWidth: 1,
+                    cornerRadius: 8
+                }
+            },
             scales: {
+                x: {
+                    grid: {
+                        display: false
+                    },
+                    ticks: {
+                        color: '#6b7280'
+                    }
+                },
                 y: {
                     beginAtZero: true,
-                    title: {
-                        display: true,
-                        text: 'Percentage (%)'
+                    max: 100,
+                    grid: {
+                        color: 'rgba(0, 0, 0, 0.1)'
+                    },
+                    ticks: {
+                        color: '#6b7280',
+                        callback: function(value) {
+                            return value + '%';
+                        }
                     }
                 }
             }
@@ -691,85 +363,67 @@ function createSentimentAnalysis() {
     });
 }
 
-function createImageClassification() {
-    const ctx = document.getElementById('imageClassification');
+function initializeVolumeChart() {
+    const ctx = document.getElementById('volumeChart');
     if (!ctx) return;
 
-    // Confusion matrix visualization
-    new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels: ['Class A', 'Class B', 'Class C', 'Class D'],
-            datasets: [{
-                label: 'Precision',
-                data: [0.92, 0.88, 0.95, 0.90],
-                backgroundColor: 'rgba(102, 126, 234, 0.8)',
-                borderColor: '#667eea',
-                borderWidth: 1
-            }, {
-                label: 'Recall',
-                data: [0.89, 0.91, 0.93, 0.87],
-                backgroundColor: 'rgba(118, 75, 162, 0.8)',
-                borderColor: '#764ba2',
-                borderWidth: 1
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            scales: {
-                y: {
-                    beginAtZero: true,
-                    max: 1,
-                    title: {
-                        display: true,
-                        text: 'Score'
-                    }
-                }
-            }
-        }
-    });
-}
+    const gradient = ctx.getContext('2d').createLinearGradient(0, 0, 0, 300);
+    gradient.addColorStop(0, 'rgba(34, 197, 94, 0.3)');
+    gradient.addColorStop(1, 'rgba(34, 197, 94, 0.05)');
 
-function createSalesForecasting() {
-    const ctx = document.getElementById('salesForecasting');
-    if (!ctx) return;
-
-    // Generate sales data with trend
-    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-    const actualSales = [120, 135, 148, 162, 178, 195, 210, 225, 240, 255, 270, 285];
-    const forecastSales = [290, 305, 320, 335, 350, 365];
-
-    new Chart(ctx, {
+    volumeChart = new Chart(ctx, {
         type: 'line',
         data: {
-            labels: [...months, 'Jan+1', 'Feb+1', 'Mar+1', 'Apr+1', 'May+1', 'Jun+1'],
+            labels: ['00:00', '04:00', '08:00', '12:00', '16:00', '20:00', '24:00'],
             datasets: [{
-                label: 'Actual Sales',
-                data: [...actualSales, ...Array(6).fill(null)],
-                borderColor: '#667eea',
-                backgroundColor: 'rgba(102, 126, 234, 0.1)',
+                label: 'Records Processed (K)',
+                data: [12, 8, 25, 45, 38, 52, 28],
+                borderColor: '#22c55e',
+                backgroundColor: gradient,
+                borderWidth: 3,
                 fill: true,
-                tension: 0.4
-            }, {
-                label: 'Forecasted Sales',
-                data: [...Array(12).fill(null), ...forecastSales],
-                borderColor: '#dc3545',
-                backgroundColor: 'rgba(220, 53, 69, 0.1)',
-                borderDash: [5, 5],
-                fill: true,
-                tension: 0.4
+                tension: 0.4,
+                pointBackgroundColor: '#22c55e',
+                pointBorderColor: '#ffffff',
+                pointBorderWidth: 2,
+                pointRadius: 5
             }]
         },
         options: {
             responsive: true,
             maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    display: false
+                },
+                tooltip: {
+                    backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                    titleColor: '#ffffff',
+                    bodyColor: '#ffffff',
+                    borderColor: '#22c55e',
+                    borderWidth: 1,
+                    cornerRadius: 8
+                }
+            },
             scales: {
+                x: {
+                    grid: {
+                        display: false
+                    },
+                    ticks: {
+                        color: '#6b7280'
+                    }
+                },
                 y: {
                     beginAtZero: true,
-                    title: {
-                        display: true,
-                        text: 'Sales (K$)'
+                    grid: {
+                        color: 'rgba(0, 0, 0, 0.1)'
+                    },
+                    ticks: {
+                        color: '#6b7280',
+                        callback: function(value) {
+                            return value + 'K';
+                        }
                     }
                 }
             }
@@ -777,140 +431,335 @@ function createSalesForecasting() {
     });
 }
 
-// Skills progress animation
-function animateSkillBars() {
-    const skillBars = document.querySelectorAll('.skill-progress, .metric-fill');
-    skillBars.forEach(bar => {
-        const percentage = bar.getAttribute('data-percentage');
-        if (percentage) {
-            bar.style.width = '0%';
-            setTimeout(() => {
-                bar.style.width = percentage;
-            }, 500);
+// ================================
+// CHART INTERACTIONS
+// ================================
+function updatePerformanceChart(metric) {
+    if (!performanceChart) return;
+    
+    currentMetric = metric;
+    
+    // Update button states
+    document.querySelectorAll('.btn-group button').forEach(btn => {
+        btn.classList.remove('active');
+    });
+    event.target.classList.add('active');
+    
+    const datasets = {
+        accuracy: {
+            label: 'Model Accuracy (%)',
+            data: [85.2, 87.1, 89.3, 91.2, 92.8, 93.5, 94.1, 94.7, 95.2, 95.8, 96.1, 96.4],
+            color: '#2563eb'
+        },
+        precision: {
+            label: 'Model Precision (%)',
+            data: [82.1, 84.3, 86.8, 88.9, 90.2, 91.8, 92.5, 93.1, 93.8, 94.2, 94.7, 95.1],
+            color: '#059669'
+        },
+        recall: {
+            label: 'Model Recall (%)',
+            data: [79.8, 81.2, 83.5, 85.7, 87.3, 88.9, 90.1, 91.4, 92.2, 92.8, 93.5, 94.0],
+            color: '#dc2626'
         }
+    };
+    
+    const selectedData = datasets[metric];
+    
+    performanceChart.data.datasets[0].label = selectedData.label;
+    performanceChart.data.datasets[0].data = selectedData.data;
+    performanceChart.data.datasets[0].borderColor = selectedData.color;
+    performanceChart.data.datasets[0].pointBackgroundColor = selectedData.color;
+    
+    performanceChart.update('active');
+}
+
+function refreshSystemMetrics() {
+    if (!systemChart) return;
+    
+    // Simulate real-time data update
+    const newData = [
+        Math.floor(Math.random() * 40) + 40, // CPU: 40-80%
+        Math.floor(Math.random() * 30) + 60, // Memory: 60-90%
+        Math.floor(Math.random() * 50) + 20, // GPU: 20-70%
+        Math.floor(Math.random() * 40) + 10, // Network: 10-50%
+        Math.floor(Math.random() * 35) + 15  // Disk: 15-50%
+    ];
+    
+    systemChart.data.datasets[0].data = newData;
+    systemChart.update('active');
+    
+    // Show refresh feedback
+    const button = event.target.closest('button');
+    const originalText = button.innerHTML;
+    button.innerHTML = '<i class="fas fa-spinner fa-spin me-1"></i>Refreshing...';
+    button.disabled = true;
+    
+    setTimeout(() => {
+        button.innerHTML = originalText;
+        button.disabled = false;
+    }, 1000);
+}
+
+// ================================
+// REAL-TIME DATA SIMULATION
+// ================================
+function initializeRealTimeData() {
+    generatePredictionsTable();
+    startRealTimeUpdates();
+}
+
+function generatePredictionsTable() {
+    const tableBody = document.getElementById('predictionsTableBody');
+    if (!tableBody) return;
+    
+    const models = ['Customer Segmentation', 'Predictive Maintenance', 'Sentiment Analysis', 'Fraud Detection', 'Recommendation Engine'];
+    const statuses = ['Success', 'Processing', 'Warning', 'Success', 'Success'];
+    const statusClasses = ['success', 'primary', 'warning', 'success', 'success'];
+    
+    // Generate 10 rows of sample data
+    for (let i = 0; i < 10; i++) {
+        const row = document.createElement('tr');
+        const timestamp = new Date(Date.now() - Math.random() * 3600000).toLocaleTimeString();
+        const model = models[Math.floor(Math.random() * models.length)];
+        const confidence = (Math.random() * 20 + 80).toFixed(1);
+        const statusIndex = Math.floor(Math.random() * statuses.length);
+        
+        row.innerHTML = `
+            <td><small class="text-muted">${timestamp}</small></td>
+            <td><span class="badge bg-light text-dark">${model}</span></td>
+            <td><small>Features: ${Math.floor(Math.random() * 20) + 5}</small></td>
+            <td><strong>${Math.random() > 0.5 ? 'Positive' : 'Negative'}</strong></td>
+            <td>
+                <div class="d-flex align-items-center">
+                    <div class="progress me-2" style="width: 60px; height: 6px;">
+                        <div class="progress-bar bg-success" style="width: ${confidence}%"></div>
+                    </div>
+                    <small>${confidence}%</small>
+                </div>
+            </td>
+            <td><span class="badge bg-${statusClasses[statusIndex]}">${statuses[statusIndex]}</span></td>
+        `;
+        
+        tableBody.appendChild(row);
+    }
+}
+
+function startRealTimeUpdates() {
+    // Update table every 5 seconds
+    setInterval(() => {
+        updatePredictionsTable();
+    }, 5000);
+    
+    // Update charts every 10 seconds
+    setInterval(() => {
+        updateRealTimeCharts();
+    }, 10000);
+}
+
+function updatePredictionsTable() {
+    const tableBody = document.getElementById('predictionsTableBody');
+    if (!tableBody || tableBody.children.length === 0) return;
+    
+    // Remove last row and add new row at top
+    tableBody.removeChild(tableBody.lastElementChild);
+    
+    const models = ['Customer Segmentation', 'Predictive Maintenance', 'Sentiment Analysis', 'Fraud Detection', 'Recommendation Engine'];
+    const statuses = ['Success', 'Processing', 'Warning', 'Success'];
+    const statusClasses = ['success', 'primary', 'warning', 'success'];
+    
+    const newRow = document.createElement('tr');
+    const timestamp = new Date().toLocaleTimeString();
+    const model = models[Math.floor(Math.random() * models.length)];
+    const confidence = (Math.random() * 20 + 80).toFixed(1);
+    const statusIndex = Math.floor(Math.random() * statuses.length);
+    
+    newRow.innerHTML = `
+        <td><small class="text-muted">${timestamp}</small></td>
+        <td><span class="badge bg-light text-dark">${model}</span></td>
+        <td><small>Features: ${Math.floor(Math.random() * 20) + 5}</small></td>
+        <td><strong>${Math.random() > 0.5 ? 'Positive' : 'Negative'}</strong></td>
+        <td>
+            <div class="d-flex align-items-center">
+                <div class="progress me-2" style="width: 60px; height: 6px;">
+                    <div class="progress-bar bg-success" style="width: ${confidence}%"></div>
+                </div>
+                <small>${confidence}%</small>
+            </div>
+        </td>
+        <td><span class="badge bg-${statusClasses[statusIndex]}">${statuses[statusIndex]}</span></td>
+    `;
+    
+    newRow.style.backgroundColor = 'rgba(34, 197, 94, 0.1)';
+    tableBody.insertBefore(newRow, tableBody.firstChild);
+    
+    // Remove highlight after 2 seconds
+    setTimeout(() => {
+        newRow.style.backgroundColor = '';
+    }, 2000);
+}
+
+function updateRealTimeCharts() {
+    // Update volume chart with new data point
+    if (volumeChart) {
+        const newValue = Math.floor(Math.random() * 40) + 15;
+        volumeChart.data.datasets[0].data.push(newValue);
+        volumeChart.data.datasets[0].data.shift();
+        
+        // Update time labels
+        const now = new Date();
+        const timeLabel = now.getHours().toString().padStart(2, '0') + ':' + 
+                         now.getMinutes().toString().padStart(2, '0');
+        volumeChart.data.labels.push(timeLabel);
+        volumeChart.data.labels.shift();
+        
+        volumeChart.update('none');
+    }
+}
+
+// ================================
+// EVENT LISTENERS
+// ================================
+function initializeEventListeners() {
+    // Contact form submission
+    const contactForm = document.getElementById('contactForm');
+    if (contactForm) {
+        contactForm.addEventListener('submit', handleContactSubmission);
+    }
+    
+    // Skill bars animation on scroll
+    const skillBars = document.querySelectorAll('.skill-progress');
+    const skillObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.transform = 'scaleX(1)';
+            }
+        });
+    }, { threshold: 0.5 });
+    
+    skillBars.forEach(bar => {
+        bar.style.transform = 'scaleX(0)';
+        bar.style.transformOrigin = 'left';
+        bar.style.transition = 'transform 1.5s ease-out';
+        skillObserver.observe(bar);
+    });
+    
+    // Project cards hover effects
+    const projectCards = document.querySelectorAll('.project-card');
+    projectCards.forEach(card => {
+        card.addEventListener('mouseenter', function() {
+            this.style.transform = 'translateY(-10px) scale(1.02)';
+        });
+        
+        card.addEventListener('mouseleave', function() {
+            this.style.transform = 'translateY(0) scale(1)';
+        });
     });
 }
 
-// Project filtering
-const filterButtons = document.querySelectorAll('.filter-btn');
-const projectCards = document.querySelectorAll('.project-card');
-
-filterButtons.forEach(button => {
-    button.addEventListener('click', function() {
-        const filter = this.getAttribute('data-filter');
-        
-        // Update active button
-        filterButtons.forEach(btn => btn.classList.remove('active'));
-        this.classList.add('active');
-        
-        // Filter projects
-        projectCards.forEach(card => {
-            if (filter === 'all' || card.classList.contains(filter)) {
-                card.style.display = 'block';
-                setTimeout(() => {
-                    card.style.opacity = '1';
-                    card.style.transform = 'translateY(0)';
-                }, 100);
-            } else {
-                card.style.opacity = '0';
-                card.style.transform = 'translateY(20px)';
-                setTimeout(() => {
-                    card.style.display = 'none';
-                }, 300);
-            }
-        });
-    });
-});
-
-// Contact form handling
-document.addEventListener('DOMContentLoaded', function() {
-    const contactForm = document.getElementById('contactForm');
+function handleContactSubmission(e) {
+    e.preventDefault();
     
-    if (contactForm) {
-        contactForm.addEventListener('submit', function(e) {
-            const nameField = document.querySelector('input[name="name"]');
-            const emailField = document.querySelector('input[name="email"]');
-            const projectTypeField = document.querySelector('select[name="project_type"]');
-            const messageField = document.querySelector('textarea[name="message"]');
-            
-            const name = nameField ? nameField.value.trim() : '';
-            const email = emailField ? emailField.value.trim() : '';
-            const projectType = projectTypeField ? projectTypeField.value : '';
-            const message = messageField ? messageField.value.trim() : '';
-            
-            // Validation
-            if (!name || !email || !projectType || !message) {
-                e.preventDefault();
-                alert('Please fill in all fields');
-                return false;
-            }
-            
-            // Email format validation
-            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (!emailRegex.test(email)) {
-                e.preventDefault();
-                alert('Please enter a valid email address');
-                return false;
-            }
-            
-            // Show loading state
-            const submitButton = contactForm.querySelector('button[type="submit"]');
-            if (submitButton) {
-                submitButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
-                submitButton.disabled = true;
-            }
-        });
-    }
+    const form = e.target;
+    const submitButton = form.querySelector('button[type="submit"]');
+    const originalText = submitButton.innerHTML;
+    
+    // Show loading state
+    submitButton.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Sending...';
+    submitButton.disabled = true;
+    
+    // Simulate form submission
+    setTimeout(() => {
+        // Show success message
+        submitButton.innerHTML = '<i class="fas fa-check me-2"></i>Message Sent!';
+        submitButton.classList.remove('btn-primary');
+        submitButton.classList.add('btn-success');
+        
+        // Reset form
+        form.reset();
+        
+        // Reset button after 3 seconds
+        setTimeout(() => {
+            submitButton.innerHTML = originalText;
+            submitButton.classList.remove('btn-success');
+            submitButton.classList.add('btn-primary');
+            submitButton.disabled = false;
+        }, 3000);
+    }, 2000);
+}
+
+// ================================
+// UTILITY FUNCTIONS
+// ================================
+function exportData() {
+    const table = document.getElementById('predictionsTable');
+    if (!table) return;
+    
+    let csv = 'Timestamp,Model,Input Features,Prediction,Confidence,Status\n';
+    
+    const rows = table.querySelectorAll('tbody tr');
+    rows.forEach(row => {
+        const cells = row.querySelectorAll('td');
+        const rowData = Array.from(cells).map(cell => {
+            return '"' + cell.textContent.trim().replace(/"/g, '""') + '"';
+        }).join(',');
+        csv += rowData + '\n';
+    });
+    
+    // Create and download file
+    const blob = new Blob([csv], { type: 'text/csv' });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'model_predictions_' + new Date().toISOString().split('T')[0] + '.csv';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    window.URL.revokeObjectURL(url);
+    
+    // Show export feedback
+    const button = event.target.closest('button');
+    const originalText = button.innerHTML;
+    button.innerHTML = '<i class="fas fa-check me-1"></i>Exported!';
+    button.classList.add('btn-success');
+    
+    setTimeout(() => {
+        button.innerHTML = originalText;
+        button.classList.remove('btn-success');
+    }, 2000);
+}
+
+// ================================
+// PERFORMANCE OPTIMIZATION
+// ================================
+function debounce(func, wait) {
+    let timeout;
+    return function executedFunction(...args) {
+        const later = () => {
+            clearTimeout(timeout);
+            func(...args);
+        };
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+    };
+}
+
+// Optimize scroll events
+const optimizedScrollHandler = debounce(() => {
+    // Handle scroll-based animations here
+}, 10);
+
+window.addEventListener('scroll', optimizedScrollHandler);
+
+// ================================
+// ERROR HANDLING
+// ================================
+window.addEventListener('error', function(e) {
+    console.error('Portfolio Error:', e.error);
 });
 
-// Intersection Observer for animations
-const observerOptions = {
-    threshold: 0.1,
-    rootMargin: '0px 0px -50px 0px'
+// Chart.js error handling
+Chart.defaults.plugins.tooltip.filter = function(tooltipItem) {
+    return !isNaN(tooltipItem.parsed.y);
 };
 
-const observer = new IntersectionObserver(function(entries) {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            entry.target.classList.add('animate-in');
-            
-            // Trigger specific animations based on section
-            if (entry.target.id === 'skills') {
-                animateSkillBars();
-            }
-        }
-    });
-}, observerOptions);
-
-// Initialize everything when DOM is loaded
-document.addEventListener('DOMContentLoaded', function() {
-    // Observe sections for animations
-    const sections = document.querySelectorAll('section, .model-card, .project-card');
-    sections.forEach(section => {
-        observer.observe(section);
-    });
-
-    // Create all visualizations
-    setTimeout(() => {
-        createHeroChart();
-        createBoxPlot();
-        createScatterPlot();
-        createTimeSeriesChart();
-        createHeatmap();
-        createNeuralNetworkViz();
-        createRandomForestViz();
-        createSVMViz();
-        createRegressionViz();
-        createCustomerSegmentation();
-        createSentimentAnalysis();
-        createImageClassification();
-        createSalesForecasting();
-    }, 1000);
-});
-
-// Back to top button
-const backToTopButton = document.createElement('button');
-backToTopButton.innerHTML = '<i class="fas fa-arrow-up"></i>';
-backToTopButton.className = 'back-to-top';
-backToTopButton.style.cssText = `
-    position
+console.log('🎯 Portfolio JavaScript Loaded Successfully!');

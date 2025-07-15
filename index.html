@@ -1,470 +1,651 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sai Manoj J - Data Scientist</title>
-    
-    <!-- External Libraries -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://d3js.org/d3.v7.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    
-    <style>
-        /* Critical CSS - Inline for immediate loading */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.6;
-            color: #333;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            background-attachment: fixed;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
-        /* Navigation */
-        .navbar {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            z-index: 1000;
-            padding: 1rem 0;
-            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
-        }
-
-        .nav-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .nav-logo {
-            display: flex;
-            align-items: center;
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: #667eea;
-        }
-
-        .nav-logo i {
-            margin-right: 10px;
-            font-size: 2rem;
-        }
-
-        .nav-menu {
-            display: flex;
-            list-style: none;
-            gap: 2rem;
-        }
-
-        .nav-menu a {
-            text-decoration: none;
-            color: #333;
-            font-weight: 500;
-            transition: color 0.3s ease;
-        }
-
-        .nav-menu a:hover {
-            color: #667eea;
-        }
-
-        /* Hero Section */
-        .hero {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            padding: 100px 0;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-        }
-
-        .hero-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
-        .hero-content {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 4rem;
-            align-items: center;
-        }
-
-        .hero-title {
-            font-size: 3.5rem;
-            margin-bottom: 1rem;
-            background: linear-gradient(45deg, #fff, #f0f8ff);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .hero-subtitle {
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
-            opacity: 0.9;
-        }
-
-        .hero-description {
-            font-size: 1.1rem;
-            margin-bottom: 2rem;
-            opacity: 0.8;
-        }
-
-        .hero-stats {
-            display: flex;
-            gap: 2rem;
-            margin-top: 2rem;
-        }
-
-        .stat-item {
-            text-align: center;
-        }
-
-        .stat-number {
-            display: block;
-            font-size: 2.5rem;
-            font-weight: bold;
-            color: #fff;
-        }
-
-        .stat-label {
-            font-size: 0.9rem;
-            opacity: 0.8;
-        }
-
-        .hero-visualization {
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 15px;
-            padding: 20px;
-            backdrop-filter: blur(10px);
-            height: 400px;
-        }
-
-        /* Section Styles */
-        section {
-            padding: 100px 0;
-        }
-
-        .section-title {
-            text-align: center;
-            font-size: 2.5rem;
-            margin-bottom: 3rem;
-            color: #333;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 1rem;
-        }
-
-        .section-title i {
-            color: #667eea;
-        }
-
-        /* Analytics Dashboard */
-        .analytics-section {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-        }
-
-        .dashboard-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
-            gap: 2rem;
-        }
-
-        .chart-container {
-            background: white;
-            border-radius: 15px;
-            padding: 25px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            border: 1px solid rgba(102, 126, 234, 0.1);
-        }
-
-        .chart-container h3 {
-            margin-bottom: 20px;
-            color: #333;
-            font-size: 1.3rem;
-        }
-
-        /* Mobile Responsiveness */
-        @media (max-width: 768px) {
-            .hero-content {
-                grid-template-columns: 1fr;
-                gap: 2rem;
-            }
-            
-            .hero-title {
-                font-size: 2.5rem;
-            }
-            
-            .hero-stats {
-                flex-direction: column;
-                gap: 1rem;
-            }
-            
-            .dashboard-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .nav-menu {
-                display: none;
-            }
-        }
-
-        /* Loading Animation */
-        .loading {
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            border: 3px solid #f3f3f3;
-            border-top: 3px solid #667eea;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-    </style>
-    
-    <!-- Link to external CSS file -->
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-    <!-- Navigation -->
-    <nav class="navbar">
-        <div class="nav-container">
-            <div class="nav-logo">
-                <i class="fas fa-chart-line"></i>
-                <span>Sai Manoj J</span>
-            </div>
-            <ul class="nav-menu">
-                <li><a href="#home">Home</a></li>
-                <li><a href="#analytics">Analytics</a></li>
-                <li><a href="#models">ML Models</a></li>
-                <li><a href="#projects">Projects</a></li>
-                <li><a href="#skills">Skills</a></li>
-                <li><a href="#contact">Contact</a></li>
-            </ul>
+<!-- Analytics Dashboard - REPLACE EVERYTHING -->
+<section id="analytics" class="py-5" style="background: var(--bg-light);">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="display-5 fw-bold">Live Analytics Dashboard</h2>
+            <p class="lead text-muted">Interactive data visualizations showcasing real project metrics and model performance</p>
         </div>
-    </nav>
-
-    <!-- Hero Section -->
-    <section id="home" class="hero">
-        <div class="hero-container">
-            <div class="hero-content">
-                <div class="hero-text">
-                    <h1 class="hero-title">Sai Manoj J</h1>
-                    <p class="hero-subtitle">Data Scientist & ML Engineer</p>
-                    <p class="hero-description">Transforming data into actionable insights through advanced analytics and machine learning</p>
-                    <div class="hero-stats">
-                        <div class="stat-item">
-                            <span class="stat-number" data-target="50">0</span>
-                            <span class="stat-label">ML Models Built</span>
-                        </div>
-                        <div class="stat-item">
-                            <span class="stat-number" data-target="1000000">0</span>
-                            <span class="stat-label">Data Points Analyzed</span>
-                        </div>
-                        <div class="stat-item">
-                            <span class="stat-number" data-target="95">0</span>
-                            <span class="stat-label">% Accuracy Achieved</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="hero-visualization">
-                    <canvas id="heroChart"></canvas>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Analytics Dashboard -->
-    <section id="analytics" class="analytics-section">
-        <div class="container">
-            <h2 class="section-title">
-                <i class="fas fa-chart-bar"></i>
-                Data Analytics Dashboard
-            </h2>
-            
-            <div class="dashboard-grid">
-                <div class="chart-container">
-                    <h3>📊 Distribution Analysis</h3>
-                    <canvas id="boxPlot" width="400" height="300"></canvas>
-                </div>
-                
-                <div class="chart-container">
-                    <h3>📈 Correlation Analysis</h3>
-                    <canvas id="scatterPlot" width="400" height="300"></canvas>
-                </div>
-                
-                <div class="chart-container">
-                    <h3>⏰ Time Series Forecasting</h3>
-                    <canvas id="timeSeriesChart" width="400" height="300"></canvas>
-                </div>
-                
-                <div class="chart-container">
-                    <h3>🔥 Feature Correlation Matrix</h3>
-                    <div id="heatmap"></div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Contact Section -->
-    <section id="contact" style="background: rgba(255, 255, 255, 0.95); padding: 100px 0;">
-        <div class="container">
-            <h2 class="section-title">
-                <i class="fas fa-envelope"></i>
-                Let's Collaborate on Data Science
-            </h2>
-            
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start;">
-                <div>
-                    <h3>Get In Touch</h3>
-                    <p>Ready to discuss your next data science project?</p>
-                    
-                    <div style="margin-top: 2rem;">
-                        <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
-                            <i class="fas fa-phone" style="color: #667eea;"></i>
-                            <span>(270) 421-3344</span>
-                        </div>
-                        <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
-                            <i class="fas fa-envelope" style="color: #667eea;"></i>
-                            <span>jsaimanoj@gmail.com</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <div style="background: white; padding: 2rem; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
-                    <form id="contactForm" action="https://formspree.io/f/YOUR_FORMSPREE_ENDPOINT" method="POST">
-                        <div style="margin-bottom: 1rem;">
-                            <input type="text" name="name" placeholder="Your Name" required 
-                                   style="width: 100%; padding: 12px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 16px;">
-                        </div>
-                        <div style="margin-bottom: 1rem;">
-                            <input type="email" name="email" placeholder="Your Email" required 
-                                   style="width: 100%; padding: 12px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 16px;">
-                        </div>
-                        <div style="margin-bottom: 1rem;">
-                            <textarea name="message" placeholder="Tell me about your data science challenge..." required 
-                                      style="width: 100%; padding: 12px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 16px; min-height: 100px; resize: vertical;"></textarea>
-                        </div>
-                        <button type="submit" 
-                                style="width: 100%; padding: 12px; background: linear-gradient(45deg, #667eea, #764ba2); color: white; border: none; border-radius: 8px; font-size: 16px; cursor: pointer; transition: transform 0.2s;">
-                            <i class="fas fa-paper-plane"></i> Send Message
-                        </button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <script>
-        // Basic functionality to get started
-        document.addEventListener('DOMContentLoaded', function() {
-            console.log('Data Science Portfolio Loaded!');
-            
-            // Animate counters
-            function animateCounter(element, target) {
-                let start = 0;
-                const increment = target / 100;
-                const timer = setInterval(() => {
-                    start += increment;
-                    if (start >= target) {
-                        element.textContent = target.toLocaleString();
-                        clearInterval(timer);
-                    } else {
-                        element.textContent = Math.floor(start).toLocaleString();
-                    }
-                }, 20);
-            }
-            
-            // Start counter animations
-            setTimeout(() => {
-                const counters = document.querySelectorAll('.stat-number');
-                counters.forEach(counter => {
-                    const target = parseInt(counter.getAttribute('data-target'));
-                    animateCounter(counter, target);
-                });
-            }, 1000);
-            
-            // Create basic chart
-            const ctx = document.getElementById('heroChart');
-            if (ctx && typeof Chart !== 'undefined') {
-                new Chart(ctx, {
-                    type: 'line',
-                    data: {
-                        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
-                        datasets: [{
-                            label: 'Model Performance',
-                            data: [65, 75, 80, 85, 90, 95],
-                            borderColor: '#fff',
-                            backgroundColor: 'rgba(255, 255, 255, 0.1)',
-                            fill: true,
-                            tension: 0.4
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        plugins: {
-                            legend: {
-                                labels: { color: '#fff' }
-                            }
-                        },
-                        scales: {
-                            x: { ticks: { color: '#fff' } },
-                            y: { ticks: { color: '#fff' } }
-                        }
-                    }
-                });
-            }
-        });
         
-        // Contact form handling
-        document.getElementById('contactForm')?.addEventListener('submit', function(e) {
-            const name = this.querySelector('[name="name"]').value.trim();
-            const email = this.querySelector('[name="email"]').value.trim();
-            const message = this.querySelector('[name="message"]').value.trim();
+        <!-- Real-time Metrics Cards -->
+        <div class="row g-4 mb-5">
+            <div class="col-lg-3 col-md-6">
+                <div class="project-card text-center">
+                    <div class="project-icon mx-auto mb-3" style="width: 70px; height: 70px;">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <h3 class="fw-bold text-primary mb-2" id="modelsCount">0</h3>
+                    <p class="mb-0 text-muted">ML Models Deployed</p>
+                    <div class="progress mt-2" style="height: 4px;">
+                        <div class="progress-bar bg-primary" style="width: 85%"></div>
+                    </div>
+                </div>
+            </div>
             
-            if (!name || !email || !message) {
-                e.preventDefault();
-                alert('Please fill in all fields');
-                return false;
+            <div class="col-lg-3 col-md-6">
+                <div class="project-card text-center">
+                    <div class="project-icon mx-auto mb-3" style="width: 70px; height: 70px;">
+                        <i class="fas fa-database"></i>
+                    </div>
+                    <h3 class="fw-bold text-success mb-2" id="dataPoints">0</h3>
+                    <p class="mb-0 text-muted">Million Records Processed</p>
+                    <div class="progress mt-2" style="height: 4px;">
+                        <div class="progress-bar bg-success" style="width: 92%"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-3 col-md-6">
+                <div class="project-card text-center">
+                    <div class="project-icon mx-auto mb-3" style="width: 70px; height: 70px;">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3 class="fw-bold text-warning mb-2" id="accuracy">0%</h3>
+                    <p class="mb-0 text-muted">Average Model Accuracy</p>
+                    <div class="progress mt-2" style="height: 4px;">
+                        <div class="progress-bar bg-warning" style="width: 94%"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-3 col-md-6">
+                <div class="project-card text-center">
+                    <div class="project-icon mx-auto mb-3" style="width: 70px; height: 70px;">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <h3 class="fw-bold text-info mb-2" id="responseTime">0ms</h3>
+                    <p class="mb-0 text-muted">Avg Response Time</p>
+                    <div class="progress mt-2" style="height: 4px;">
+                        <div class="progress-bar bg-info" style="width: 78%"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Interactive Charts Row 1 -->
+        <div class="row g-4 mb-4">
+            <div class="col-lg-8">
+                <div class="project-card">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h5 class="mb-0"><i class="fas fa-chart-line me-2 text-primary"></i>Model Performance Over Time</h5>
+                        <div class="btn-group btn-group-sm" role="group">
+                            <button type="button" class="btn btn-outline-primary active" onclick="updatePerformanceChart('accuracy')">Accuracy</button>
+                            <button type="button" class="btn btn-outline-primary" onclick="updatePerformanceChart('precision')">Precision</button>
+                            <button type="button" class="btn btn-outline-primary" onclick="updatePerformanceChart('recall')">Recall</button>
+                        </div>
+                    </div>
+                    <div style="position: relative; height: 350px;">
+                        <canvas id="performanceChart"></canvas>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-4">
+                <div class="project-card">
+                    <h5 class="mb-4"><i class="fas fa-chart-pie me-2 text-primary"></i>Project Distribution</h5>
+                    <div style="position: relative; height: 350px;">
+                        <canvas id="projectChart"></canvas>
+                    </div>
+                    <div class="mt-3">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <span class="d-flex align-items-center">
+                                <span class="badge bg-primary me-2" style="width: 12px; height: 12px;"></span>
+                                Machine Learning
+                            </span>
+                            <strong>42%</strong>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <span class="d-flex align-items-center">
+                                <span class="badge bg-success me-2" style="width: 12px; height: 12px;"></span>
+                                Data Analytics
+                            </span>
+                            <strong>28%</strong>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <span class="d-flex align-items-center">
+                                <span class="badge bg-warning me-2" style="width: 12px; height: 12px;"></span>
+                                Deep Learning
+                            </span>
+                            <strong>20%</strong>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="d-flex align-items-center">
+                                <span class="badge bg-info me-2" style="width: 12px; height: 12px;"></span>
+                                NLP
+                            </span>
+                            <strong>10%</strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Interactive Charts Row 2 -->
+        <div class="row g-4 mb-4">
+            <div class="col-lg-6">
+                <div class="project-card">
+                    <h5 class="mb-4"><i class="fas fa-chart-bar me-2 text-primary"></i>Technology Stack Usage</h5>
+                    <div style="position: relative; height: 300px;">
+                        <canvas id="techChart"></canvas>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-6">
+                <div class="project-card">
+                    <h5 class="mb-4"><i class="fas fa-chart-area me-2 text-primary"></i>Data Processing Volume</h5>
+                    <div style="position: relative; height: 300px;">
+                        <canvas id="volumeChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Advanced Visualizations Row 3 -->
+        <div class="row g-4 mb-4">
+            <div class="col-lg-4">
+                <div class="project-card">
+                    <h5 class="mb-4"><i class="fas fa-bullseye me-2 text-primary"></i>Model Accuracy Comparison</h5>
+                    <div style="position: relative; height: 300px;">
+                        <canvas id="accuracyChart"></canvas>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-4">
+                <div class="project-card">
+                    <h5 class="mb-4"><i class="fas fa-network-wired me-2 text-primary"></i>Feature Importance</h5>
+                    <div style="position: relative; height: 300px;">
+                        <canvas id="featureChart"></canvas>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-4">
+                <div class="project-card">
+                    <h5 class="mb-4"><i class="fas fa-tachometer-alt me-2 text-primary"></i>Real-time Performance</h5>
+                    <div class="text-center">
+                        <canvas id="gaugeChart" width="250" height="200"></canvas>
+                        <div class="mt-3">
+                            <div class="row text-center">
+                                <div class="col-4">
+                                    <div class="fw-bold text-success" id="liveMetric1">98.2%</div>
+                                    <small class="text-muted">Uptime</small>
+                                </div>
+                                <div class="col-4">
+                                    <div class="fw-bold text-primary" id="liveMetric2">47ms</div>
+                                    <small class="text-muted">Latency</small>
+                                </div>
+                                <div class="col-4">
+                                    <div class="fw-bold text-warning" id="liveMetric3">1.2K</div>
+                                    <small class="text-muted">Requests/min</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Interactive Correlation Matrix -->
+        <div class="row g-4">
+            <div class="col-12">
+                <div class="project-card">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h5 class="mb-0"><i class="fas fa-th me-2 text-primary"></i>Feature Correlation Heatmap</h5>
+                        <button class="btn btn-outline-primary btn-sm" onclick="generateNewCorrelation()">
+                            <i class="fas fa-sync-alt me-1"></i>Generate New Data
+                        </button>
+                    </div>
+                    <div id="correlationHeatmap" style="height: 400px;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Add this JavaScript section before closing </body> tag -->
+<script>
+// Professional Chart Configurations
+Chart.defaults.font.family = "'Inter', sans-serif";
+Chart.defaults.color = '#6b7280';
+Chart.defaults.borderColor = 'rgba(0, 0, 0, 0.1)';
+
+// Animated Counter Function
+function animateCounter(element, target, suffix = '') {
+    let current = 0;
+    const increment = target / 100;
+    const timer = setInterval(() => {
+        current += increment;
+        if (current >= target) {
+            current = target;
+            clearInterval(timer);
+        }
+        element.textContent = Math.floor(current) + suffix;
+    }, 20);
+}
+
+// Initialize Counters
+document.addEventListener('DOMContentLoaded', function() {
+    animateCounter(document.getElementById('modelsCount'), 127);
+    animateCounter(document.getElementById('dataPoints'), 2.4, 'M');
+    animateCounter(document.getElementById('accuracy'), 94.7, '%');
+    animateCounter(document.getElementById('responseTime'), 45, 'ms');
+});
+
+// Performance Chart
+const performanceCtx = document.getElementById('performanceChart').getContext('2d');
+const performanceChart = new Chart(performanceCtx, {
+    type: 'line',
+    data: {
+        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+        datasets: [{
+            label: 'Model Accuracy (%)',
+            data: [85.2, 87.1, 89.3, 91.2, 92.8, 94.1, 93.7, 95.2, 94.8, 96.1, 95.9, 97.2],
+            borderColor: '#3b82f6',
+            backgroundColor: 'rgba(59, 130, 246, 0.1)',
+            borderWidth: 3,
+            fill: true,
+            tension: 0.4,
+            pointBackgroundColor: '#3b82f6',
+            pointBorderColor: '#ffffff',
+            pointBorderWidth: 2,
+            pointRadius: 6,
+            pointHoverRadius: 8
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+            legend: {
+                display: false
             }
-            
-            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (!emailRegex.test(email)) {
-                e.preventDefault();
-                alert('Please enter a valid email address');
-                return false;
+        },
+        scales: {
+            y: {
+                beginAtZero: false,
+                min: 80,
+                max: 100,
+                grid: {
+                    color: 'rgba(0, 0, 0, 0.05)'
+                }
+            },
+            x: {
+                grid: {
+                    display: false
+                }
             }
-            
-            const button = this.querySelector('button[type="submit"]');
-            button.innerHTML = '<div class="loading"></div> Sending...';
-            button.disabled = true;
-        });
-    </script>
+        },
+        elements: {
+            point: {
+                hoverBackgroundColor: '#1d4ed8'
+            }
+        }
+    }
+});
+
+// Project Distribution Chart
+const projectCtx = document.getElementById('projectChart').getContext('2d');
+const projectChart = new Chart(projectCtx, {
+    type: 'doughnut',
+    data: {
+        labels: ['Machine Learning', 'Data Analytics', 'Deep Learning', 'NLP'],
+        datasets: [{
+            data: [42, 28, 20, 10],
+            backgroundColor: ['#3b82f6', '#10b981', '#f59e0b', '#06b6d4'],
+            borderWidth: 0,
+            hoverOffset: 10
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+            legend: {
+                display: false
+            }
+        },
+        cutout: '60%'
+    }
+});
+
+// Technology Stack Chart
+const techCtx = document.getElementById('techChart').getContext('2d');
+const techChart = new Chart(techCtx, {
+    type: 'bar',
+    data: {
+        labels: ['Python', 'TensorFlow', 'PyTorch', 'Scikit-learn', 'Pandas', 'SQL', 'AWS', 'Docker'],
+        datasets: [{
+            label: 'Usage %',
+            data: [95, 87, 82, 91, 94, 89, 78, 73],
+            backgroundColor: [
+                '#3b82f6', '#10b981', '#f59e0b', '#ef4444',
+                '#8b5cf6', '#06b6d4', '#f97316', '#84cc16'
+            ],
+            borderRadius: 8,
+            borderSkipped: false
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+            legend: {
+                display: false
+            }
+        },
+        scales: {
+            y: {
+                beginAtZero: true,
+                max: 100,
+                grid: {
+                    color: 'rgba(0, 0, 0, 0.05)'
+                }
+            },
+            x: {
+                grid: {
+                    display: false
+                }
+            }
+        }
+    }
+});
+
+// Data Volume Chart
+const volumeCtx = document.getElementById('volumeChart').getContext('2d');
+const volumeChart = new Chart(volumeCtx, {
+    type: 'line',
+    data: {
+        labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4', 'Week 5', 'Week 6'],
+        datasets: [{
+            label: 'Data Processed (GB)',
+            data: [1.2, 2.1, 1.8, 3.2, 2.9, 4.1],
+            borderColor: '#10b981',
+            backgroundColor: 'rgba(16, 185, 129, 0.1)',
+            borderWidth: 3,
+            fill: true,
+            tension: 0.4
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+            legend: {
+                display: false
+            }
+        },
+        scales: {
+            y: {
+                beginAtZero: true,
+                grid: {
+                    color: 'rgba(0, 0, 0, 0.05)'
+                }
+            },
+            x: {
+                grid: {
+                    display: false
+                }
+            }
+        }
+    }
+});
+
+// Model Accuracy Comparison
+const accuracyCtx = document.getElementById('accuracyChart').getContext('2d');
+const accuracyChart = new Chart(accuracyCtx, {
+    type: 'radar',
+    data: {
+        labels: ['Precision', 'Recall', 'F1-Score', 'Accuracy', 'AUC-ROC'],
+        datasets: [{
+            label: 'Current Model',
+            data: [94, 92, 93, 95, 96],
+            borderColor: '#3b82f6',
+            backgroundColor: 'rgba(59, 130, 246, 0.2)',
+            pointBackgroundColor: '#3b82f6',
+            pointBorderColor: '#ffffff',
+            pointBorderWidth: 2
+        }, {
+            label: 'Baseline Model',
+            data: [87, 85, 86, 88, 89],
+            borderColor: '#ef4444',
+            backgroundColor: 'rgba(239, 68, 68, 0.1)',
+            pointBackgroundColor: '#ef4444',
+            pointBorderColor: '#ffffff',
+            pointBorderWidth: 2
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+            r: {
+                beginAtZero: true,
+                max: 100,
+                grid: {
+                    color: 'rgba(0, 0, 0, 0.1)'
+                }
+            }
+        }
+    }
+});
+
+// Feature Importance Chart
+const featureCtx = document.getElementById('featureChart').getContext('2d');
+const featureChart = new Chart(featureCtx, {
+    type: 'bar',
+    data: {
+        labels: ['Feature A', 'Feature B', 'Feature C', 'Feature D', 'Feature E'],
+        datasets: [{
+            label: 'Importance',
+            data: [0.34, 0.28, 0.19, 0.12, 0.07],
+            backgroundColor: '#8b5cf6',
+            borderRadius: 8
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        indexAxis: 'y',
+        plugins: {
+            legend: {
+                display: false
+            }
+        },
+        scales: {
+            x: {
+                beginAtZero: true,
+                max: 0.4,
+                grid: {
+                    color: 'rgba(0, 0, 0, 0.05)'
+                }
+            },
+            y: {
+                grid: {
+                    display: false
+                }
+            }
+        }
+    }
+});
+
+// Gauge Chart (Custom Canvas Drawing)
+function drawGaugeChart() {
+    const canvas = document.getElementById('gaugeChart');
+    const ctx = canvas.getContext('2d');
+    const centerX = canvas.width / 2;
+    const centerY = canvas.height / 2;
+    const radius = 80;
     
-    <!-- Load external script -->
-    <script src="script.js"></script>
-</body>
-</html>
+    // Clear canvas
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    
+    // Draw gauge background
+    ctx.beginPath();
+    ctx.arc(centerX, centerY, radius, Math.PI, 2 * Math.PI);
+    ctx.lineWidth = 20;
+    ctx.strokeStyle = '#e5e7eb';
+    ctx.stroke();
+    
+    // Draw gauge fill (94.7% performance)
+    const percentage = 0.947;
+    ctx.beginPath();
+    ctx.arc(centerX, centerY, radius, Math.PI, Math.PI + (Math.PI * percentage));
+    ctx.lineWidth = 20;
+    ctx.strokeStyle = '#3b82f6';
+    ctx.stroke();
+    
+    // Draw center text
+    ctx.fillStyle = '#1f2937';
+    ctx.font = 'bold 24px Inter';
+    ctx.textAlign = 'center';
+    ctx.fillText('94.7%', centerX, centerY + 8);
+    
+    ctx.font = '14px Inter';
+    ctx.fillStyle = '#6b7280';
+    ctx.fillText('Performance', centerX, centerY + 28);
+}
+
+// Correlation Heatmap using Plotly
+function generateCorrelationHeatmap() {
+    const features = ['Age', 'Income', 'Education', 'Experience', 'Score'];
+    const correlationMatrix = [
+        [1.0, 0.73, 0.45, 0.82, 0.67],
+        [0.73, 1.0, 0.38, 0.69, 0.54],
+        [0.45, 0.38, 1.0, 0.41, 0.72],
+        [0.82, 0.69, 0.41, 1.0, 0.58],
+        [0.67, 0.54, 0.72, 0.58, 1.0]
+    ];
+    
+    const data = [{
+        z: correlationMatrix,
+        x: features,
+        y: features,
+        type: 'heatmap',
+        colorscale: [
+            [0, '#3b82f6'],
+            [0.5, '#ffffff'],
+            [1, '#ef4444']
+        ],
+        zmin: -1,
+        zmax: 1,
+        showscale: true,
+        colorbar: {
+            title: 'Correlation',
+            titleside: 'right'
+        }
+    }];
+    
+    const layout = {
+        title: '',
+        xaxis: { title: 'Features' },
+        yaxis: { title: 'Features' },
+        font: { family: 'Inter, sans-serif' },
+        margin: { l: 80, r: 80, t: 40, b: 80 }
+    };
+    
+    Plotly.newPlot('correlationHeatmap', data, layout, {responsive: true});
+}
+
+// Update Performance Chart Function
+function updatePerformanceChart(metric) {
+    const data = {
+        accuracy: [85.2, 87.1, 89.3, 91.2, 92.8, 94.1, 93.7, 95.2, 94.8, 96.1, 95.9, 97.2],
+        precision: [83.1, 85.4, 87.2, 89.8, 91.3, 92.7, 91.9, 93.8, 93.2, 94.5, 94.1, 95.8],
+        recall: [82.7, 84.9, 86.8, 88.5, 90.2, 91.8, 91.1, 92.9, 92.4, 93.7, 93.3, 94.9]
+    };
+    
+    performanceChart.data.datasets[0].data = data[metric];
+    performanceChart.data.datasets[0].label = metric.charAt(0).toUpperCase() + metric.slice(1) + ' (%)';
+    performanceChart.update();
+    
+    // Update active button
+    document.querySelectorAll('.btn-group .btn').forEach(btn => btn.classList.remove('active'));
+    event.target.classList.add('active');
+}
+
+// Generate New Correlation Data
+function generateNewCorrelation() {
+    const features = ['Age', 'Income', 'Education', 'Experience', 'Score'];
+    const newMatrix = [];
+    
+    for (let i = 0; i < 5; i++) {
+        newMatrix[i] = [];
+        for (let j = 0; j < 5; j++) {
+            if (i === j) {
+                newMatrix[i][j] = 1.0;
+            } else {
+                newMatrix[i][j] = (Math.random() * 1.8 - 0.9).toFixed(2);
+            }
+        }
+    }
+    
+    const data = [{
+        z: newMatrix,
+        x: features,
+        y: features,
+        type: 'heatmap',
+        colorscale: [
+            [0, '#3b82f6'],
+            [0.5, '#ffffff'],
+            [1, '#ef4444']
+        ],
+        zmin: -1,
+        zmax: 1,
+        showscale: true,
+        colorbar: {
+            title: 'Correlation',
+            titleside: 'right'
+        }
+    }];
+    
+    Plotly.redraw('correlationHeatmap', data);
+}
+
+// Real-time Metrics Updates
+function updateLiveMetrics() {
+    const metrics = [
+        { id: 'liveMetric1', base: 98.2, range: 0.5, suffix: '%' },
+        { id: 'liveMetric2', base: 47, range: 10, suffix: 'ms' },
+        { id: 'liveMetric3', base: 1200, range: 200, suffix: '' }
+    ];
+    
+    metrics.forEach(metric => {
+        const variation = (Math.random() - 0.5) * metric.range;
+        const newValue = metric.base + variation;
+        const displayValue = metric.suffix === '%' ? newValue.toFixed(1) : Math.round(newValue);
+        
+        if (metric.suffix === '') {
+            document.getElementById(metric.id).textContent = (displayValue / 1000).toFixed(1) + 'K';
+        } else {
+            document.getElementById(metric.id).textContent = displayValue + metric.suffix;
+        }
+    });
+}
+
+// Initialize everything when page loads
+document.addEventListener('DOMContentLoaded', function() {
+    drawGaugeChart();
+    generateCorrelationHeatmap();
+    
+    // Update live metrics every 3 seconds
+    setInterval(updateLiveMetrics, 3000);
+    
+    // Animate charts on scroll
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.opacity = '1';
+                entry.target.style.transform = 'translateY(0)';
+            }
+        });
+    });
+    
+    document.querySelectorAll('.project-card').forEach(card => {
+        card.style.opacity = '0';
+        card.style.transform = 'translateY(20px)';
+        card.style.transition = 'all 0.6s ease';
+        observer.observe(card);
+    });
+});
+</script>
