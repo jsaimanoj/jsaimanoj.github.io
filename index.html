@@ -4,13 +4,248 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sai Manoj J - Data Scientist</title>
-    <link rel="stylesheet" href="style.css">
-    <!-- Chart.js for visualizations -->
+    
+    <!-- External Libraries -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <!-- D3.js for advanced visualizations -->
     <script src="https://d3js.org/d3.v7.min.js"></script>
-    <!-- Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <style>
+        /* Critical CSS - Inline for immediate loading */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background-attachment: fixed;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Navigation */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            padding: 1rem 0;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .nav-logo i {
+            margin-right: 10px;
+            font-size: 2rem;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-menu a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-menu a:hover {
+            color: #667eea;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 100px 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .hero-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .hero-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .hero-title {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, #fff, #f0f8ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-subtitle {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            opacity: 0.9;
+        }
+
+        .hero-description {
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+            opacity: 0.8;
+        }
+
+        .hero-stats {
+            display: flex;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            display: block;
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #fff;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        .hero-visualization {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 20px;
+            backdrop-filter: blur(10px);
+            height: 400px;
+        }
+
+        /* Section Styles */
+        section {
+            padding: 100px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: #333;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        .section-title i {
+            color: #667eea;
+        }
+
+        /* Analytics Dashboard */
+        .analytics-section {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+            gap: 2rem;
+        }
+
+        .chart-container {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(102, 126, 234, 0.1);
+        }
+
+        .chart-container h3 {
+            margin-bottom: 20px;
+            color: #333;
+            font-size: 1.3rem;
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 768px) {
+            .hero-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            
+            .hero-stats {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .nav-menu {
+                display: none;
+            }
+        }
+
+        /* Loading Animation */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+    
+    <!-- Link to external CSS file -->
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <!-- Navigation -->
@@ -28,15 +263,10 @@
                 <li><a href="#skills">Skills</a></li>
                 <li><a href="#contact">Contact</a></li>
             </ul>
-            <div class="mobile-menu-toggle">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
         </div>
     </nav>
 
-    <!-- Hero Section with Data Visualization -->
+    <!-- Hero Section -->
     <section id="home" class="hero">
         <div class="hero-container">
             <div class="hero-content">
@@ -75,418 +305,71 @@
             </h2>
             
             <div class="dashboard-grid">
-                <!-- Box Plot -->
                 <div class="chart-container">
-                    <h3>Distribution Analysis</h3>
-                    <canvas id="boxPlot"></canvas>
+                    <h3>📊 Distribution Analysis</h3>
+                    <canvas id="boxPlot" width="400" height="300"></canvas>
                 </div>
                 
-                <!-- Scatter Plot -->
                 <div class="chart-container">
-                    <h3>Correlation Analysis</h3>
-                    <canvas id="scatterPlot"></canvas>
+                    <h3>📈 Correlation Analysis</h3>
+                    <canvas id="scatterPlot" width="400" height="300"></canvas>
                 </div>
                 
-                <!-- Time Series -->
                 <div class="chart-container">
-                    <h3>Time Series Forecasting</h3>
-                    <canvas id="timeSeriesChart"></canvas>
+                    <h3>⏰ Time Series Forecasting</h3>
+                    <canvas id="timeSeriesChart" width="400" height="300"></canvas>
                 </div>
                 
-                <!-- Heatmap -->
                 <div class="chart-container">
-                    <h3>Feature Correlation Matrix</h3>
+                    <h3>🔥 Feature Correlation Matrix</h3>
                     <div id="heatmap"></div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- ML Models Section -->
-    <section id="models" class="models-section">
-        <div class="container">
-            <h2 class="section-title">
-                <i class="fas fa-robot"></i>
-                Machine Learning Models
-            </h2>
-            
-            <div class="models-grid">
-                <div class="model-card">
-                    <div class="model-icon">
-                        <i class="fas fa-brain"></i>
-                    </div>
-                    <h3>Neural Networks</h3>
-                    <div class="model-metrics">
-                        <div class="metric">
-                            <span class="metric-label">Accuracy:</span>
-                            <div class="metric-bar">
-                                <div class="metric-fill" data-percentage="94%"></div>
-                            </div>
-                            <span class="metric-value">94%</span>
-                        </div>
-                        <div class="metric">
-                            <span class="metric-label">Precision:</span>
-                            <div class="metric-bar">
-                                <div class="metric-fill" data-percentage="92%"></div>
-                            </div>
-                            <span class="metric-value">92%</span>
-                        </div>
-                    </div>
-                    <canvas id="neuralNetworkViz" class="model-visualization"></canvas>
-                </div>
-
-                <div class="model-card">
-                    <div class="model-icon">
-                        <i class="fas fa-project-diagram"></i>
-                    </div>
-                    <h3>Random Forest</h3>
-                    <div class="model-metrics">
-                        <div class="metric">
-                            <span class="metric-label">Accuracy:</span>
-                            <div class="metric-bar">
-                                <div class="metric-fill" data-percentage="89%"></div>
-                            </div>
-                            <span class="metric-value">89%</span>
-                        </div>
-                        <div class="metric">
-                            <span class="metric-label">F1-Score:</span>
-                            <div class="metric-bar">
-                                <div class="metric-fill" data-percentage="87%"></div>
-                            </div>
-                            <span class="metric-value">87%</span>
-                        </div>
-                    </div>
-                    <canvas id="randomForestViz" class="model-visualization"></canvas>
-                </div>
-
-                <div class="model-card">
-                    <div class="model-icon">
-                        <i class="fas fa-vector-square"></i>
-                    </div>
-                    <h3>SVM Classifier</h3>
-                    <div class="model-metrics">
-                        <div class="metric">
-                            <span class="metric-label">Accuracy:</span>
-                            <div class="metric-bar">
-                                <div class="metric-fill" data-percentage="91%"></div>
-                            </div>
-                            <span class="metric-value">91%</span>
-                        </div>
-                        <div class="metric">
-                            <span class="metric-label">Recall:</span>
-                            <div class="metric-bar">
-                                <div class="metric-fill" data-percentage="88%"></div>
-                            </div>
-                            <span class="metric-value">88%</span>
-                        </div>
-                    </div>
-                    <canvas id="svmViz" class="model-visualization"></canvas>
-                </div>
-
-                <div class="model-card">
-                    <div class="model-icon">
-                        <i class="fas fa-chart-line"></i>
-                    </div>
-                    <h3>Regression Models</h3>
-                    <div class="model-metrics">
-                        <div class="metric">
-                            <span class="metric-label">R² Score:</span>
-                            <div class="metric-bar">
-                                <div class="metric-fill" data-percentage="85%"></div>
-                            </div>
-                            <span class="metric-value">0.85</span>
-                        </div>
-                        <div class="metric">
-                            <span class="metric-label">RMSE:</span>
-                            <div class="metric-bar">
-                                <div class="metric-fill" data-percentage="78%"></div>
-                            </div>
-                            <span class="metric-value">0.22</span>
-                        </div>
-                    </div>
-                    <canvas id="regressionViz" class="model-visualization"></canvas>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Projects Section -->
-    <section id="projects" class="projects-section">
-        <div class="container">
-            <h2 class="section-title">
-                <i class="fas fa-flask"></i>
-                Data Science Projects
-            </h2>
-            
-            <div class="project-filters">
-                <button class="filter-btn active" data-filter="all">All Projects</button>
-                <button class="filter-btn" data-filter="ml">Machine Learning</button>
-                <button class="filter-btn" data-filter="nlp">NLP</button>
-                <button class="filter-btn" data-filter="cv">Computer Vision</button>
-                <button class="filter-btn" data-filter="analytics">Analytics</button>
-            </div>
-
-            <div class="projects-grid">
-                <div class="project-card ml">
-                    <div class="project-header">
-                        <i class="fas fa-chart-pie"></i>
-                        <h3>Customer Segmentation</h3>
-                    </div>
-                    <div class="project-visualization">
-                        <canvas id="customerSegmentation"></canvas>
-                    </div>
-                    <div class="project-details">
-                        <p>K-means clustering for customer behavior analysis</p>
-                        <div class="project-tech">
-                            <span class="tech-tag">Python</span>
-                            <span class="tech-tag">Scikit-learn</span>
-                            <span class="tech-tag">Pandas</span>
-                        </div>
-                        <div class="project-metrics">
-                            <span>Silhouette Score: 0.73</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="project-card nlp">
-                    <div class="project-header">
-                        <i class="fas fa-comments"></i>
-                        <h3>Sentiment Analysis</h3>
-                    </div>
-                    <div class="project-visualization">
-                        <canvas id="sentimentAnalysis"></canvas>
-                    </div>
-                    <div class="project-details">
-                        <p>Real-time sentiment analysis of social media data</p>
-                        <div class="project-tech">
-                            <span class="tech-tag">NLTK</span>
-                            <span class="tech-tag">Transformers</span>
-                            <span class="tech-tag">PyTorch</span>
-                        </div>
-                        <div class="project-metrics">
-                            <span>Accuracy: 89.2%</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="project-card cv">
-                    <div class="project-header">
-                        <i class="fas fa-eye"></i>
-                        <h3>Image Classification</h3>
-                    </div>
-                    <div class="project-visualization">
-                        <canvas id="imageClassification"></canvas>
-                    </div>
-                    <div class="project-details">
-                        <p>CNN model for medical image diagnosis</p>
-                        <div class="project-tech">
-                            <span class="tech-tag">TensorFlow</span>
-                            <span class="tech-tag">Keras</span>
-                            <span class="tech-tag">OpenCV</span>
-                        </div>
-                        <div class="project-metrics">
-                            <span>Validation Acc: 94.7%</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="project-card analytics">
-                    <div class="project-header">
-                        <i class="fas fa-chart-area"></i>
-                        <h3>Sales Forecasting</h3>
-                    </div>
-                    <div class="project-visualization">
-                        <canvas id="salesForecasting"></canvas>
-                    </div>
-                    <div class="project-details">
-                        <p>Time series analysis for revenue prediction</p>
-                        <div class="project-tech">
-                            <span class="tech-tag">ARIMA</span>
-                            <span class="tech-tag">Prophet</span>
-                            <span class="tech-tag">Plotly</span>
-                        </div>
-                        <div class="project-metrics">
-                            <span>MAPE: 8.3%</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Skills Section -->
-    <section id="skills" class="skills-section">
-        <div class="container">
-            <h2 class="section-title">
-                <i class="fas fa-cogs"></i>
-                Technical Skills
-            </h2>
-            
-            <div class="skills-grid">
-                <div class="skill-category">
-                    <h3><i class="fab fa-python"></i> Programming Languages</h3>
-                    <div class="skill-items">
-                        <div class="skill-item">
-                            <span class="skill-name">Python</span>
-                            <div class="skill-bar">
-                                <div class="skill-progress" data-percentage="95%"></div>
-                            </div>
-                            <span class="skill-percentage">95%</span>
-                        </div>
-                        <div class="skill-item">
-                            <span class="skill-name">R</span>
-                            <div class="skill-bar">
-                                <div class="skill-progress" data-percentage="88%"></div>
-                            </div>
-                            <span class="skill-percentage">88%</span>
-                        </div>
-                        <div class="skill-item">
-                            <span class="skill-name">SQL</span>
-                            <div class="skill-bar">
-                                <div class="skill-progress" data-percentage="92%"></div>
-                            </div>
-                            <span class="skill-percentage">92%</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="skill-category">
-                    <h3><i class="fas fa-robot"></i> Machine Learning</h3>
-                    <div class="skill-items">
-                        <div class="skill-item">
-                            <span class="skill-name">Scikit-learn</span>
-                            <div class="skill-bar">
-                                <div class="skill-progress" data-percentage="90%"></div>
-                            </div>
-                            <span class="skill-percentage">90%</span>
-                        </div>
-                        <div class="skill-item">
-                            <span class="skill-name">TensorFlow</span>
-                            <div class="skill-bar">
-                                <div class="skill-progress" data-percentage="85%"></div>
-                            </div>
-                            <span class="skill-percentage">85%</span>
-                        </div>
-                        <div class="skill-item">
-                            <span class="skill-name">PyTorch</span>
-                            <div class="skill-bar">
-                                <div class="skill-progress" data-percentage="82%"></div>
-                            </div>
-                            <span class="skill-percentage">82%</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="skill-category">
-                    <h3><i class="fas fa-chart-bar"></i> Data Visualization</h3>
-                    <div class="skill-items">
-                        <div class="skill-item">
-                            <span class="skill-name">Matplotlib</span>
-                            <div class="skill-bar">
-                                <div class="skill-progress" data-percentage="93%"></div>
-                            </div>
-                            <span class="skill-percentage">93%</span>
-                        </div>
-                        <div class="skill-item">
-                            <span class="skill-name">Plotly</span>
-                            <div class="skill-bar">
-                                <div class="skill-progress" data-percentage="87%"></div>
-                            </div>
-                            <span class="skill-percentage">87%</span>
-                        </div>
-                        <div class="skill-item">
-                            <span class="skill-name">Tableau</span>
-                            <div class="skill-bar">
-                                <div class="skill-progress" data-percentage="80%"></div>
-                            </div>
-                            <span class="skill-percentage">80%</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="skill-category">
-                    <h3><i class="fas fa-database"></i> Big Data & Cloud</h3>
-                    <div class="skill-items">
-                        <div class="skill-item">
-                            <span class="skill-name">Apache Spark</span>
-                            <div class="skill-bar">
-                                <div class="skill-progress" data-percentage="78%"></div>
-                            </div>
-                            <span class="skill-percentage">78%</span>
-                        </div>
-                        <div class="skill-item">
-                            <span class="skill-name">AWS</span>
-                            <div class="skill-bar">
-                                <div class="skill-progress" data-percentage="75%"></div>
-                            </div>
-                            <span class="skill-percentage">75%</span>
-                        </div>
-                        <div class="skill-item">
-                            <span class="skill-name">Docker</span>
-                            <div class="skill-bar">
-                                <div class="skill-progress" data-percentage="70%"></div>
-                            </div>
-                            <span class="skill-percentage">70%</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
     <!-- Contact Section -->
-    <section id="contact" class="contact-section">
+    <section id="contact" style="background: rgba(255, 255, 255, 0.95); padding: 100px 0;">
         <div class="container">
             <h2 class="section-title">
                 <i class="fas fa-envelope"></i>
                 Let's Collaborate on Data Science
             </h2>
             
-            <div class="contact-content">
-                <div class="contact-info">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start;">
+                <div>
                     <h3>Get In Touch</h3>
-                    <p>Ready to discuss your next data science project or explore collaboration opportunities?</p>
+                    <p>Ready to discuss your next data science project?</p>
                     
-                    <div class="contact-details">
-                        <div class="contact-item">
-                            <i class="fas fa-phone"></i>
+                    <div style="margin-top: 2rem;">
+                        <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+                            <i class="fas fa-phone" style="color: #667eea;"></i>
                             <span>(270) 421-3344</span>
                         </div>
-                        <div class="contact-item">
-                            <i class="fas fa-envelope"></i>
+                        <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+                            <i class="fas fa-envelope" style="color: #667eea;"></i>
                             <span>jsaimanoj@gmail.com</span>
-                        </div>
-                        <div class="contact-item">
-                            <i class="fab fa-linkedin"></i>
-                            <a href="#" target="_blank">Connect with me</a>
                         </div>
                     </div>
                 </div>
                 
-                <div class="contact-form">
-                    <form id="contactForm" action="https://formspree.io/f/mnnzazdj" method="POST">
-                        <div class="form-group">
-                            <input type="text" name="name" placeholder="Your Name" required>
+                <div style="background: white; padding: 2rem; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
+                    <form id="contactForm" action="https://formspree.io/f/YOUR_FORMSPREE_ENDPOINT" method="POST">
+                        <div style="margin-bottom: 1rem;">
+                            <input type="text" name="name" placeholder="Your Name" required 
+                                   style="width: 100%; padding: 12px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 16px;">
                         </div>
-                        <div class="form-group">
-                            <input type="email" name="email" placeholder="Your Email" required>
+                        <div style="margin-bottom: 1rem;">
+                            <input type="email" name="email" placeholder="Your Email" required 
+                                   style="width: 100%; padding: 12px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 16px;">
                         </div>
-                        <div class="form-group">
-                            <select name="project_type" required>
-                                <option value="">Project Type</option>
-                                <option value="machine_learning">Machine Learning</option>
-                                <option value="data_analysis">Data Analysis</option>
-                                <option value="consulting">Consulting</option>
-                                <option value="collaboration">Collaboration</option>
-                            </select>
+                        <div style="margin-bottom: 1rem;">
+                            <textarea name="message" placeholder="Tell me about your data science challenge..." required 
+                                      style="width: 100%; padding: 12px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 16px; min-height: 100px; resize: vertical;"></textarea>
                         </div>
-                        <div class="form-group">
-                            <textarea name="message" placeholder="Tell me about your data science challenge..." required></textarea>
-                        </div>
-                        <input type="hidden" name="_subject" value="New Data Science Project Inquiry">
-                        <button type="submit" class="btn btn-primary">
-                            <i class="fas fa-paper-plane"></i>
-                            Send Message
+                        <button type="submit" 
+                                style="width: 100%; padding: 12px; background: linear-gradient(45deg, #667eea, #764ba2); color: white; border: none; border-radius: 8px; font-size: 16px; cursor: pointer; transition: transform 0.2s;">
+                            <i class="fas fa-paper-plane"></i> Send Message
                         </button>
                     </form>
                 </div>
@@ -494,6 +377,94 @@
         </div>
     </section>
 
+    <script>
+        // Basic functionality to get started
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Data Science Portfolio Loaded!');
+            
+            // Animate counters
+            function animateCounter(element, target) {
+                let start = 0;
+                const increment = target / 100;
+                const timer = setInterval(() => {
+                    start += increment;
+                    if (start >= target) {
+                        element.textContent = target.toLocaleString();
+                        clearInterval(timer);
+                    } else {
+                        element.textContent = Math.floor(start).toLocaleString();
+                    }
+                }, 20);
+            }
+            
+            // Start counter animations
+            setTimeout(() => {
+                const counters = document.querySelectorAll('.stat-number');
+                counters.forEach(counter => {
+                    const target = parseInt(counter.getAttribute('data-target'));
+                    animateCounter(counter, target);
+                });
+            }, 1000);
+            
+            // Create basic chart
+            const ctx = document.getElementById('heroChart');
+            if (ctx && typeof Chart !== 'undefined') {
+                new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                        datasets: [{
+                            label: 'Model Performance',
+                            data: [65, 75, 80, 85, 90, 95],
+                            borderColor: '#fff',
+                            backgroundColor: 'rgba(255, 255, 255, 0.1)',
+                            fill: true,
+                            tension: 0.4
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                labels: { color: '#fff' }
+                            }
+                        },
+                        scales: {
+                            x: { ticks: { color: '#fff' } },
+                            y: { ticks: { color: '#fff' } }
+                        }
+                    }
+                });
+            }
+        });
+        
+        // Contact form handling
+        document.getElementById('contactForm')?.addEventListener('submit', function(e) {
+            const name = this.querySelector('[name="name"]').value.trim();
+            const email = this.querySelector('[name="email"]').value.trim();
+            const message = this.querySelector('[name="message"]').value.trim();
+            
+            if (!name || !email || !message) {
+                e.preventDefault();
+                alert('Please fill in all fields');
+                return false;
+            }
+            
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                e.preventDefault();
+                alert('Please enter a valid email address');
+                return false;
+            }
+            
+            const button = this.querySelector('button[type="submit"]');
+            button.innerHTML = '<div class="loading"></div> Sending...';
+            button.disabled = true;
+        });
+    </script>
+    
+    <!-- Load external script -->
     <script src="script.js"></script>
 </body>
 </html>
