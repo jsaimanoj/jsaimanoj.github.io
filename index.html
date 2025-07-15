@@ -410,17 +410,17 @@
                     </div>
                 </div>
                 <div class="contact-form">
-    <form id="contactForm" class="contact-form" action="https://formspree.io/f/mnnzazdj" method="POST">
+    <form id="contactForm" class="contact-form" action="https://formspree.io/f/YOUR_FORMSPREE_ENDPOINT" method="POST">
         <div class="form-group">
-            <input type="text" name="name" placeholder="Your Name" required>
+            <input type="text" id="name" name="name" placeholder="Your Name" required>
         </div>
         <div class="form-group">
-            <input type="email" name="_replyto" placeholder="Your Email" required>
+            <input type="email" id="email" name="email" placeholder="Your Email" required>
         </div>
         <div class="form-group">
-            <textarea name="message" placeholder="Your Message" required></textarea>
+            <textarea id="message" name="message" placeholder="Your Message" required></textarea>
         </div>
-        <input type="hidden" name="_subject" value="New Portfolio Contact">
+        <input type="hidden" name="_subject" value="New message from portfolio website">
         <button type="submit" class="btn btn-primary">Send Message</button>
     </form>
 </div>
