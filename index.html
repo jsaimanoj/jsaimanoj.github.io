@@ -1,651 +1,495 @@
-<!-- Analytics Dashboard - REPLACE EVERYTHING -->
-<section id="analytics" class="py-5" style="background: var(--bg-light);">
-    <div class="container">
-        <div class="text-center mb-5">
-            <h2 class="display-5 fw-bold">Live Analytics Dashboard</h2>
-            <p class="lead text-muted">Interactive data visualizations showcasing real project metrics and model performance</p>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sai Manoj J - Senior Data Scientist & ML Engineer</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-brain"></i>
+                <span>Sai Manoj J</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#experience">Experience</a></li>
+                <li><a href="#skills">Skills</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
         </div>
-        
-        <!-- Real-time Metrics Cards -->
-        <div class="row g-4 mb-5">
-            <div class="col-lg-3 col-md-6">
-                <div class="project-card text-center">
-                    <div class="project-icon mx-auto mb-3" style="width: 70px; height: 70px;">
-                        <i class="fas fa-robot"></i>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-container">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h1 class="hero-title">
+                        <span class="gradient-text">Senior Data Scientist</span>
+                        <br>& ML Engineer
+                    </h1>
+                    <p class="hero-subtitle">
+                        Transforming data into actionable insights with 12+ years of experience in 
+                        machine learning, predictive modeling, and data-driven strategy.
+                    </p>
+                    <div class="hero-stats">
+                        <div class="stat">
+                            <span class="stat-number">12+</span>
+                            <span class="stat-label">Years Experience</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-number">90%</span>
+                            <span class="stat-label">Model Accuracy</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-number">25%</span>
+                            <span class="stat-label">Revenue Growth</span>
+                        </div>
                     </div>
-                    <h3 class="fw-bold text-primary mb-2" id="modelsCount">0</h3>
-                    <p class="mb-0 text-muted">ML Models Deployed</p>
-                    <div class="progress mt-2" style="height: 4px;">
-                        <div class="progress-bar bg-primary" style="width: 85%"></div>
+                    <div class="hero-buttons">
+                        <a href="#projects" class="btn btn-primary">View Projects</a>
+                        <a href="#contact" class="btn btn-secondary">Get In Touch</a>
+                    </div>
+                </div>
+                <div class="hero-visual">
+                    <div class="neural-network">
+                        <div class="node"></div>
+                        <div class="node"></div>
+                        <div class="node"></div>
+                        <div class="node"></div>
+                        <div class="node"></div>
+                        <div class="node"></div>
                     </div>
                 </div>
             </div>
-            
-            <div class="col-lg-3 col-md-6">
-                <div class="project-card text-center">
-                    <div class="project-icon mx-auto mb-3" style="width: 70px; height: 70px;">
-                        <i class="fas fa-database"></i>
+        </div>
+        <div class="floating-elements">
+            <div class="float-element" style="--delay: 0s"><i class="fas fa-robot"></i></div>
+            <div class="float-element" style="--delay: 2s"><i class="fas fa-chart-line"></i></div>
+            <div class="float-element" style="--delay: 4s"><i class="fas fa-database"></i></div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about">
+        <div class="container">
+            <h2 class="section-title">About Me</h2>
+            <div class="about-content">
+                <div class="about-text">
+                    <p>
+                        As a Senior Data Scientist with over 12 years of experience, I specialize in leading 
+                        cross-functional teams and applying advanced machine learning techniques to drive business 
+                        growth and enhance customer experiences.
+                    </p>
+                    <p>
+                        I excel in delivering actionable insights through data-driven strategies, executing 
+                        complex analytical projects, and building high-impact machine learning models that 
+                        solve real-world business problems.
+                    </p>
+                    <div class="contact-info">
+                        <div class="contact-item">
+                            <i class="fas fa-phone"></i>
+                            <span>(270) 421-3344</span>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-envelope"></i>
+                            <span>jsaimanoj@gmail.com</span>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fab fa-linkedin"></i>
+                            <span>LinkedIn Profile</span>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fab fa-github"></i>
+                            <span>GitHub Profile</span>
+                        </div>
                     </div>
-                    <h3 class="fw-bold text-success mb-2" id="dataPoints">0</h3>
-                    <p class="mb-0 text-muted">Million Records Processed</p>
-                    <div class="progress mt-2" style="height: 4px;">
-                        <div class="progress-bar bg-success" style="width: 92%"></div>
+                </div>
+                <div class="about-visual">
+                    <div class="data-visualization">
+                        <div class="chart-container">
+                            <div class="bar" style="height: 70%"></div>
+                            <div class="bar" style="height: 85%"></div>
+                            <div class="bar" style="height: 60%"></div>
+                            <div class="bar" style="height: 90%"></div>
+                            <div class="bar" style="height: 75%"></div>
+                        </div>
                     </div>
                 </div>
             </div>
-            
-            <div class="col-lg-3 col-md-6">
-                <div class="project-card text-center">
-                    <div class="project-icon mx-auto mb-3" style="width: 70px; height: 70px;">
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="projects">
+        <div class="container">
+            <h2 class="section-title">Featured ML Projects</h2>
+            <div class="projects-grid">
+                <!-- Project 1: Revenue Forecasting -->
+                <div class="project-card">
+                    <div class="project-icon">
                         <i class="fas fa-chart-line"></i>
                     </div>
-                    <h3 class="fw-bold text-warning mb-2" id="accuracy">0%</h3>
-                    <p class="mb-0 text-muted">Average Model Accuracy</p>
-                    <div class="progress mt-2" style="height: 4px;">
-                        <div class="progress-bar bg-warning" style="width: 94%"></div>
+                    <h3>Revenue Forecasting Model</h3>
+                    <p class="project-company">Deloitte Consulting LLP</p>
+                    <p class="project-description">
+                        Built ML models using FB Prophet to forecast card fees across 17 regions, 
+                        achieving 90% average accuracy and enhancing revenue projections by 25%.
+                    </p>
+                    <div class="project-tech">
+                        <span class="tech-tag">FB Prophet</span>
+                        <span class="tech-tag">Python</span>
+                        <span class="tech-tag">Time Series</span>
+                        <span class="tech-tag">Tableau</span>
+                    </div>
+                    <div class="project-metrics">
+                        <div class="metric">
+                            <span class="metric-value">90%</span>
+                            <span class="metric-label">Accuracy</span>
+                        </div>
+                        <div class="metric">
+                            <span class="metric-value">17</span>
+                            <span class="metric-label">Regions</span>
+                        </div>
+                        <div class="metric">
+                            <span class="metric-value">25%</span>
+                            <span class="metric-label">Improvement</span>
+                        </div>
                     </div>
                 </div>
-            </div>
-            
-            <div class="col-lg-3 col-md-6">
-                <div class="project-card text-center">
-                    <div class="project-icon mx-auto mb-3" style="width: 70px; height: 70px;">
-                        <i class="fas fa-clock"></i>
+
+                <!-- Project 2: Fraud Detection -->
+                <div class="project-card">
+                    <div class="project-icon">
+                        <i class="fas fa-shield-alt"></i>
                     </div>
-                    <h3 class="fw-bold text-info mb-2" id="responseTime">0ms</h3>
-                    <p class="mb-0 text-muted">Avg Response Time</p>
-                    <div class="progress mt-2" style="height: 4px;">
-                        <div class="progress-bar bg-info" style="width: 78%"></div>
+                    <h3>Fraud Detection System</h3>
+                    <p class="project-company">Insurance Firm (via Deloitte)</p>
+                    <p class="project-description">
+                        Developed a fraud detection model using SMOTE to handle imbalanced data, 
+                        achieving 70% accuracy in detecting fraudulent claims and improving processing efficiency.
+                    </p>
+                    <div class="project-tech">
+                        <span class="tech-tag">SMOTE</span>
+                        <span class="tech-tag">Python</span>
+                        <span class="tech-tag">Classification</span>
+                        <span class="tech-tag">Imbalanced Data</span>
+                    </div>
+                    <div class="project-metrics">
+                        <div class="metric">
+                            <span class="metric-value">70%</span>
+                            <span class="metric-label">Accuracy</span>
+                        </div>
+                        <div class="metric">
+                            <span class="metric-value">100%</span>
+                            <span class="metric-label">Automated</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 3: Construction Cost Prediction -->
+                <div class="project-card">
+                    <div class="project-icon">
+                        <i class="fas fa-building"></i>
+                    </div>
+                    <h3>Construction Cost Predictor</h3>
+                    <p class="project-company">Government & Public Sector</p>
+                    <p class="project-description">
+                        Created a predictive model for construction costs targeting government projects, 
+                        achieving 80% accuracy and streamlining budget forecasting for multimillion-dollar projects.
+                    </p>
+                    <div class="project-tech">
+                        <span class="tech-tag">Regression</span>
+                        <span class="tech-tag">Python</span>
+                        <span class="tech-tag">Cost Prediction</span>
+                        <span class="tech-tag">Government</span>
+                    </div>
+                    <div class="project-metrics">
+                        <div class="metric">
+                            <span class="metric-value">80%</span>
+                            <span class="metric-label">Accuracy</span>
+                        </div>
+                        <div class="metric">
+                            <span class="metric-value">$M+</span>
+                            <span class="metric-label">Projects</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 4: Dispatch Optimization -->
+                <div class="project-card">
+                    <div class="project-icon">
+                        <i class="fas fa-route"></i>
+                    </div>
+                    <h3>Dispatch Optimization Model</h3>
+                    <p class="project-company">Verizon</p>
+                    <p class="project-description">
+                        Developed a predictive dispatch reduction model resulting in 25% decrease in unnecessary 
+                        dispatch hours and 15% accuracy improvement over baseline model.
+                    </p>
+                    <div class="project-tech">
+                        <span class="tech-tag">Optimization</span>
+                        <span class="tech-tag">Python</span>
+                        <span class="tech-tag">Logistics</span>
+                        <span class="tech-tag">Operations</span>
+                    </div>
+                    <div class="project-metrics">
+                        <div class="metric">
+                            <span class="metric-value">25%</span>
+                            <span class="metric-label">Reduction</span>
+                        </div>
+                        <div class="metric">
+                            <span class="metric-value">15%</span>
+                            <span class="metric-label">Improvement</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 5: Revenue Prediction -->
+                <div class="project-card">
+                    <div class="project-icon">
+                        <i class="fas fa-hotel"></i>
+                    </div>
+                    <h3>Hotel Revenue Prediction</h3>
+                    <p class="project-company">Hilton</p>
+                    <p class="project-description">
+                        Implemented LightGBM Regressor model with 90% accuracy to predict revenue for each property 
+                        and created ARIMA forecasting model for real-time predictions across 5 sales channels.
+                    </p>
+                    <div class="project-tech">
+                        <span class="tech-tag">LightGBM</span>
+                        <span class="tech-tag">ARIMA</span>
+                        <span class="tech-tag">Python</span>
+                        <span class="tech-tag">Hospitality</span>
+                    </div>
+                    <div class="project-metrics">
+                        <div class="metric">
+                            <span class="metric-value">90%</span>
+                            <span class="metric-label">Accuracy</span>
+                        </div>
+                        <div class="metric">
+                            <span class="metric-value">5</span>
+                            <span class="metric-label">Channels</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 6: A/B Testing -->
+                <div class="project-card">
+                    <div class="project-icon">
+                        <i class="fas fa-flask"></i>
+                    </div>
+                    <h3>A/B Testing & Conversion Optimization</h3>
+                    <p class="project-company">Verizon</p>
+                    <p class="project-description">
+                        Executed targeted A/B testing to evaluate design changes impact on conversion rates, 
+                        leading to 15% increase in sign-ups and 20% reduction in user drop-off.
+                    </p>
+                    <div class="project-tech">
+                        <span class="tech-tag">A/B Testing</span>
+                        <span class="tech-tag">Statistical Analysis</span>
+                        <span class="tech-tag">Python</span>
+                        <span class="tech-tag">R</span>
+                    </div>
+                    <div class="project-metrics">
+                        <div class="metric">
+                            <span class="metric-value">15%</span>
+                            <span class="metric-label">Sign-up ↑</span>
+                        </div>
+                        <div class="metric">
+                            <span class="metric-value">20%</span>
+                            <span class="metric-label">Drop-off ↓</span>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-        
-        <!-- Interactive Charts Row 1 -->
-        <div class="row g-4 mb-4">
-            <div class="col-lg-8">
-                <div class="project-card">
-                    <div class="d-flex justify-content-between align-items-center mb-4">
-                        <h5 class="mb-0"><i class="fas fa-chart-line me-2 text-primary"></i>Model Performance Over Time</h5>
-                        <div class="btn-group btn-group-sm" role="group">
-                            <button type="button" class="btn btn-outline-primary active" onclick="updatePerformanceChart('accuracy')">Accuracy</button>
-                            <button type="button" class="btn btn-outline-primary" onclick="updatePerformanceChart('precision')">Precision</button>
-                            <button type="button" class="btn btn-outline-primary" onclick="updatePerformanceChart('recall')">Recall</button>
-                        </div>
-                    </div>
-                    <div style="position: relative; height: 350px;">
-                        <canvas id="performanceChart"></canvas>
+    </section>
+
+    <!-- Experience Section -->
+    <section id="experience" class="experience">
+        <div class="container">
+            <h2 class="section-title">Professional Experience</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-date">2020 - Present</div>
+                    <div class="timeline-content">
+                        <h3>Data Science Manager</h3>
+                        <h4>Deloitte Consulting LLP</h4>
+                        <ul>
+                            <li>Lead cross-functional teams in advanced ML and data analysis projects</li>
+                            <li>Built forecasting models achieving 90% accuracy across 17 regions</li>
+                            <li>Automated entire modeling process, reducing manual intervention by 100%</li>
+                            <li>Enhanced revenue projection accuracy by 25% with predictive models</li>
+                        </ul>
                     </div>
                 </div>
-            </div>
-            
-            <div class="col-lg-4">
-                <div class="project-card">
-                    <h5 class="mb-4"><i class="fas fa-chart-pie me-2 text-primary"></i>Project Distribution</h5>
-                    <div style="position: relative; height: 350px;">
-                        <canvas id="projectChart"></canvas>
+                <div class="timeline-item">
+                    <div class="timeline-date">2019 - 2020</div>
+                    <div class="timeline-content">
+                        <h3>Data Analyst</h3>
+                        <h4>Hilton</h4>
+                        <ul>
+                            <li>Created ARIMA forecasting model for real-time revenue predictions</li>
+                            <li>Implemented LightGBM Regressor with 90% accuracy</li>
+                            <li>Reduced data preparation time by 50% with optimized SQL queries</li>
+                        </ul>
                     </div>
-                    <div class="mt-3">
-                        <div class="d-flex justify-content-between align-items-center mb-2">
-                            <span class="d-flex align-items-center">
-                                <span class="badge bg-primary me-2" style="width: 12px; height: 12px;"></span>
-                                Machine Learning
-                            </span>
-                            <strong>42%</strong>
-                        </div>
-                        <div class="d-flex justify-content-between align-items-center mb-2">
-                            <span class="d-flex align-items-center">
-                                <span class="badge bg-success me-2" style="width: 12px; height: 12px;"></span>
-                                Data Analytics
-                            </span>
-                            <strong>28%</strong>
-                        </div>
-                        <div class="d-flex justify-content-between align-items-center mb-2">
-                            <span class="d-flex align-items-center">
-                                <span class="badge bg-warning me-2" style="width: 12px; height: 12px;"></span>
-                                Deep Learning
-                            </span>
-                            <strong>20%</strong>
-                        </div>
-                        <div class="d-flex justify-content-between align-items-center">
-                            <span class="d-flex align-items-center">
-                                <span class="badge bg-info me-2" style="width: 12px; height: 12px;"></span>
-                                NLP
-                            </span>
-                            <strong>10%</strong>
-                        </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-date">2017 - 2019</div>
+                    <div class="timeline-content">
+                        <h3>Statistical Data Analyst</h3>
+                        <h4>Verizon</h4>
+                        <ul>
+                            <li>Developed dispatch optimization model reducing unnecessary hours by 25%</li>
+                            <li>Conducted A/B testing leading to 15% increase in conversions</li>
+                            <li>Analyzed cancellation drivers, improving customer satisfaction by 15%</li>
+                        </ul>
                     </div>
                 </div>
             </div>
         </div>
-        
-        <!-- Interactive Charts Row 2 -->
-        <div class="row g-4 mb-4">
-            <div class="col-lg-6">
-                <div class="project-card">
-                    <h5 class="mb-4"><i class="fas fa-chart-bar me-2 text-primary"></i>Technology Stack Usage</h5>
-                    <div style="position: relative; height: 300px;">
-                        <canvas id="techChart"></canvas>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills" class="skills">
+        <div class="container">
+            <h2 class="section-title">Technical Skills</h2>
+            <div class="skills-grid">
+                <div class="skill-category">
+                    <h3><i class="fas fa-code"></i> Programming Languages</h3>
+                    <div class="skill-tags">
+                        <span class="skill-tag">Python</span>
+                        <span class="skill-tag">R</span>
+                        <span class="skill-tag">SQL</span>
+                    </div>
+                </div>
+                <div class="skill-category">
+                    <h3><i class="fas fa-brain"></i> Machine Learning</h3>
+                    <div class="skill-tags">
+                        <span class="skill-tag">Linear Regression</span>
+                        <span class="skill-tag">Random Forest</span>
+                        <span class="skill-tag">XGBoost</span>
+                        <span class="skill-tag">Neural Networks</span>
+                        <span class="skill-tag">Time Series</span>
+                        <span class="skill-tag">ARIMA</span>
+                        <span class="skill-tag">K-Means</span>
+                        <span class="skill-tag">SVM</span>
+                    </div>
+                </div>
+                <div class="skill-category">
+                    <h3><i class="fas fa-chart-bar"></i> Analytics Tools</h3>
+                    <div class="skill-tags">
+                        <span class="skill-tag">Tableau</span>
+                        <span class="skill-tag">Power BI</span>
+                        <span class="skill-tag">Jupyter</span>
+                        <span class="skill-tag">R Studio</span>
+                        <span class="skill-tag">WEKA</span>
+                    </div>
+                </div>
+                <div class="skill-category">
+                    <h3><i class="fas fa-database"></i> Data Infrastructure</h3>
+                    <div class="skill-tags">
+                        <span class="skill-tag">AWS</span>
+                        <span class="skill-tag">Hadoop</span>
+                        <span class="skill-tag">MongoDB</span>
+                        <span class="skill-tag">MySQL</span>
+                        <span class="skill-tag">Oracle</span>
+                        <span class="skill-tag">Hive</span>
                     </div>
                 </div>
             </div>
             
-            <div class="col-lg-6">
-                <div class="project-card">
-                    <h5 class="mb-4"><i class="fas fa-chart-area me-2 text-primary"></i>Data Processing Volume</h5>
-                    <div style="position: relative; height: 300px;">
-                        <canvas id="volumeChart"></canvas>
+            <div class="certifications">
+                <h3>Certifications</h3>
+                <div class="cert-grid">
+                    <div class="cert-item">
+                        <i class="fab fa-google"></i>
+                        <span>Google Cloud ML Engineer</span>
+                    </div>
+                    <div class="cert-item">
+                        <i class="fab fa-aws"></i>
+                        <span>AWS ML Specialty</span>
+                    </div>
+                    <div class="cert-item">
+                        <i class="fas fa-chart-area"></i>
+                        <span>Tableau Desktop Specialist</span>
+                    </div>
+                    <div class="cert-item">
+                        <i class="fas fa-chart-pie"></i>
+                        <span>Power BI Data Analyst</span>
                     </div>
                 </div>
             </div>
         </div>
-        
-        <!-- Advanced Visualizations Row 3 -->
-        <div class="row g-4 mb-4">
-            <div class="col-lg-4">
-                <div class="project-card">
-                    <h5 class="mb-4"><i class="fas fa-bullseye me-2 text-primary"></i>Model Accuracy Comparison</h5>
-                    <div style="position: relative; height: 300px;">
-                        <canvas id="accuracyChart"></canvas>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="col-lg-4">
-                <div class="project-card">
-                    <h5 class="mb-4"><i class="fas fa-network-wired me-2 text-primary"></i>Feature Importance</h5>
-                    <div style="position: relative; height: 300px;">
-                        <canvas id="featureChart"></canvas>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="col-lg-4">
-                <div class="project-card">
-                    <h5 class="mb-4"><i class="fas fa-tachometer-alt me-2 text-primary"></i>Real-time Performance</h5>
-                    <div class="text-center">
-                        <canvas id="gaugeChart" width="250" height="200"></canvas>
-                        <div class="mt-3">
-                            <div class="row text-center">
-                                <div class="col-4">
-                                    <div class="fw-bold text-success" id="liveMetric1">98.2%</div>
-                                    <small class="text-muted">Uptime</small>
-                                </div>
-                                <div class="col-4">
-                                    <div class="fw-bold text-primary" id="liveMetric2">47ms</div>
-                                    <small class="text-muted">Latency</small>
-                                </div>
-                                <div class="col-4">
-                                    <div class="fw-bold text-warning" id="liveMetric3">1.2K</div>
-                                    <small class="text-muted">Requests/min</small>
-                                </div>
-                            </div>
-                        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact">
+        <div class="container">
+            <h2 class="section-title">Let's Connect</h2>
+            <div class="contact-content">
+                <div class="contact-info-section">
+                    <h3>Get In Touch</h3>
+                    <p>
+                        Ready to discuss your next data science project or explore collaboration opportunities? 
+                        I'd love to hear from you.
+                    </p>
+                    <div class="contact-methods">
+                        <a href="tel:+12704213344" class="contact-method">
+                            <i class="fas fa-phone"></i>
+                            <span>(270) 421-3344</span>
+                        </a>
+                        <a href="mailto:jsaimanoj@gmail.com" class="contact-method">
+                            <i class="fas fa-envelope"></i>
+                            <span>jsaimanoj@gmail.com</span>
+                        </a>
+                        <a href="#" class="contact-method">
+                            <i class="fab fa-linkedin"></i>
+                            <span>LinkedIn Profile</span>
+                        </a>
+                        <a href="#" class="contact-method">
+                            <i class="fab fa-github"></i>
+                            <span>GitHub Profile</span>
+                        </a>
                     </div>
                 </div>
             </div>
         </div>
-        
-        <!-- Interactive Correlation Matrix -->
-        <div class="row g-4">
-            <div class="col-12">
-                <div class="project-card">
-                    <div class="d-flex justify-content-between align-items-center mb-4">
-                        <h5 class="mb-0"><i class="fas fa-th me-2 text-primary"></i>Feature Correlation Heatmap</h5>
-                        <button class="btn btn-outline-primary btn-sm" onclick="generateNewCorrelation()">
-                            <i class="fas fa-sync-alt me-1"></i>Generate New Data
-                        </button>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-left">
+                    <div class="footer-logo">
+                        <i class="fas fa-brain"></i>
+                        <span>Sai Manoj J</span>
                     </div>
-                    <div id="correlationHeatmap" style="height: 400px;"></div>
+                    <p>Senior Data Scientist & ML Engineer</p>
+                </div>
+                <div class="footer-right">
+                    <p>&copy; 2024 Sai Manoj J. All rights reserved.</p>
                 </div>
             </div>
         </div>
-    </div>
-</section>
+    </footer>
 
-<!-- Add this JavaScript section before closing </body> tag -->
-<script>
-// Professional Chart Configurations
-Chart.defaults.font.family = "'Inter', sans-serif";
-Chart.defaults.color = '#6b7280';
-Chart.defaults.borderColor = 'rgba(0, 0, 0, 0.1)';
-
-// Animated Counter Function
-function animateCounter(element, target, suffix = '') {
-    let current = 0;
-    const increment = target / 100;
-    const timer = setInterval(() => {
-        current += increment;
-        if (current >= target) {
-            current = target;
-            clearInterval(timer);
-        }
-        element.textContent = Math.floor(current) + suffix;
-    }, 20);
-}
-
-// Initialize Counters
-document.addEventListener('DOMContentLoaded', function() {
-    animateCounter(document.getElementById('modelsCount'), 127);
-    animateCounter(document.getElementById('dataPoints'), 2.4, 'M');
-    animateCounter(document.getElementById('accuracy'), 94.7, '%');
-    animateCounter(document.getElementById('responseTime'), 45, 'ms');
-});
-
-// Performance Chart
-const performanceCtx = document.getElementById('performanceChart').getContext('2d');
-const performanceChart = new Chart(performanceCtx, {
-    type: 'line',
-    data: {
-        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-        datasets: [{
-            label: 'Model Accuracy (%)',
-            data: [85.2, 87.1, 89.3, 91.2, 92.8, 94.1, 93.7, 95.2, 94.8, 96.1, 95.9, 97.2],
-            borderColor: '#3b82f6',
-            backgroundColor: 'rgba(59, 130, 246, 0.1)',
-            borderWidth: 3,
-            fill: true,
-            tension: 0.4,
-            pointBackgroundColor: '#3b82f6',
-            pointBorderColor: '#ffffff',
-            pointBorderWidth: 2,
-            pointRadius: 6,
-            pointHoverRadius: 8
-        }]
-    },
-    options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-            legend: {
-                display: false
-            }
-        },
-        scales: {
-            y: {
-                beginAtZero: false,
-                min: 80,
-                max: 100,
-                grid: {
-                    color: 'rgba(0, 0, 0, 0.05)'
-                }
-            },
-            x: {
-                grid: {
-                    display: false
-                }
-            }
-        },
-        elements: {
-            point: {
-                hoverBackgroundColor: '#1d4ed8'
-            }
-        }
-    }
-});
-
-// Project Distribution Chart
-const projectCtx = document.getElementById('projectChart').getContext('2d');
-const projectChart = new Chart(projectCtx, {
-    type: 'doughnut',
-    data: {
-        labels: ['Machine Learning', 'Data Analytics', 'Deep Learning', 'NLP'],
-        datasets: [{
-            data: [42, 28, 20, 10],
-            backgroundColor: ['#3b82f6', '#10b981', '#f59e0b', '#06b6d4'],
-            borderWidth: 0,
-            hoverOffset: 10
-        }]
-    },
-    options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-            legend: {
-                display: false
-            }
-        },
-        cutout: '60%'
-    }
-});
-
-// Technology Stack Chart
-const techCtx = document.getElementById('techChart').getContext('2d');
-const techChart = new Chart(techCtx, {
-    type: 'bar',
-    data: {
-        labels: ['Python', 'TensorFlow', 'PyTorch', 'Scikit-learn', 'Pandas', 'SQL', 'AWS', 'Docker'],
-        datasets: [{
-            label: 'Usage %',
-            data: [95, 87, 82, 91, 94, 89, 78, 73],
-            backgroundColor: [
-                '#3b82f6', '#10b981', '#f59e0b', '#ef4444',
-                '#8b5cf6', '#06b6d4', '#f97316', '#84cc16'
-            ],
-            borderRadius: 8,
-            borderSkipped: false
-        }]
-    },
-    options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-            legend: {
-                display: false
-            }
-        },
-        scales: {
-            y: {
-                beginAtZero: true,
-                max: 100,
-                grid: {
-                    color: 'rgba(0, 0, 0, 0.05)'
-                }
-            },
-            x: {
-                grid: {
-                    display: false
-                }
-            }
-        }
-    }
-});
-
-// Data Volume Chart
-const volumeCtx = document.getElementById('volumeChart').getContext('2d');
-const volumeChart = new Chart(volumeCtx, {
-    type: 'line',
-    data: {
-        labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4', 'Week 5', 'Week 6'],
-        datasets: [{
-            label: 'Data Processed (GB)',
-            data: [1.2, 2.1, 1.8, 3.2, 2.9, 4.1],
-            borderColor: '#10b981',
-            backgroundColor: 'rgba(16, 185, 129, 0.1)',
-            borderWidth: 3,
-            fill: true,
-            tension: 0.4
-        }]
-    },
-    options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-            legend: {
-                display: false
-            }
-        },
-        scales: {
-            y: {
-                beginAtZero: true,
-                grid: {
-                    color: 'rgba(0, 0, 0, 0.05)'
-                }
-            },
-            x: {
-                grid: {
-                    display: false
-                }
-            }
-        }
-    }
-});
-
-// Model Accuracy Comparison
-const accuracyCtx = document.getElementById('accuracyChart').getContext('2d');
-const accuracyChart = new Chart(accuracyCtx, {
-    type: 'radar',
-    data: {
-        labels: ['Precision', 'Recall', 'F1-Score', 'Accuracy', 'AUC-ROC'],
-        datasets: [{
-            label: 'Current Model',
-            data: [94, 92, 93, 95, 96],
-            borderColor: '#3b82f6',
-            backgroundColor: 'rgba(59, 130, 246, 0.2)',
-            pointBackgroundColor: '#3b82f6',
-            pointBorderColor: '#ffffff',
-            pointBorderWidth: 2
-        }, {
-            label: 'Baseline Model',
-            data: [87, 85, 86, 88, 89],
-            borderColor: '#ef4444',
-            backgroundColor: 'rgba(239, 68, 68, 0.1)',
-            pointBackgroundColor: '#ef4444',
-            pointBorderColor: '#ffffff',
-            pointBorderWidth: 2
-        }]
-    },
-    options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        scales: {
-            r: {
-                beginAtZero: true,
-                max: 100,
-                grid: {
-                    color: 'rgba(0, 0, 0, 0.1)'
-                }
-            }
-        }
-    }
-});
-
-// Feature Importance Chart
-const featureCtx = document.getElementById('featureChart').getContext('2d');
-const featureChart = new Chart(featureCtx, {
-    type: 'bar',
-    data: {
-        labels: ['Feature A', 'Feature B', 'Feature C', 'Feature D', 'Feature E'],
-        datasets: [{
-            label: 'Importance',
-            data: [0.34, 0.28, 0.19, 0.12, 0.07],
-            backgroundColor: '#8b5cf6',
-            borderRadius: 8
-        }]
-    },
-    options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        indexAxis: 'y',
-        plugins: {
-            legend: {
-                display: false
-            }
-        },
-        scales: {
-            x: {
-                beginAtZero: true,
-                max: 0.4,
-                grid: {
-                    color: 'rgba(0, 0, 0, 0.05)'
-                }
-            },
-            y: {
-                grid: {
-                    display: false
-                }
-            }
-        }
-    }
-});
-
-// Gauge Chart (Custom Canvas Drawing)
-function drawGaugeChart() {
-    const canvas = document.getElementById('gaugeChart');
-    const ctx = canvas.getContext('2d');
-    const centerX = canvas.width / 2;
-    const centerY = canvas.height / 2;
-    const radius = 80;
-    
-    // Clear canvas
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    
-    // Draw gauge background
-    ctx.beginPath();
-    ctx.arc(centerX, centerY, radius, Math.PI, 2 * Math.PI);
-    ctx.lineWidth = 20;
-    ctx.strokeStyle = '#e5e7eb';
-    ctx.stroke();
-    
-    // Draw gauge fill (94.7% performance)
-    const percentage = 0.947;
-    ctx.beginPath();
-    ctx.arc(centerX, centerY, radius, Math.PI, Math.PI + (Math.PI * percentage));
-    ctx.lineWidth = 20;
-    ctx.strokeStyle = '#3b82f6';
-    ctx.stroke();
-    
-    // Draw center text
-    ctx.fillStyle = '#1f2937';
-    ctx.font = 'bold 24px Inter';
-    ctx.textAlign = 'center';
-    ctx.fillText('94.7%', centerX, centerY + 8);
-    
-    ctx.font = '14px Inter';
-    ctx.fillStyle = '#6b7280';
-    ctx.fillText('Performance', centerX, centerY + 28);
-}
-
-// Correlation Heatmap using Plotly
-function generateCorrelationHeatmap() {
-    const features = ['Age', 'Income', 'Education', 'Experience', 'Score'];
-    const correlationMatrix = [
-        [1.0, 0.73, 0.45, 0.82, 0.67],
-        [0.73, 1.0, 0.38, 0.69, 0.54],
-        [0.45, 0.38, 1.0, 0.41, 0.72],
-        [0.82, 0.69, 0.41, 1.0, 0.58],
-        [0.67, 0.54, 0.72, 0.58, 1.0]
-    ];
-    
-    const data = [{
-        z: correlationMatrix,
-        x: features,
-        y: features,
-        type: 'heatmap',
-        colorscale: [
-            [0, '#3b82f6'],
-            [0.5, '#ffffff'],
-            [1, '#ef4444']
-        ],
-        zmin: -1,
-        zmax: 1,
-        showscale: true,
-        colorbar: {
-            title: 'Correlation',
-            titleside: 'right'
-        }
-    }];
-    
-    const layout = {
-        title: '',
-        xaxis: { title: 'Features' },
-        yaxis: { title: 'Features' },
-        font: { family: 'Inter, sans-serif' },
-        margin: { l: 80, r: 80, t: 40, b: 80 }
-    };
-    
-    Plotly.newPlot('correlationHeatmap', data, layout, {responsive: true});
-}
-
-// Update Performance Chart Function
-function updatePerformanceChart(metric) {
-    const data = {
-        accuracy: [85.2, 87.1, 89.3, 91.2, 92.8, 94.1, 93.7, 95.2, 94.8, 96.1, 95.9, 97.2],
-        precision: [83.1, 85.4, 87.2, 89.8, 91.3, 92.7, 91.9, 93.8, 93.2, 94.5, 94.1, 95.8],
-        recall: [82.7, 84.9, 86.8, 88.5, 90.2, 91.8, 91.1, 92.9, 92.4, 93.7, 93.3, 94.9]
-    };
-    
-    performanceChart.data.datasets[0].data = data[metric];
-    performanceChart.data.datasets[0].label = metric.charAt(0).toUpperCase() + metric.slice(1) + ' (%)';
-    performanceChart.update();
-    
-    // Update active button
-    document.querySelectorAll('.btn-group .btn').forEach(btn => btn.classList.remove('active'));
-    event.target.classList.add('active');
-}
-
-// Generate New Correlation Data
-function generateNewCorrelation() {
-    const features = ['Age', 'Income', 'Education', 'Experience', 'Score'];
-    const newMatrix = [];
-    
-    for (let i = 0; i < 5; i++) {
-        newMatrix[i] = [];
-        for (let j = 0; j < 5; j++) {
-            if (i === j) {
-                newMatrix[i][j] = 1.0;
-            } else {
-                newMatrix[i][j] = (Math.random() * 1.8 - 0.9).toFixed(2);
-            }
-        }
-    }
-    
-    const data = [{
-        z: newMatrix,
-        x: features,
-        y: features,
-        type: 'heatmap',
-        colorscale: [
-            [0, '#3b82f6'],
-            [0.5, '#ffffff'],
-            [1, '#ef4444']
-        ],
-        zmin: -1,
-        zmax: 1,
-        showscale: true,
-        colorbar: {
-            title: 'Correlation',
-            titleside: 'right'
-        }
-    }];
-    
-    Plotly.redraw('correlationHeatmap', data);
-}
-
-// Real-time Metrics Updates
-function updateLiveMetrics() {
-    const metrics = [
-        { id: 'liveMetric1', base: 98.2, range: 0.5, suffix: '%' },
-        { id: 'liveMetric2', base: 47, range: 10, suffix: 'ms' },
-        { id: 'liveMetric3', base: 1200, range: 200, suffix: '' }
-    ];
-    
-    metrics.forEach(metric => {
-        const variation = (Math.random() - 0.5) * metric.range;
-        const newValue = metric.base + variation;
-        const displayValue = metric.suffix === '%' ? newValue.toFixed(1) : Math.round(newValue);
-        
-        if (metric.suffix === '') {
-            document.getElementById(metric.id).textContent = (displayValue / 1000).toFixed(1) + 'K';
-        } else {
-            document.getElementById(metric.id).textContent = displayValue + metric.suffix;
-        }
-    });
-}
-
-// Initialize everything when page loads
-document.addEventListener('DOMContentLoaded', function() {
-    drawGaugeChart();
-    generateCorrelationHeatmap();
-    
-    // Update live metrics every 3 seconds
-    setInterval(updateLiveMetrics, 3000);
-    
-    // Animate charts on scroll
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.style.opacity = '1';
-                entry.target.style.transform = 'translateY(0)';
-            }
-        });
-    });
-    
-    document.querySelectorAll('.project-card').forEach(card => {
-        card.style.opacity = '0';
-        card.style.transform = 'translateY(20px)';
-        card.style.transition = 'all 0.6s ease';
-        observer.observe(card);
-    });
-});
-</script>
+    <script src="script.js"></script>
+</body>
+</html>
