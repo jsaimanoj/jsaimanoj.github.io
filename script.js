@@ -1,23 +1,232 @@
-// Mobile Navigation Toggle
-const hamburger = document.querySelector('.hamburger');
-const navMenu = document.querySelector('.nav-menu');
-
-if (hamburger && navMenu) {
-    hamburger.addEventListener('click', () => {
-        hamburger.classList.toggle('active');
-        navMenu.classList.toggle('active');
-    });
-
-    // Close mobile menu when clicking on a link
-    document.querySelectorAll('.nav-menu a').forEach(link => {
-        link.addEventListener('click', () => {
-            hamburger.classList.remove('active');
-            navMenu.classList.remove('active');
+// Advanced Neural Network Animation
+class NeuralNetwork {
+    constructor(canvas) {
+        this.canvas = canvas;
+        this.ctx = canvas.getContext('2d');
+        this.nodes = [];
+        this.connections = [];
+        this.pulses = [];
+        this.mouse = { x: 0, y: 0 };
+        
+        this.resize();
+        this.createNodes();
+        this.createConnections();
+        this.animate();
+        
+        // Mouse interaction
+        this.canvas.addEventListener('mousemove', (e) => {
+            const rect = this.canvas.getBoundingClientRect();
+            this.mouse.x = e.clientX - rect.left;
+            this.mouse.y = e.clientY - rect.top;
         });
-    });
+        
+        window.addEventListener('resize', () => this.resize());
+    }
+    
+    resize() {
+        const rect = this.canvas.getBoundingClientRect();
+        this.canvas.width = rect.width * window.devicePixelRatio;
+        this.canvas.height = rect.height * window.devicePixelRatio;
+        this.ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+        this.canvas.style.width = rect.width + 'px';
+        this.canvas.style.height = rect.height + 'px';
+        
+        this.width = rect.width;
+        this.height = rect.height;
+    }
+    
+    createNodes() {
+        this.nodes = [];
+        const nodeCount = Math.floor((this.width * this.height) / 15000);
+        
+        for (let i = 0; i < nodeCount; i++) {
+            this.nodes.push({
+                x: Math.random() * this.width,
+                y: Math.random() * this.height,
+                vx: (Math.random() - 0.5) * 0.5,
+                vy: (Math.random() - 0.5) * 0.5,
+                radius: Math.random() * 3 + 1,
+                brightness: Math.random() * 0.8 + 0.2,
+                pulsePhase: Math.random() * Math.PI * 2,
+                connections: []
+            });
+        }
+    }
+    
+    createConnections() {
+        this.connections = [];
+        const maxDistance = 120;
+        
+        for (let i = 0; i < this.nodes.length; i++) {
+            for (let j = i + 1; j < this.nodes.length; j++) {
+                const dx = this.nodes[i].x - this.nodes[j].x;
+                const dy = this.nodes[i].y - this.nodes[j].y;
+                const distance = Math.sqrt(dx * dx + dy * dy);
+                
+                if (distance < maxDistance) {
+                    this.connections.push({
+                        from: i,
+                        to: j,
+                        distance: distance,
+                        strength: 1 - (distance / maxDistance),
+                        pulseTime: Math.random() * 1000
+                    });
+                    
+                    this.nodes[i].connections.push(j);
+                    this.nodes[j].connections.push(i);
+                }
+            }
+        }
+    }
+    
+    createPulse(fromIndex, toIndex) {
+        this.pulses.push({
+            from: fromIndex,
+            to: toIndex,
+            progress: 0,
+            speed: 0.02 + Math.random() * 0.03,
+            intensity: Math.random() * 0.8 + 0.2,
+            color: `hsl(${220 + Math.random() * 60}, 70%, 60%)`
+        });
+    }
+    
+    updateNodes() {
+        this.nodes.forEach((node, index) => {
+            // Gentle movement
+            node.x += node.vx;
+            node.y += node.vy;
+            
+            // Boundary bounce
+            if (node.x < 0 || node.x > this.width) node.vx *= -1;
+            if (node.y < 0 || node.y > this.height) node.vy *= -1;
+            
+            // Keep in bounds
+            node.x = Math.max(0, Math.min(this.width, node.x));
+            node.y = Math.max(0, Math.min(this.height, node.y));
+            
+            // Mouse interaction
+            const mouseDistance = Math.sqrt(
+                (node.x - this.mouse.x) ** 2 + (node.y - this.mouse.y) ** 2
+            );
+            
+            if (mouseDistance < 100) {
+                node.brightness = Math.min(1, node.brightness + 0.02);
+                
+                // Trigger pulses from nearby nodes
+                if (Math.random() < 0.1 && node.connections.length > 0) {
+                    const targetIndex = node.connections[
+                        Math.floor(Math.random() * node.connections.length)
+                    ];
+                    this.createPulse(index, targetIndex);
+                }
+            } else {
+                node.brightness = Math.max(0.2, node.brightness - 0.01);
+            }
+            
+            // Natural pulsing
+            node.pulsePhase += 0.02;
+            
+            // Random pulse generation
+            if (Math.random() < 0.002 && node.connections.length > 0) {
+                const targetIndex = node.connections[
+                    Math.floor(Math.random() * node.connections.length)
+                ];
+                this.createPulse(index, targetIndex);
+            }
+        });
+    }
+    
+    updatePulses() {
+        this.pulses = this.pulses.filter(pulse => {
+            pulse.progress += pulse.speed;
+            return pulse.progress < 1;
+        });
+    }
+    
+    drawConnections() {
+        this.connections.forEach(conn => {
+            const nodeA = this.nodes[conn.from];
+            const nodeB = this.nodes[conn.to];
+            
+            this.ctx.beginPath();
+            this.ctx.moveTo(nodeA.x, nodeA.y);
+            this.ctx.lineTo(nodeB.x, nodeB.y);
+            
+            const opacity = conn.strength * 0.3;
+            this.ctx.strokeStyle = `rgba(99, 102, 241, ${opacity})`;
+            this.ctx.lineWidth = 0.5;
+            this.ctx.stroke();
+        });
+    }
+    
+    drawNodes() {
+        this.nodes.forEach(node => {
+            // Main node
+            this.ctx.beginPath();
+            this.ctx.arc(node.x, node.y, node.radius, 0, Math.PI * 2);
+            
+            const pulseBrightness = node.brightness * (0.8 + 0.2 * Math.sin(node.pulsePhase));
+            const gradient = this.ctx.createRadialGradient(
+                node.x, node.y, 0,
+                node.x, node.y, node.radius * 3
+            );
+            
+            gradient.addColorStop(0, `rgba(139, 92, 246, ${pulseBrightness})`);
+            gradient.addColorStop(0.5, `rgba(99, 102, 241, ${pulseBrightness * 0.5})`);
+            gradient.addColorStop(1, 'rgba(99, 102, 241, 0)');
+            
+            this.ctx.fillStyle = gradient;
+            this.ctx.fill();
+            
+            // Core
+            this.ctx.beginPath();
+            this.ctx.arc(node.x, node.y, node.radius * 0.3, 0, Math.PI * 2);
+            this.ctx.fillStyle = `rgba(255, 255, 255, ${pulseBrightness})`;
+            this.ctx.fill();
+        });
+    }
+    
+    drawPulses() {
+        this.pulses.forEach(pulse => {
+            const fromNode = this.nodes[pulse.from];
+            const toNode = this.nodes[pulse.to];
+            
+            const x = fromNode.x + (toNode.x - fromNode.x) * pulse.progress;
+            const y = fromNode.y + (toNode.y - fromNode.y) * pulse.progress;
+            
+            // Pulse glow
+            const gradient = this.ctx.createRadialGradient(x, y, 0, x, y, 8);
+            gradient.addColorStop(0, pulse.color);
+            gradient.addColorStop(1, 'transparent');
+            
+            this.ctx.beginPath();
+            this.ctx.arc(x, y, 4, 0, Math.PI * 2);
+            this.ctx.fillStyle = gradient;
+            this.ctx.fill();
+            
+            // Pulse trail
+            this.ctx.beginPath();
+            this.ctx.arc(x, y, 1, 0, Math.PI * 2);
+            this.ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
+            this.ctx.fill();
+        });
+    }
+    
+    animate() {
+        this.ctx.clearRect(0, 0, this.width, this.height);
+        
+        this.updateNodes();
+        this.updatePulses();
+        
+        this.drawConnections();
+        this.drawNodes();
+        this.drawPulses();
+        
+        requestAnimationFrame(() => this.animate());
+    }
 }
 
-// Smooth scrolling for navigation links
+// Smooth Scrolling
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
         e.preventDefault();
@@ -31,19 +240,32 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     });
 });
 
-// Navbar background on scroll
+// Navbar Scroll Effect
 window.addEventListener('scroll', () => {
     const navbar = document.querySelector('.navbar');
-    if (navbar) {
-        if (window.scrollY > 100) {
-            navbar.classList.add('scrolled');
-        } else {
-            navbar.classList.remove('scrolled');
-        }
+    if (window.scrollY > 100) {
+        navbar.classList.add('scrolled');
+    } else {
+        navbar.classList.remove('scrolled');
     }
 });
 
-// Intersection Observer for animations
+// Mobile Menu Toggle
+const hamburger = document.querySelector('.hamburger');
+const navMenu = document.querySelector('.nav-menu');
+
+hamburger.addEventListener('click', () => {
+    hamburger.classList.toggle('active');
+    navMenu.classList.toggle('active');
+});
+
+// Close mobile menu when clicking on a link
+document.querySelectorAll('.nav-link').forEach(n => n.addEventListener('click', () => {
+    hamburger.classList.remove('active');
+    navMenu.classList.remove('active');
+}));
+
+// Animate elements on scroll
 const observerOptions = {
     threshold: 0.1,
     rootMargin: '0px 0px -50px 0px'
@@ -52,348 +274,60 @@ const observerOptions = {
 const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
         if (entry.isIntersecting) {
-            entry.target.classList.add('animate');
+            entry.target.classList.add('animate-in');
         }
     });
 }, observerOptions);
 
 // Observe elements for animation
-document.addEventListener('DOMContentLoaded', () => {
-    const animateElements = document.querySelectorAll('.project-card, .timeline-item, .skill-category');
-    animateElements.forEach(el => observer.observe(el));
+document.querySelectorAll('.project-card, .timeline-item, .skill-category, .stat').forEach(el => {
+    observer.observe(el);
 });
 
-// FIXED: Fade-in animation instead of typing animation to preserve HTML
-function fadeInTitle(element, delay = 500, duration = 1000) {
-    if (!element) return;
-    
-    // Set initial state
-    element.style.opacity = '0';
-    element.style.transform = 'translateY(30px)';
-    element.style.transition = `all ${duration}ms ease`;
-    
-    // Trigger animation after delay
-    setTimeout(() => {
-        element.style.opacity = '1';
-        element.style.transform = 'translateY(0)';
-    }, delay);
-}
-
-// Initialize hero title animation when page loads
-window.addEventListener('load', () => {
-    const heroTitle = document.querySelector('.hero-title');
-    fadeInTitle(heroTitle, 500, 1200);
-});
-
-// Parallax effect for floating elements
-window.addEventListener('scroll', () => {
-    const scrolled = window.pageYOffset;
-    const parallaxElements = document.querySelectorAll('.float-element');
-    
-    parallaxElements.forEach((element, index) => {
-        const speed = 0.5 + (index * 0.1);
-        const yPos = -(scrolled * speed);
-        element.style.transform = `translateY(${yPos}px)`;
-    });
-});
-
-// Counter animation for stats
+// Counter Animation for Stats
 function animateCounter(element, target, duration = 2000) {
-    if (!element) return;
-    
     let start = 0;
     const increment = target / (duration / 16);
-    const suffix = element.textContent.replace(/[0-9]/g, ''); // Preserve % or + signs
     
-    function updateCounter() {
+    const timer = setInterval(() => {
         start += increment;
-        if (start < target) {
-            element.textContent = Math.floor(start) + suffix;
-            requestAnimationFrame(updateCounter);
+        if (start >= target) {
+            element.textContent = target;
+            clearInterval(timer);
         } else {
-            element.textContent = target + suffix;
+            element.textContent = Math.floor(start);
         }
-    }
-    updateCounter();
+    }, 16);
 }
 
-// Initialize counter animations when stats come into view
-const statsObserver = new IntersectionObserver((entries) => {
+// Animate counters when they come into view
+const counterObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
         if (entry.isIntersecting) {
-            const statNumbers = entry.target.querySelectorAll('.stat-number');
-            statNumbers.forEach(stat => {
-                const text = stat.textContent;
-                const target = parseInt(text);
-                if (!isNaN(target)) {
-                    animateCounter(stat, target);
-                }
-            });
-            statsObserver.unobserve(entry.target);
+            const counter = entry.target;
+            const target = parseInt(counter.textContent);
+            
+            if (!isNaN(target)) {
+                counter.textContent = '0';
+                animateCounter(counter, target);
+            }
+            
+            counterObserver.unobserve(counter);
         }
     });
 }, { threshold: 0.5 });
 
-document.addEventListener('DOMContentLoaded', () => {
-    const heroStats = document.querySelector('.hero-stats');
-    if (heroStats) {
-        statsObserver.observe(heroStats);
+// Observe stat numbers
+document.querySelectorAll('.stat-number').forEach(counter => {
+    // Handle different formats (numbers with +, %, $, etc.)
+    const text = counter.textContent;
+    const number = parseInt(text.replace(/[^\d]/g, ''));
+    
+    if (!isNaN(number)) {
+        counterObserver.observe(counter);
     }
 });
 
-// Project card hover effects
-document.addEventListener('DOMContentLoaded', () => {
-    document.querySelectorAll('.project-card').forEach(card => {
-        card.addEventListener('mouseenter', () => {
-            card.style.transform = 'translateY(-10px)';
-        });
-        
-        card.addEventListener('mouseleave', () => {
-            card.style.transform = 'translateY(0)';
-        });
-    });
-});
-
-// Dynamic neural network connections
-function createConnections() {
-    const neuralNetwork = document.querySelector('.neural-network');
-    const nodes = document.querySelectorAll('.node');
-    
-    if (!neuralNetwork || nodes.length === 0) return;
-    
-    // Remove existing connections
-    const existingConnections = neuralNetwork.querySelectorAll('.connection');
-    existingConnections.forEach(conn => conn.remove());
-    
-    // Create new connections between nodes
-    for (let i = 0; i < nodes.length - 1; i++) {
-        for (let j = i + 1; j < nodes.length; j++) {
-            // Skip some connections to avoid overcrowding
-            if (Math.random() > 0.4) continue;
-            
-            const connection = document.createElement('div');
-            connection.className = 'connection';
-            
-            const node1 = nodes[i];
-            const node2 = nodes[j];
-            
-            // Get positions relative to the neural network container
-            const networkRect = neuralNetwork.getBoundingClientRect();
-            const node1Rect = node1.getBoundingClientRect();
-            const node2Rect = node2.getBoundingClientRect();
-            
-            const x1 = node1Rect.left - networkRect.left + node1Rect.width / 2;
-            const y1 = node1Rect.top - networkRect.top + node1Rect.height / 2;
-            const x2 = node2Rect.left - networkRect.left + node2Rect.width / 2;
-            const y2 = node2Rect.top - networkRect.top + node2Rect.height / 2;
-            
-            const length = Math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2);
-            const angle = Math.atan2(y2 - y1, x2 - x1) * 180 / Math.PI;
-            
-            connection.style.position = 'absolute';
-            connection.style.left = x1 + 'px';
-            connection.style.top = y1 + 'px';
-            connection.style.width = length + 'px';
-            connection.style.height = '1px';
-            connection.style.background = 'linear-gradient(90deg, transparent, rgba(99, 102, 241, 0.3), transparent)';
-            connection.style.transformOrigin = '0 0';
-            connection.style.transform = `rotate(${angle}deg)`;
-            connection.style.animation = `pulse 3s infinite ${Math.random() * 2}s`;
-            connection.style.zIndex = '1';
-            
-            neuralNetwork.appendChild(connection);
-        }
-    }
-}
-
-// Initialize neural network connections with delay
-document.addEventListener('DOMContentLoaded', () => {
-    setTimeout(() => {
-        createConnections();
-    }, 1500);
-});
-
-// Recreate connections on window resize
-let resizeTimeout;
-window.addEventListener('resize', () => {
-    clearTimeout(resizeTimeout);
-    resizeTimeout = setTimeout(() => {
-        createConnections();
-    }, 250);
-});
-
-// Form validation function (for future use)
-function validateEmail(email) {
-    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return re.test(email);
-}
-
-// Theme toggle function (optional feature)
-function toggleTheme() {
-    document.body.classList.toggle('light-theme');
-    const theme = document.body.classList.contains('light-theme') ? 'light' : 'dark';
-    localStorage.setItem('theme', theme);
-}
-
-// Load saved theme preference
-document.addEventListener('DOMContentLoaded', () => {
-    const savedTheme = localStorage.getItem('theme');
-    if (savedTheme === 'light') {
-        document.body.classList.add('light-theme');
-    }
-});
-
-// Lazy loading for images
-function lazyLoad() {
-    const images = document.querySelectorAll('img[data-src]');
-    const imageObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                const img = entry.target;
-                img.src = img.dataset.src;
-                img.classList.remove('lazy');
-                imageObserver.unobserve(img);
-            }
-        });
-    });
-    
-    images.forEach(img => imageObserver.observe(img));
-}
-
-// Initialize lazy loading
-document.addEventListener('DOMContentLoaded', lazyLoad);
-
-// Scroll progress indicator
-function updateScrollProgress() {
-    const scrollProgress = document.querySelector('.scroll-progress');
-    if (!scrollProgress) return;
-    
-    const scrollTop = window.pageYOffset;
-    const docHeight = document.body.scrollHeight - window.innerHeight;
-    const scrollPercent = (scrollTop / docHeight) * 100;
-    
-    scrollProgress.style.width = scrollPercent + '%';
-}
-
-// Performance optimization: Throttle function
-function throttle(func, limit) {
-    let inThrottle;
-    return function() {
-        const args = arguments;
-        const context = this;
-        if (!inThrottle) {
-            func.apply(context, args);
-            inThrottle = true;
-            setTimeout(() => inThrottle = false, limit);
-        }
-    }
-}
-
-// Throttled scroll handler
-const throttledScrollHandler = throttle(() => {
-    updateScrollProgress();
-}, 16); // ~60fps
-
-window.addEventListener('scroll', throttledScrollHandler);
-
-// Smooth reveal animation for sections
-function revealOnScroll() {
-    const reveals = document.querySelectorAll('.reveal');
-    
-    reveals.forEach(reveal => {
-        const windowHeight = window.innerHeight;
-        const elementTop = reveal.getBoundingClientRect().top;
-        const elementVisible = 150;
-        
-        if (elementTop < windowHeight - elementVisible) {
-            reveal.classList.add('active');
-        }
-    });
-}
-
-window.addEventListener('scroll', revealOnScroll);
-
-// Add click effects to buttons
-document.addEventListener('DOMContentLoaded', () => {
-    const buttons = document.querySelectorAll('.btn');
-    
-    buttons.forEach(button => {
-        button.addEventListener('click', function(e) {
-            // Create ripple effect
-            const ripple = document.createElement('span');
-            const rect = this.getBoundingClientRect();
-            const size = Math.max(rect.width, rect.height);
-            const x = e.clientX - rect.left - size / 2;
-            const y = e.clientY - rect.top - size / 2;
-            
-            ripple.style.width = ripple.style.height = size + 'px';
-            ripple.style.left = x + 'px';
-            ripple.style.top = y + 'px';
-            ripple.classList.add('ripple');
-            
-            this.appendChild(ripple);
-            
-            setTimeout(() => {
-                ripple.remove();
-            }, 600);
-        });
-    });
-});
-
-// Enhanced error handling
-window.addEventListener('error', (e) => {
-    console.error('JavaScript error:', e.error);
-});
-
-// Performance monitoring
-if ('performance' in window) {
-    window.addEventListener('load', () => {
-        setTimeout(() => {
-            const perfData = performance.getEntriesByType('navigation')[0];
-            console.log('Page load time:', perfData.loadEventEnd - perfData.loadEventStart, 'ms');
-        }, 0);
-    });
-}
-
-// Accessibility improvements
-document.addEventListener('DOMContentLoaded', () => {
-    // Add keyboard navigation for mobile menu
-    const hamburger = document.querySelector('.hamburger');
-    if (hamburger) {
-        hamburger.addEventListener('keydown', (e) => {
-            if (e.key === 'Enter' || e.key === ' ') {
-                e.preventDefault();
-                hamburger.click();
-            }
-        });
-    }
-    
-    // Add focus indicators for better accessibility
-    const focusableElements = document.querySelectorAll('a, button, input, textarea, select');
-    focusableElements.forEach(el => {
-        el.addEventListener('focus', () => {
-            el.style.outline = '2px solid var(--primary-color)';
-            el.style.outlineOffset = '2px';
-        });
-        
-        el.addEventListener('blur', () => {
-            el.style.outline = '';
-            el.style.outlineOffset = '';
-        });
-    });
-});
-
-// Initialize everything when DOM is ready
-document.addEventListener('DOMContentLoaded', () => {
-    console.log('Portfolio website initialized successfully!');
-    
-    // Add any additional initialization code here
-    
-    // Preload critical animations
-    setTimeout(() => {
-        document.body.classList.add('loaded');
-    }, 100);
-});
 // Animate skill bars when they come into view
 function animateSkillBars() {
     const skillBars = document.querySelectorAll('.skill-progress');
@@ -416,7 +350,224 @@ function animateSkillBars() {
     skillBars.forEach(bar => skillObserver.observe(bar));
 }
 
-// Initialize skill bar animations
+// Typing Animation for Hero Title
+function typeWriter(element, text, speed = 100) {
+    let i = 0;
+    element.innerHTML = '';
+    
+    function type() {
+        if (i < text.length) {
+            element.innerHTML += text.charAt(i);
+            i++;
+            setTimeout(type, speed);
+        }
+    }
+    
+    type();
+}
+
+// Form Submission
+const contactForm = document.querySelector('.contact-form form');
+if (contactForm) {
+    contactForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        
+        // Get form data
+        const formData = new FormData(contactForm);
+        const data = Object.fromEntries(formData);
+        
+        // Simulate form submission
+        const submitBtn = contactForm.querySelector('button[type="submit"]');
+        const originalText = submitBtn.textContent;
+        
+        submitBtn.textContent = 'Sending...';
+        submitBtn.disabled = true;
+        
+        setTimeout(() => {
+            submitBtn.textContent = 'Message Sent!';
+            submitBtn.style.background = '#10b981';
+            
+            setTimeout(() => {
+                submitBtn.textContent = originalText;
+                submitBtn.disabled = false;
+                submitBtn.style.background = '';
+                contactForm.reset();
+            }, 2000);
+        }, 1000);
+    });
+}
+
+// Particle Cursor Effect
+let particles = [];
+
+class Particle {
+    constructor(x, y) {
+        this.x = x;
+        this.y = y;
+        this.size = Math.random() * 3 + 1;
+        this.speedX = Math.random() * 3 - 1.5;
+        this.speedY = Math.random() * 3 - 1.5;
+        this.life = 1;
+    }
+    
+    update() {
+        this.x += this.speedX;
+        this.y += this.speedY;
+        this.life -= 0.02;
+        this.size *= 0.98;
+    }
+    
+    draw(ctx) {
+        ctx.save();
+        ctx.globalAlpha = this.life;
+        ctx.fillStyle = '#6366f1';
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.restore();
+    }
+}
+
+// Create cursor trail effect
+document.addEventListener('mousemove', (e) => {
+    if (Math.random() < 0.3) {
+        particles.push(new Particle(e.clientX, e.clientY));
+    }
+});
+
+// Animate particles
+function animateParticles() {
+    const canvas = document.createElement('canvas');
+    canvas.style.position = 'fixed';
+    canvas.style.top = '0';
+    canvas.style.left = '0';
+    canvas.style.pointerEvents = 'none';
+    canvas.style.zIndex = '9999';
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    document.body.appendChild(canvas);
+    
+    const ctx = canvas.getContext('2d');
+    
+    function animate() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        
+        particles = particles.filter(particle => {
+            particle.update();
+            particle.draw(ctx);
+            return particle.life > 0;
+        });
+        
+        requestAnimationFrame(animate);
+    }
+    
+    animate();
+    
+    // Resize canvas on window resize
+    window.addEventListener('resize', () => {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+    });
+}
+
+// Initialize everything when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
+    // Initialize Neural Network
+    const canvas = document.getElementById('neuralCanvas');
+    if (canvas) {
+        new NeuralNetwork(canvas);
+    }
+    
+    // Initialize skill bar animations
     animateSkillBars();
+    
+    // Initialize particle cursor effect
+    animateParticles();
+    
+    // Hero title animation
+    const heroTitle = document.querySelector('.hero-title');
+    if (heroTitle) {
+        const text = heroTitle.textContent;
+        heroTitle.style.opacity = '1';
+        heroTitle.style.transform = 'translateY(0)';
+        
+        // Optional: Add typing effect
+        // typeWriter(heroTitle, text, 50);
+    }
+    
+    // Add loading animation
+    document.body.classList.add('loaded');
+});
+
+// Performance optimization: Throttle scroll events
+function throttle(func, wait) {
+    let timeout;
+    return function executedFunction(...args) {
+        const later = () => {
+            clearTimeout(timeout);
+            func(...args);
+        };
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+    };
+}
+
+// Throttled scroll handler
+const throttledScrollHandler = throttle(() => {
+    const navbar = document.querySelector('.navbar');
+    if (window.scrollY > 100) {
+        navbar.classList.add('scrolled');
+    } else {
+        navbar.classList.remove('scrolled');
+    }
+}, 100);
+
+window.addEventListener('scroll', throttledScrollHandler);
+
+// Add smooth reveal animations
+const revealElements = document.querySelectorAll('.hero-content, .section-title, .about-text, .project-card');
+revealElements.forEach((el, index) => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(30px)';
+    el.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
+    el.style.transitionDelay = `${index * 0.1}s`;
+    
+    setTimeout(() => {
+        el.style.opacity = '1';
+        el.style.transform = 'translateY(0)';
+    }, 100);
+});
+
+// Add interactive hover effects for project cards
+document.querySelectorAll('.project-card').forEach(card => {
+    card.addEventListener('mouseenter', () => {
+        card.style.transform = 'translateY(-10px) scale(1.02)';
+    });
+    
+    card.addEventListener('mouseleave', () => {
+        card.style.transform = 'translateY(0) scale(1)';
+    });
+});
+
+// Easter egg: Konami code
+let konamiCode = [];
+const konami = [38, 38, 40, 40, 37, 39, 37, 39, 66, 65];
+
+document.addEventListener('keydown', (e) => {
+    konamiCode.push(e.keyCode);
+    konamiCode = konamiCode.slice(-10);
+    
+    if (konamiCode.join(',') === konami.join(',')) {
+        // Activate special neural network mode
+        const canvas = document.getElementById('neuralCanvas');
+        if (canvas) {
+            canvas.style.opacity = '1';
+            canvas.style.filter = 'hue-rotate(120deg) saturate(2)';
+            
+            setTimeout(() => {
+                canvas.style.opacity = '0.6';
+                canvas.style.filter = '';
+            }, 5000);
+        }
+    }
 });

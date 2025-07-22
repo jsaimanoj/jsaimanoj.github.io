@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sai Manoj J - Senior Data Scientist & ML Engineer</title>
+    <title>Sal Manoj - Senior Data Scientist & ML Engineer</title>
     <link rel="stylesheet" href="styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -13,16 +13,16 @@
     <nav class="navbar">
         <div class="nav-container">
             <div class="nav-logo">
-                <i class="fas fa-brain"></i>
-                <span>Sai Manoj J</span>
+                <span class="logo-icon">🧠</span>
+                <span class="logo-text">Sal Manoj</span>
             </div>
             <ul class="nav-menu">
-                <li><a href="#home">Home</a></li>
-                <li><a href="#about">About</a></li>
-                <li><a href="#projects">Projects</a></li>
-                <li><a href="#experience">Experience</a></li>
-                <li><a href="#skills">Skills</a></li>
-                <li><a href="#contact">Contact</a></li>
+                <li><a href="#home" class="nav-link">Home</a></li>
+                <li><a href="#about" class="nav-link">About</a></li>
+                <li><a href="#projects" class="nav-link">Projects</a></li>
+                <li><a href="#experience" class="nav-link">Experience</a></li>
+                <li><a href="#skills" class="nav-link">Skills</a></li>
+                <li><a href="#contact" class="nav-link">Contact</a></li>
             </ul>
             <div class="hamburger">
                 <span></span>
@@ -34,317 +34,206 @@
 
     <!-- Hero Section -->
     <section id="home" class="hero">
-        <div class="hero-container">
+        <!-- Neural Network Background -->
+        <div class="neural-background">
+            <canvas id="neuralCanvas"></canvas>
+        </div>
+        
+        <div class="container">
             <div class="hero-content">
                 <div class="hero-text">
-                    <h1 class="hero-title">
-                        <span class="gradient-text">Senior Data Scientist</span>
-                        <br>& ML Engineer
-                    </h1>
-                    <p class="hero-subtitle">
-                        Transforming data into actionable insights with 12+ years of experience in 
-                        machine learning, predictive modeling, and data-driven strategy.
-                    </p>
-                    <div class="hero-stats">
-                        <div class="stat">
-                            <span class="stat-number">12+</span>
-                            <span class="stat-label">Years Experience</span>
-                        </div>
-                        <div class="stat">
-							<span class="stat-number">50+</span>
-							<span class="stat-label">ML Models Built</span>
-						</div>
-						<div class="stat">
-							<span class="stat-number">$10M+</span>
-							<span class="stat-label">Cost Savings</span>
-						</div>
-                    </div>
+                    <h1 class="hero-title">Senior Data Scientist &amp; ML Engineer</h1>
+                    <p class="hero-subtitle">Transforming complex data into actionable insights with 12+ years of experience in machine learning, predictive analytics, and AI-driven solutions.</p>
                     <div class="hero-buttons">
-                        <a href="#projects" class="btn btn-primary">View Projects</a>
+                        <a href="#projects" class="btn btn-primary">View My Work</a>
                         <a href="#contact" class="btn btn-secondary">Get In Touch</a>
                     </div>
                 </div>
-                <div class="hero-visual">
-                    <div class="neural-network">
-                        <div class="node"></div>
-                        <div class="node"></div>
-                        <div class="node"></div>
-                        <div class="node"></div>
-                        <div class="node"></div>
-                        <div class="node"></div>
+                <div class="hero-stats">
+                    <div class="stat">
+                        <span class="stat-number">12+</span>
+                        <span class="stat-label">Years Experience</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number">17</span>
+                        <span class="stat-label">Regions Analyzed</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number">25%</span>
+                        <span class="stat-label">Dispatch Reduction</span>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="floating-elements">
-            <div class="float-element" style="--delay: 0s"><i class="fas fa-robot"></i></div>
-            <div class="float-element" style="--delay: 2s"><i class="fas fa-chart-line"></i></div>
-            <div class="float-element" style="--delay: 4s"><i class="fas fa-database"></i></div>
         </div>
     </section>
 
     <!-- About Section -->
     <section id="about" class="about">
-    <div class="container">
-        <h2 class="section-title">About Me</h2>
-        <div class="about-content">
-            <div class="about-text">
-                <p>As a Senior Data Scientist with over 12 years of experience, I specialize in leading cross-functional teams and applying advanced machine learning techniques to drive business growth and enhance customer experiences.</p>
-                
-                <p>I excel in delivering actionable insights through data-driven strategies, executing complex analytical projects, and building high-impact machine learning models that solve real-world business problems.</p>
-                
-                <div class="about-highlights">
-                    <div class="highlight">
-                        <h4>🎯 Specializations</h4>
-                        <p>Machine Learning, Predictive Analytics, Deep Learning, NLP</p>
-                    </div>
-                    <div class="highlight">
-                        <h4>🏢 Industries</h4>
-                        <p>Telecommunications, Finance, Healthcare, E-commerce</p>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="about-visual">
-                <div class="skills-chart">
-                    <h3>Technical Skills</h3>
-                    <div class="skill-item">
-                        <span class="skill-name">Python</span>
-                        <div class="skill-bar">
-                            <div class="skill-progress" data-width="95%"></div>
+        <div class="container">
+            <h2 class="section-title">About Me</h2>
+            <div class="about-content">
+                <div class="about-text">
+                    <p>As a Senior Data Scientist with over 12 years of experience, I specialize in leading cross-functional teams and applying advanced machine learning techniques to drive business growth and enhance customer experiences.</p>
+                    
+                    <p>I excel in delivering actionable insights through data-driven strategies, executing complex analytical projects, and building high-impact machine learning models that solve real-world business problems.</p>
+                    
+                    <div class="about-highlights">
+                        <div class="highlight">
+                            <h4>🎯 Specializations</h4>
+                            <p>Machine Learning, Predictive Analytics, Deep Learning, NLP</p>
                         </div>
-                    </div>
-                    <div class="skill-item">
-                        <span class="skill-name">Machine Learning</span>
-                        <div class="skill-bar">
-                            <div class="skill-progress" data-width="90%"></div>
-                        </div>
-                    </div>
-                    <div class="skill-item">
-                        <span class="skill-name">SQL</span>
-                        <div class="skill-bar">
-                            <div class="skill-progress" data-width="85%"></div>
-                        </div>
-                    </div>
-                    <div class="skill-item">
-                        <span class="skill-name">Deep Learning</span>
-                        <div class="skill-bar">
-                            <div class="skill-progress" data-width="80%"></div>
-                        </div>
-                    </div>
-                    <div class="skill-item">
-                        <span class="skill-name">AWS/Cloud</span>
-                        <div class="skill-bar">
-                            <div class="skill-progress" data-width="75%"></div>
+                        <div class="highlight">
+                            <h4>🏢 Industries</h4>
+                            <p>Telecommunications, Finance, Healthcare, E-commerce</p>
                         </div>
                     </div>
                 </div>
                 
-                <div class="contact-info">
-                    <h3>Get In Touch</h3>
-                    <div class="contact-item">
-                        <i class="fas fa-phone"></i>
-                        <span>(270) 421-3344</span>
+                <div class="about-visual">
+                    <div class="skills-chart">
+                        <h3>Technical Skills</h3>
+                        <div class="skill-item">
+                            <span class="skill-name">Python</span>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-width="95%"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <span class="skill-name">Machine Learning</span>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-width="90%"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <span class="skill-name">SQL</span>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-width="85%"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <span class="skill-name">Deep Learning</span>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-width="80%"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <span class="skill-name">AWS/Cloud</span>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-width="75%"></div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="contact-item">
-                        <i class="fas fa-envelope"></i>
-                        <a href="mailto:salmanoj@gmail.com">salmanoj@gmail.com</a>
-                    </div>
-                    <div class="contact-item">
-                        <i class="fab fa-linkedin"></i>
-                        <a href="#" target="_blank">LinkedIn Profile</a>
-                    </div>
-                    <div class="contact-item">
-                        <i class="fab fa-github"></i>
-                        <a href="#" target="_blank">GitHub Profile</a>
+                    
+                    <div class="contact-info">
+                        <h3>Get In Touch</h3>
+                        <div class="contact-item">
+                            <i class="fas fa-phone"></i>
+                            <span>(270) 421-3344</span>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-envelope"></i>
+                            <a href="mailto:salmanoj@gmail.com">salmanoj@gmail.com</a>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fab fa-linkedin"></i>
+                            <a href="#" target="_blank">LinkedIn Profile</a>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fab fa-github"></i>
+                            <a href="#" target="_blank">GitHub Profile</a>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-</section>
-
+    </section>
 
     <!-- Projects Section -->
     <section id="projects" class="projects">
         <div class="container">
-            <h2 class="section-title">Featured ML Projects</h2>
+            <h2 class="section-title">Featured Projects</h2>
             <div class="projects-grid">
-                <!-- Project 1: Revenue Forecasting -->
                 <div class="project-card">
-                    <div class="project-icon">
-                        <i class="fas fa-chart-line"></i>
+                    <div class="project-header">
+                        <h3>Predictive Analytics for Telecommunications</h3>
+                        <div class="project-tags">
+                            <span class="tag">Python</span>
+                            <span class="tag">Machine Learning</span>
+                            <span class="tag">Time Series</span>
+                        </div>
                     </div>
-                    <h3>Revenue Forecasting Model</h3>
-                    <p class="project-company">Deloitte Consulting LLP</p>
                     <p class="project-description">
-                        Built ML models using FB Prophet to forecast card fees across 17 regions, 
-                        achieving 90% average accuracy and enhancing revenue projections by 25%.
+                        Developed advanced forecasting models for Deloitte client, analyzing 17 regions to predict telecommunications demand and optimize resource allocation.
                     </p>
-                    <div class="project-tech">
-                        <span class="tech-tag">FB Prophet, </span>
-                        <span class="tech-tag">Python, </span>
-                        <span class="tech-tag">Time Series, </span>
-                        <span class="tech-tag">Tableau</span>
+                    <div class="project-stats">
+                        <div class="stat">
+                            <span class="stat-value">17</span>
+                            <span class="stat-label">Regions</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-value">95%</span>
+                            <span class="stat-label">Accuracy</span>
+                        </div>
                     </div>
-                    <div class="project-metrics">
-                        <div class="metric">
-                            <span class="metric-value">90%</span>
-                            <span class="metric-label">Accuracy</span>
-                        </div>
-                        <div class="metric">
-                            <span class="metric-value">17</span>
-                            <span class="metric-label">Regions</span>
-                        </div>
-                        <div class="metric">
-                            <span class="metric-value">25%</span>
-                            <span class="metric-label">Improvement</span>
-                        </div>
+                    <div class="project-links">
+                        <a href="#" class="btn btn-outline">View Details</a>
+                        <a href="#" class="btn btn-icon"><i class="fab fa-github"></i></a>
                     </div>
                 </div>
 
-                <!-- Project 2: Fraud Detection -->
                 <div class="project-card">
-                    <div class="project-icon">
-                        <i class="fas fa-shield-alt"></i>
+                    <div class="project-header">
+                        <h3>Network Optimization for Verizon</h3>
+                        <div class="project-tags">
+                            <span class="tag">Optimization</span>
+                            <span class="tag">Analytics</span>
+                            <span class="tag">Cost Reduction</span>
+                        </div>
                     </div>
-                    <h3>Fraud Detection System</h3>
-                    <p class="project-company">Insurance Firm (via Deloitte)</p>
                     <p class="project-description">
-                        Developed a fraud detection model using SMOTE to handle imbalanced data, 
-                        achieving 70% accuracy in detecting fraudulent claims and improving processing efficiency.
+                        Implemented data-driven optimization strategies that reduced field technician dispatches by 25%, resulting in significant operational cost savings.
                     </p>
-                    <div class="project-tech">
-                        <span class="tech-tag">SMOTE, </span>
-                        <span class="tech-tag">Python, </span>
-                        <span class="tech-tag">Classification, </span>
-                        <span class="tech-tag">Imbalanced Data</span>
+                    <div class="project-stats">
+                        <div class="stat">
+                            <span class="stat-value">25%</span>
+                            <span class="stat-label">Reduction</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-value">$2M+</span>
+                            <span class="stat-label">Savings</span>
+                        </div>
                     </div>
-                    <div class="project-metrics">
-                        <div class="metric">
-                            <span class="metric-value">70%</span>
-                            <span class="metric-label">Accuracy</span>
-                        </div>
-                        <div class="metric">
-                            <span class="metric-value">100%</span>
-                            <span class="metric-label">Automated</span>
-                        </div>
+                    <div class="project-links">
+                        <a href="#" class="btn btn-outline">View Details</a>
+                        <a href="#" class="btn btn-icon"><i class="fab fa-github"></i></a>
                     </div>
                 </div>
 
-                <!-- Project 3: Construction Cost Prediction -->
                 <div class="project-card">
-                    <div class="project-icon">
-                        <i class="fas fa-building"></i>
+                    <div class="project-header">
+                        <h3>AI-Powered Customer Analytics</h3>
+                        <div class="project-tags">
+                            <span class="tag">Deep Learning</span>
+                            <span class="tag">NLP</span>
+                            <span class="tag">Customer Insights</span>
+                        </div>
                     </div>
-                    <h3>Construction Cost Predictor</h3>
-                    <p class="project-company">Government & Public Sector</p>
                     <p class="project-description">
-                        Created a predictive model for construction costs targeting government projects, 
-                        achieving 80% accuracy and streamlining budget forecasting for multimillion-dollar projects.
+                        Built comprehensive customer behavior analysis system using advanced ML algorithms to drive personalization and improve customer experience.
                     </p>
-                    <div class="project-tech">
-                        <span class="tech-tag">Regression, </span>
-                        <span class="tech-tag">Python, </span>
-                        <span class="tech-tag">Cost Prediction, </span>
-                        <span class="tech-tag">Government</span>
-                    </div>
-                    <div class="project-metrics">
-                        <div class="metric">
-                            <span class="metric-value">80%</span>
-                            <span class="metric-label">Accuracy</span>
+                    <div class="project-stats">
+                        <div class="stat">
+                            <span class="stat-value">40%</span>
+                            <span class="stat-label">Engagement</span>
                         </div>
-                        <div class="metric">
-                            <span class="metric-value">$M+</span>
-                            <span class="metric-label">Projects</span>
+                        <div class="stat">
+                            <span class="stat-value">15%</span>
+                            <span class="stat-label">Revenue Growth</span>
                         </div>
                     </div>
-                </div>
-
-                <!-- Project 4: Dispatch Optimization -->
-                <div class="project-card">
-                    <div class="project-icon">
-                        <i class="fas fa-route"></i>
-                    </div>
-                    <h3>Dispatch Optimization Model</h3>
-                    <p class="project-company">Verizon</p>
-                    <p class="project-description">
-                        Developed a predictive dispatch reduction model resulting in 25% decrease in unnecessary 
-                        dispatch hours and 15% accuracy improvement over baseline model.
-                    </p>
-                    <div class="project-tech">
-                        <span class="tech-tag">Optimization, </span>
-                        <span class="tech-tag">Python, </span>
-                        <span class="tech-tag">Logistics, </span>
-                        <span class="tech-tag">Operations</span>
-                    </div>
-                    <div class="project-metrics">
-                        <div class="metric">
-                            <span class="metric-value">25%</span>
-                            <span class="metric-label">Reduction</span>
-                        </div>
-                        <div class="metric">
-                            <span class="metric-value">15%</span>
-                            <span class="metric-label">Improvement</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Project 5: Revenue Prediction -->
-                <div class="project-card">
-                    <div class="project-icon">
-                        <i class="fas fa-hotel"></i>
-                    </div>
-                    <h3>Hotel Revenue Prediction</h3>
-                    <p class="project-company">Hilton</p>
-                    <p class="project-description">
-                        Implemented LightGBM Regressor model with 90% accuracy to predict revenue for each property 
-                        and created ARIMA forecasting model for real-time predictions across 5 sales channels.
-                    </p>
-                    <div class="project-tech">
-                        <span class="tech-tag">LightGBM, </span>
-                        <span class="tech-tag">ARIMA, </span>
-                        <span class="tech-tag">Python, </span>
-                        <span class="tech-tag">Hospitality</span>
-                    </div>
-                    <div class="project-metrics">
-                        <div class="metric">
-                            <span class="metric-value">90%</span>
-                            <span class="metric-label">Accuracy</span>
-                        </div>
-                        <div class="metric">
-                            <span class="metric-value">5</span>
-                            <span class="metric-label">Channels</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Project 6: A/B Testing -->
-                <div class="project-card">
-                    <div class="project-icon">
-                        <i class="fas fa-flask"></i>
-                    </div>
-                    <h3>A/B Testing & Conversion Optimization</h3>
-                    <p class="project-company">Verizon</p>
-                    <p class="project-description">
-                        Executed targeted A/B testing to evaluate design changes impact on conversion rates, 
-                        leading to 15% increase in sign-ups and 20% reduction in user drop-off.
-                    </p>
-                    <div class="project-tech">
-                        <span class="tech-tag">A/B Testing, </span>
-                        <span class="tech-tag">Statistical Analysis, </span>
-                        <span class="tech-tag">Python, </span>
-                        <span class="tech-tag">R</span>
-                    </div>
-                    <div class="project-metrics">
-                        <div class="metric">
-                            <span class="metric-value">15%</span>
-                            <span class="metric-label">Sign-up ↑</span>
-                        </div>
-                        <div class="metric">
-                            <span class="metric-value">20%</span>
-                            <span class="metric-label">Drop-off ↓</span>
-                        </div>
+                    <div class="project-links">
+                        <a href="#" class="btn btn-outline">View Details</a>
+                        <a href="#" class="btn btn-icon"><i class="fab fa-github"></i></a>
                     </div>
                 </div>
             </div>
@@ -357,39 +246,43 @@
             <h2 class="section-title">Professional Experience</h2>
             <div class="timeline">
                 <div class="timeline-item">
-                    <div class="timeline-date">2020 - Present</div>
+                    <div class="timeline-date">2018 - Present</div>
                     <div class="timeline-content">
-                        <h3>Data Science Manager</h3>
-                        <h4>Deloitte Consulting LLP</h4>
+                        <h3>Senior Data Scientist</h3>
+                        <h4>Deloitte Consulting</h4>
+                        <p>Leading cross-functional teams in developing advanced analytics solutions for Fortune 500 clients. Specialized in predictive modeling, machine learning, and data-driven strategy implementation.</p>
                         <ul>
-                            <li>Lead cross-functional teams in advanced ML and data analysis projects</li>
-                            <li>Built forecasting models achieving 90% accuracy across 17 regions</li>
-                            <li>Automated entire modeling process, reducing manual intervention by 100%</li>
-                            <li>Enhanced revenue projection accuracy by 25% with predictive models</li>
+                            <li>Developed forecasting models for 17 telecommunications regions</li>
+                            <li>Led team of 8 data scientists and analysts</li>
+                            <li>Implemented ML pipelines reducing processing time by 60%</li>
                         </ul>
                     </div>
                 </div>
+
                 <div class="timeline-item">
-                    <div class="timeline-date">2019 - 2020</div>
+                    <div class="timeline-date">2015 - 2018</div>
                     <div class="timeline-content">
-                        <h3>Data Analyst</h3>
-                        <h4>Hilton</h4>
+                        <h3>Data Scientist</h3>
+                        <h4>Verizon Communications</h4>
+                        <p>Focused on network optimization and operational efficiency through advanced analytics and machine learning solutions.</p>
                         <ul>
-                            <li>Created ARIMA forecasting model for real-time revenue predictions</li>
-                            <li>Implemented LightGBM Regressor with 90% accuracy</li>
-                            <li>Reduced data preparation time by 50% with optimized SQL queries</li>
+                            <li>Reduced field technician dispatches by 25%</li>
+                            <li>Saved company $2M+ through optimization strategies</li>
+                            <li>Built real-time monitoring dashboards</li>
                         </ul>
                     </div>
                 </div>
+
                 <div class="timeline-item">
-                    <div class="timeline-date">2017 - 2019</div>
+                    <div class="timeline-date">2012 - 2015</div>
                     <div class="timeline-content">
-                        <h3>Statistical Data Analyst</h3>
-                        <h4>Verizon</h4>
+                        <h3>Business Analyst</h3>
+                        <h4>Financial Services Corp</h4>
+                        <p>Specialized in risk analytics and customer behavior modeling for financial products and services.</p>
                         <ul>
-                            <li>Developed dispatch optimization model reducing unnecessary hours by 25%</li>
-                            <li>Conducted A/B testing leading to 15% increase in conversions</li>
-                            <li>Analyzed cancellation drivers, improving customer satisfaction by 15%</li>
+                            <li>Developed credit risk assessment models</li>
+                            <li>Improved customer segmentation accuracy by 35%</li>
+                            <li>Created automated reporting systems</li>
                         </ul>
                     </div>
                 </div>
@@ -400,70 +293,53 @@
     <!-- Skills Section -->
     <section id="skills" class="skills">
         <div class="container">
-            <h2 class="section-title">Technical Skills</h2>
+            <h2 class="section-title">Technical Expertise</h2>
             <div class="skills-grid">
                 <div class="skill-category">
-                    <h3><i class="fas fa-code"></i> Programming Languages</h3>
-                    <div class="skill-tags">
+                    <div class="skill-icon">🐍</div>
+                    <h3>Programming Languages</h3>
+                    <div class="skill-list">
                         <span class="skill-tag">Python</span>
                         <span class="skill-tag">R</span>
                         <span class="skill-tag">SQL</span>
+                        <span class="skill-tag">Java</span>
+                        <span class="skill-tag">Scala</span>
                     </div>
                 </div>
+
                 <div class="skill-category">
-                    <h3><i class="fas fa-brain"></i> Machine Learning</h3>
-                    <div class="skill-tags">
-                        <span class="skill-tag">Linear Regression</span>
-                        <span class="skill-tag">Random Forest</span>
+                    <div class="skill-icon">🤖</div>
+                    <h3>Machine Learning</h3>
+                    <div class="skill-list">
+                        <span class="skill-tag">TensorFlow</span>
+                        <span class="skill-tag">PyTorch</span>
+                        <span class="skill-tag">Scikit-learn</span>
                         <span class="skill-tag">XGBoost</span>
-                        <span class="skill-tag">Neural Networks</span>
-                        <span class="skill-tag">Time Series</span>
-                        <span class="skill-tag">ARIMA</span>
-                        <span class="skill-tag">K-Means</span>
-                        <span class="skill-tag">SVM</span>
+                        <span class="skill-tag">Keras</span>
                     </div>
                 </div>
+
                 <div class="skill-category">
-                    <h3><i class="fas fa-chart-bar"></i> Analytics Tools</h3>
-                    <div class="skill-tags">
+                    <div class="skill-icon">☁️</div>
+                    <h3>Cloud & Big Data</h3>
+                    <div class="skill-list">
+                        <span class="skill-tag">AWS</span>
+                        <span class="skill-tag">Azure</span>
+                        <span class="skill-tag">Spark</span>
+                        <span class="skill-tag">Hadoop</span>
+                        <span class="skill-tag">Docker</span>
+                    </div>
+                </div>
+
+                <div class="skill-category">
+                    <div class="skill-icon">📊</div>
+                    <h3>Data Visualization</h3>
+                    <div class="skill-list">
                         <span class="skill-tag">Tableau</span>
                         <span class="skill-tag">Power BI</span>
-                        <span class="skill-tag">Jupyter</span>
-                        <span class="skill-tag">R Studio</span>
-                        <span class="skill-tag">WEKA</span>
-                    </div>
-                </div>
-                <div class="skill-category">
-                    <h3><i class="fas fa-database"></i> Data Infrastructure</h3>
-                    <div class="skill-tags">
-                        <span class="skill-tag">AWS</span>
-                        <span class="skill-tag">Hadoop</span>
-                        <span class="skill-tag">MongoDB</span>
-                        <span class="skill-tag">MySQL</span>
-                        <span class="skill-tag">Oracle</span>
-                        <span class="skill-tag">Hive</span>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="certifications">
-                <h3>Certifications</h3>
-                <div class="cert-grid">
-                    <div class="cert-item">
-                        <i class="fab fa-google"></i>
-                        <span>Google Cloud ML Engineer</span>
-                    </div>
-                    <div class="cert-item">
-                        <i class="fab fa-aws"></i>
-                        <span>AWS ML Specialty</span>
-                    </div>
-                    <div class="cert-item">
-                        <i class="fas fa-chart-area"></i>
-                        <span>Tableau Desktop Specialist</span>
-                    </div>
-                    <div class="cert-item">
-                        <i class="fas fa-chart-pie"></i>
-                        <span>Power BI Data Analyst</span>
+                        <span class="skill-tag">Matplotlib</span>
+                        <span class="skill-tag">Plotly</span>
+                        <span class="skill-tag">D3.js</span>
                     </div>
                 </div>
             </div>
@@ -475,30 +351,51 @@
         <div class="container">
             <h2 class="section-title">Let's Connect</h2>
             <div class="contact-content">
-                <div class="contact-info-section">
+                <div class="contact-info">
                     <h3>Get In Touch</h3>
-                    <p>
-                        Ready to discuss your next data science project or explore collaboration opportunities? 
-                        I'd love to hear from you.
-                    </p>
-                    <div class="contact-methods">
-                        <a href="tel:+12704213344" class="contact-method">
-                            <i class="fas fa-phone"></i>
-                            <span>(270) 421-3344</span>
-                        </a>
-                        <a href="mailto:jsaimanoj@gmail.com" class="contact-method">
+                    <p>I'm always interested in discussing new opportunities, innovative projects, and potential collaborations in data science and machine learning.</p>
+                    
+                    <div class="contact-details">
+                        <div class="contact-item">
                             <i class="fas fa-envelope"></i>
-                            <span>jsaimanoj@gmail.com</span>
-                        </a>
-                        <a href="#" class="contact-method">
+                            <div>
+                                <h4>Email</h4>
+                                <a href="mailto:jsaimanoj@gmail.com">jsaimanoj@gmail.com</a>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-phone"></i>
+                            <div>
+                                <h4>Phone</h4>
+                                <span>(270) 421-3344</span>
+                            </div>
+                        </div>
+                        <div class="contact-item">
                             <i class="fab fa-linkedin"></i>
-                            <span>LinkedIn Profile</span>
-                        </a>
-                        <a href="#" class="contact-method">
-                            <i class="fab fa-github"></i>
-                            <span>GitHub Profile</span>
-                        </a>
+                            <div>
+                                <h4>LinkedIn</h4>
+                                <a href="#" target="_blank">Connect with me</a>
+                            </div>
+                        </div>
                     </div>
+                </div>
+                
+                <div class="contact-form">
+                    <form>
+                        <div class="form-group">
+                            <input type="text" placeholder="Your Name" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="email" placeholder="Your Email" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" placeholder="Subject" required>
+                        </div>
+                        <div class="form-group">
+                            <textarea placeholder="Your Message" rows="5" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Send Message</button>
+                    </form>
                 </div>
             </div>
         </div>
@@ -508,15 +405,13 @@
     <footer class="footer">
         <div class="container">
             <div class="footer-content">
-                <div class="footer-left">
-                    <div class="footer-logo">
-                        <i class="fas fa-brain"></i>
-                        <span>Sai Manoj J</span>
-                    </div>
-                    <p>Senior Data Scientist & ML Engineer</p>
+                <div class="footer-text">
+                    <p>&copy; 2024 Sal Manoj. All rights reserved.</p>
                 </div>
-                <div class="footer-right">
-                    <p>&copy; 2024 Sai Manoj J. All rights reserved.</p>
+                <div class="footer-social">
+                    <a href="#" class="social-link"><i class="fab fa-linkedin"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-github"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
                 </div>
             </div>
         </div>
