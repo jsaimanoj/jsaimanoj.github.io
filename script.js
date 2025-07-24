@@ -186,60 +186,6 @@ function animateCounter(element, target, suffix = '', duration = 2000) {
     }, 16);
 }
 
-// Animate counters when they come into view - FIXED
-const counterObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            const counter = entry.target;
-            const text = counter.textContent;
-            
-            // Handle different number formats
-            let target = 0;
-            let suffix = '';
-            
-            if (text.includes('$') && text.includes('M')) {
-                // Handle $5M+ format
-                target = parseInt(text.replace(/[^\d]/g, ''));
-                suffix = 'M+';
-                counter.textContent = '$0M+';
-                
-                const customTimer = setInterval(() => {
-                    if (target <= 0) {
-                        counter.textContent = '$' + target + 'M+';
-                        clearInterval(customTimer);
-                        return;
-                    }
-                    
-                    const current = parseInt(counter.textContent.replace(/[^\d]/g, '')) || 0;
-                    if (current >= target) {
-                        counter.textContent = '$' + target + 'M+';
-                        clearInterval(customTimer);
-                    } else {
-                        counter.textContent = '$' + Math.min(current + 1, target) + 'M+';
-                    }
-                }, 100);
-                
-            } else if (text.includes('+')) {
-                // Handle 12+ and 50+ format
-                target = parseInt(text.replace(/[^\d]/g, ''));
-                suffix = '+';
-                counter.textContent = '0+';
-                animateCounter(counter, target, suffix);
-                
-            } else {
-                // Handle regular numbers
-                target = parseInt(text.replace(/[^\d]/g, ''));
-                if (!isNaN(target)) {
-                    counter.textContent = '0';
-                    animateCounter(counter, target);
-                }
-            }
-            
-            counterObserver.unobserve(counter);
-        }
-    });
-}, { threshold: 0.5 });
-
 // Intersection Observer for animations
 const observerOptions = {
     threshold: 0.1,
@@ -254,32 +200,43 @@ const observer = new IntersectionObserver((entries) => {
     });
 }, observerOptions);
 
-// Animate counters when they come into view
+// FIXED Counter Observer - This is the one that actually gets used
 const counterObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
         if (entry.isIntersecting) {
             const counter = entry.target;
             const text = counter.textContent;
+            console.log('Animating counter:', text); // Debug log
             
-            // Handle different number formats
-            let target = 0;
-            if (text.includes('+')) {
-                target = parseInt(text.replace(/[^\d]/g, ''));
-                counter.textContent = '0+';
-                animateCounter(counter, target);
-                setTimeout(() => {
-                    counter.textContent = target + '+';
-                }, 2000);
-            } else if (text.includes('$')) {
-                target = parseInt(text.replace(/[^\d]/g, ''));
+            if (text.includes('$') && text.includes('M')) {
+                // Handle $5M+ format
+                const target = parseInt(text.replace(/[^\d]/g, ''));
+                console.log('Found $ format, target:', target); // Debug log
                 counter.textContent = '$0M+';
-                animateCounter(counter, target);
-                setTimeout(() => {
-                    counter.textContent = '$' + target + 'M+';
-                }, 2000);
+                
+                let current = 0;
+                const timer = setInterval(() => {
+                    if (current >= target) {
+                        counter.textContent = '$' + target + 'M+';
+                        clearInterval(timer);
+                    } else {
+                        current++;
+                        counter.textContent = '$' + current + 'M+';
+                    }
+                }, 200);
+                
+            } else if (text.includes('+')) {
+                // Handle 12+ and 50+ format
+                const target = parseInt(text.replace(/[^\d]/g, ''));
+                console.log('Found + format, target:', target); // Debug log
+                counter.textContent = '0+';
+                animateCounter(counter, target, '+');
+                
             } else {
-                target = parseInt(text.replace(/[^\d]/g, ''));
+                // Handle regular numbers
+                const target = parseInt(text.replace(/[^\d]/g, ''));
                 if (!isNaN(target)) {
+                    console.log('Found regular number, target:', target); // Debug log
                     counter.textContent = '0';
                     animateCounter(counter, target);
                 }
@@ -340,6 +297,8 @@ if (contactForm) {
 
 // Initialize everything when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
+    console.log('DOM loaded, initializing...'); // Debug log
+    
     // Initialize Neural Network
     const canvas = document.getElementById('neuralCanvas');
     if (canvas) {
@@ -364,9 +323,11 @@ document.addEventListener('DOMContentLoaded', () => {
         observer.observe(el);
     });
     
-    // Observe stat numbers for counter animation
+    // Observe stat numbers for counter animation - THIS IS THE KEY PART
     const statNumbers = document.querySelectorAll('.stat-number');
+    console.log('Found stat numbers:', statNumbers.length); // Debug log
     statNumbers.forEach(counter => {
+        console.log('Observing counter:', counter.textContent); // Debug log
         counterObserver.observe(counter);
     });
     
