@@ -170,21 +170,75 @@ if (hamburger && navMenu) {
     }));
 }
 
-// Counter Animation for Stats
-function animateCounter(element, target, duration = 2000) {
+// Counter Animation for Stats - FIXED
+function animateCounter(element, target, suffix = '', duration = 2000) {
     let start = 0;
     const increment = target / (duration / 16);
     
     const timer = setInterval(() => {
         start += increment;
         if (start >= target) {
-            element.textContent = target;
+            element.textContent = target + suffix;
             clearInterval(timer);
         } else {
-            element.textContent = Math.floor(start);
+            element.textContent = Math.floor(start) + suffix;
         }
     }, 16);
 }
+
+// Animate counters when they come into view - FIXED
+const counterObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            const counter = entry.target;
+            const text = counter.textContent;
+            
+            // Handle different number formats
+            let target = 0;
+            let suffix = '';
+            
+            if (text.includes('$') && text.includes('M')) {
+                // Handle $5M+ format
+                target = parseInt(text.replace(/[^\d]/g, ''));
+                suffix = 'M+';
+                counter.textContent = '$0M+';
+                
+                const customTimer = setInterval(() => {
+                    if (target <= 0) {
+                        counter.textContent = '$' + target + 'M+';
+                        clearInterval(customTimer);
+                        return;
+                    }
+                    
+                    const current = parseInt(counter.textContent.replace(/[^\d]/g, '')) || 0;
+                    if (current >= target) {
+                        counter.textContent = '$' + target + 'M+';
+                        clearInterval(customTimer);
+                    } else {
+                        counter.textContent = '$' + Math.min(current + 1, target) + 'M+';
+                    }
+                }, 100);
+                
+            } else if (text.includes('+')) {
+                // Handle 12+ and 50+ format
+                target = parseInt(text.replace(/[^\d]/g, ''));
+                suffix = '+';
+                counter.textContent = '0+';
+                animateCounter(counter, target, suffix);
+                
+            } else {
+                // Handle regular numbers
+                target = parseInt(text.replace(/[^\d]/g, ''));
+                if (!isNaN(target)) {
+                    counter.textContent = '0';
+                    animateCounter(counter, target);
+                }
+            }
+            
+            counterObserver.unobserve(counter);
+        }
+    });
+}, { threshold: 0.5 });
 
 // Intersection Observer for animations
 const observerOptions = {
